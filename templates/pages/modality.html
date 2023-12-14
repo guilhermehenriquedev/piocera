@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    <title>Modalidade</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="w-full h-full bg-white">
+    <div class="text-xl sm:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+             style="background-image: url({% static 'images/inscricao/faixaInscricao.png' %});">
+            Escolha sua modalidade
+            <span class="uppercase ml-2 font-bold">{{ modality.modality }}</span>
+        </div>
+
+        <div class="flex w-full px-10 py-12 sm:py-24 flex-col gap-12 sm:gap-20 justify-center items-center">
+{#            <div class="text-[#DA8731] font-semibold text-2xl sm:text-4xl text-center">#}
+{#                Selecione a sua Modalidade#}
+{#            </div>#}
+            <div class="mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 w-full">
+                {% for modality in modalities %}                        
+                    <div class="flex flex-col w-full">
+                            <img alt="" src="{% thumbnail modality.foto 600x240 %}" class="aspect-[5/2] w-full object-cover"/>
+                        <div class="h-full gap-4 flex flex-col bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12"
+                            style="
+                                background-image: url({% static 'images/inscricao/decoracaoCard.png' %});
+                            ">
+                            <div class="flex flex-col w-full justify-start items-start gap-2 h-full">
+                                <div class="text-2xl sm:text-3xl font-bold">
+                                    {{ modality.modality }}
+                                </div>
+                                <div class="text-base sm:text-lg h-full">
+                                    {{ modality.description }}
+                                </div>
+                            </div>
+                            <a href="{% url 'category' ano modality.modality.slug %}" class="bg-[#8FC74A] text-white press-style text-3xl w-full text-center hover:bg-[#9bd850] rounded-lg py-3 px-4">
+                                Selecionar
+                            </a>
+
+
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+            <!--
+            <a href="/pages/inscricao/categoria.html" class="flex w-full">
+                <button type="button"
+                    class="font-extrabold text-xl text-center text-white bg-[#8FC74A] rounded-lg py-3 px-4 flex w-full justify-center items-center">
+                    Equipe de apoio / zequinha
+                </button>
+            </a>
+            -->
+        </div>
+    </div>
+{% endblock content %}
+
+{% block footer %}
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+
+		<script src="/tailwind.config.js"></script>
+		<script src="/components/global.js"></script>
+		<script src="/components/admin/painel.js"></script>
+		<link rel="stylesheet" type="text/css" href="/styles/global.css" />
+		<title>Nova Notícia | Área de Admin</title>
+		<link rel="icon" type="image/x-icon" href="/images/logos/branca.png" />
+	</head>
+	<body>
+		<div class="w-full h-full bg-[#656667]">
+			<div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+				<painel-lateral></painel-lateral>
+
+				<div
+					class="overflow-y-auto max-h-screen flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl"
+				>
+					<div
+						class="w-full flex lg:flex-row items-center gap-2 flex-col justify-between"
+					>
+						<div
+							class="w-full font-semibold text-2xl whitespace-nowrap"
+						>
+							Nova notícia
+						</div>
+						<div
+							class="flex whitespace-nowrap flex-col sm:flex-row gap-2 items-center text-center w-full lg:w-auto"
+						>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow"
+							>
+								<div
+									class="font-semibold text-sm text-gray-700"
+								>
+									Salvar como rascunho
+								</div>
+							</button>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+							>
+								<div class="font-semibold text-sm text-white">
+									Publicar notícia
+								</div>
+							</button>
+						</div>
+					</div>
+					<form class="flex flex-col w-full gap-8">
+						<div
+							class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4"
+						>
+							<div class="h-0.5 bg-gray-100 w-full"></div>
+							<div class="text-sm font-semibold">
+								Criação de Notícia
+							</div>
+							<div class="h-0.5 bg-gray-100 w-full"></div>
+						</div>
+						<div
+							class="grid grid-cols-1 gap-6 sm:grid-cols-2 w-full items-stretch"
+						>
+							<div class="col-span-full flex flex-col">
+								<label
+									for="title"
+									class="block text-sm font-semibold leading-6 h-full"
+									>Título da notícia</label
+								>
+								<div class="mt-2">
+									<input
+										type="text"
+										name="title"
+										id="title"
+										class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+										placeholder="Nome"
+										maxlength="256"
+									/>
+								</div>
+							</div>
+							<div class="col-span-1 flex flex-col">
+								<label
+									for="edition"
+									class="block text-sm font-semibold leading-6 h-full"
+									>Edição do evento</label
+								>
+								<div class="mt-2">
+									<select
+										id="edition"
+										name="edition"
+										class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+									>
+										<option selected="selected" disabled>
+											Selecione
+										</option>
+										<option>Cerapió 2024</option>
+										<option>Piocerá 2023</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-span-1 flex flex-col">
+								<label
+									for="category"
+									class="block text-sm font-semibold leading-6 h-full"
+									>Categoria da notícia</label
+								>
+								<div class="mt-2">
+									<select
+										id="category"
+										name="category"
+										class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+									>
+										<option selected="selected" disabled>
+											Selecione
+										</option>
+										<option>Categoria 1</option>
+										<option>Categoria 2</option>
+										<option>Categoria 3</option>
+									</select>
+								</div>
+							</div>
+							<div
+								class="col-span-full flex flex-row items-center justify-between gap-4 border rounded-lg p-6 bg-gray-50"
+							>
+								<label
+									for="principal-image"
+									class="gap-2 flex-col cursor-pointer bg-gray-100 w-full h-full flex p-4 rounded-lg justify-center items-center"
+								>
+									<svg
+										width="40"
+										height="39"
+										viewBox="0 0 40 39"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M28.575 37.875H9.65155C8.41467 37.875 7.79624 37.875 7.50987 37.6304C7.26138 37.4182 7.12952 37.0998 7.15516 36.7741C7.18471 36.3986 7.62201 35.9613 8.49661 35.0867L25.8568 17.7265C26.6653 16.918 27.0696 16.5137 27.5358 16.3623C27.9458 16.229 28.3875 16.229 28.7976 16.3623C29.2637 16.5137 29.668 16.918 30.4765 17.7265L38.375 25.625V28.075M28.575 37.875C32.0053 37.875 33.7205 37.875 35.0307 37.2074C36.1832 36.6202 37.1202 35.6832 37.7074 34.5307C38.375 33.2205 38.375 31.5053 38.375 28.075M28.575 37.875H11.425C7.99468 37.875 6.27952 37.875 4.96931 37.2074C3.81682 36.6202 2.87981 35.6832 2.29259 34.5307C1.625 33.2205 1.625 31.5053 1.625 28.075V10.925C1.625 7.49468 1.625 5.77952 2.29259 4.46931C2.87981 3.31682 3.81682 2.37981 4.96931 1.79259C6.27952 1.125 7.99468 1.125 11.425 1.125H28.575C32.0053 1.125 33.7205 1.125 35.0307 1.79259C36.1832 2.37981 37.1202 3.31682 37.7074 4.46931C38.375 5.77952 38.375 7.49468 38.375 10.925V28.075M16.9375 12.3542C16.9375 14.6093 15.1093 16.4375 12.8542 16.4375C10.599 16.4375 8.77083 14.6093 8.77083 12.3542C8.77083 10.099 10.599 8.27083 12.8542 8.27083C15.1093 8.27083 16.9375 10.099 16.9375 12.3542Z"
+											stroke="#88929E"
+											stroke-width="1.33333"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									<div
+										class="font-light text-lg text-[#636D77]"
+									>
+										Imagem capa da notícia
+									</div>
+									<input
+										type="file"
+										accept="image/png, image/jpg, image/gif, image/jpeg"
+										name="principal-image"
+										id="principal-image"
+										class="hidden"
+									/>
+									<span id="principal-image-name"></span>
+								</label>
+								<div class="flex flex-row gap-3 items-center">
+									<button type="button">
+										<svg
+											width="19"
+											height="20"
+											viewBox="0 0 20 21"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+												stroke="#475467"
+												stroke-width="1.66667"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+									</button>
+									<button type="button">
+										<svg
+											width="19"
+											height="20"
+											viewBox="0 0 20 21"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+												stroke="#475467"
+												stroke-width="1.66667"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+									</button>
+								</div>
+							</div>
+						</div>
+						<textarea
+							name="myeditor"
+							placeholder="Product Details"
+							class="form-control"
+							rows="12"
+							cols="50"
+						></textarea>
+						<div
+							class="flex whitespace-nowrap flex-col sm:flex-row gap-2 text-center w-full justify-center items-center"
+						>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow"
+							>
+								<div
+									class="font-semibold text-sm text-gray-700"
+								>
+									Salvar rascunho
+								</div>
+							</button>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+							>
+								<div class="font-semibold text-sm text-white">
+									Publicar página
+								</div>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			window.onload = function () {
+				CKEDITOR.replace('myeditor');
+			};
+
+			let input = document.getElementById('principal-image');
+			let imageName = document.getElementById('principal-image-name');
+
+			input.addEventListener('change', () => {
+				let inputImage =
+					document.querySelector('input[type=file]').files[0];
+
+				imageName.innerText = inputImage.name;
+			});
+		</script>
+	</body>
+</html>

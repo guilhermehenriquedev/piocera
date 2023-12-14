@@ -1,0 +1,50 @@
+.card {
+	background-color: #fff;
+	border-radius: 0.5em;
+	position: relative;
+}
+
+.card:hover {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.radio {
+	display: none;
+}
+
+.edition-details {
+	border: 1px solid #D0D5DD;
+	border-radius: 0.5em;
+	cursor: pointer;
+	display: flex;
+	padding: 0.5em;
+	transition: border-color 0.2s ease-out;
+    font-weight: 600;
+    color:#344054;
+}
+
+.card:hover .edition-details {
+	border-color: #c4d1e1;
+}
+
+.radio:checked ~ .edition-details {
+    border: 2px solid goldenrod;
+}
+
+.radio:focus ~ .edition-details {
+	box-shadow: 0 0 0 2px #c4d1e1;
+}
+
+.radio:disabled ~ .edition-details {
+	color: #c4d1e1;
+	cursor: default;
+}
+
+.card:hover .radio:disabled ~ .edition-details {
+	border-color: #e2ebf6;
+	box-shadow: none;
+}
+
+.card:hover .radio:disabled {
+	border-color: #e2ebf6;
+}

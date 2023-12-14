@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+nav {
+    background: #2ba0db;
+}
+
+nav ul {
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    position: relative;
+}
+
+nav ul li a {
+    color: #fff;
+    display: block;
+    font-size: 14px;
+    padding: 15px 14px;
+    transition: 0.3s linear;
+}
+
+nav ul li:hover {
+    background: #126d9b;
+}
+
+nav ul li ul {
+    border-bottom: 5px solid #026216;
+    display: none;
+    position: absolute;
+    width: 250px;
+    right: 0;
+    z-index: 100;
+}
+
+nav ul li ul li {
+    border-top: 1px solid #8fc74a;
+    display: block;
+}
+
+nav ul li ul li:first-child {
+    border-top: none;
+}
+
+nav ul li ul li a {
+    background: #8fc74a;
+    display: block;
+    padding: 10px 14px;
+}
+
+nav ul li ul li a:hover {
+    background: #6ea02c;
+}
+
+
+@font-face {
+    font-family: PressStyle;
+    src: url('/static/font/PressStyle.woff');
+}
+
+@font-face {
+    font-family: Xpace;
+    src: url('/static/font/xspace.ttf');
+}
+
+.press-style {
+    font-family: PressStyle
+}
+
+.xspace {
+    font-family: Xpace
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100vh;
+    scroll-behavior: smooth;
+}
+
+.scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* NAVBAR HOME */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #386380;
+    padding: 20px;
+    color: #fff;
+}
+
+.nav-links a {
+    color: #dfdfdf;
+    text-transform: uppercase;
+}
+
+.nav-links a:hover {
+    color: #fff;
+}
+
+.menu {
+    display: flex;
+    gap: 1em;
+}
+
+.input-navbar[type='checkbox'] {
+    display: none;
+}
+
+.hamburger {
+    display: none;
+    font-size: 24px;
+    user-select: none;
+}
+
+@media (max-width: 1110px) {
+    .menu {
+        display: none;
+        position: absolute;
+        background-color: #386380f8;
+        right: 0;
+        left: 0;
+        top: 5rem;
+        text-align: center;
+        padding: 16px 0;
+    }
+
+    .menu li:hover {
+        display: inline-block;
+        transition: 0.3s ease;
+    }
+
+    .menu li + li {
+        margin-top: 12px;
+    }
+
+    .input-navbar[type='checkbox']:checked ~ .menu {
+        display: block;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
+/* NAVBAR HOME */
+
+.navbar-inscricao {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .navbar-inscricao {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #c38934;
+        padding: 20px;
+        color: #fff;
+    }
+}
+
+.nav-links-inscricao a {
+    color: #dfdfdf;
+    text-transform: uppercase;
+}
+
+.nav-links-inscricao a:hover {
+    color: #fff;
+}
+
+.menu-inscricao {
+    display: flex;
+    gap: 1em;
+}
+
+.input-navbar-inscricao[type='checkbox'] {
+    display: none;
+}
+
+.hamburger-inscricao {
+    display: none;
+    font-size: 24px;
+    user-select: none;
+}
+
+@media (max-width: 1024px) {
+    .menu-inscricao {
+        display: none;
+        position: absolute;
+        background-color: #c38a34;
+        right: 0;
+        left: 0;
+        top: 6rem;
+        text-align: center;
+        padding: 16px 0;
+    }
+
+    .menu-inscricao li:hover {
+        display: inline-block;
+        transition: 0.3s ease;
+    }
+
+    .menu-inscricao li + li {
+        margin-top: 12px;
+    }
+
+    .input-navbar-inscricao[type='checkbox']:checked ~ .menu-inscricao {
+        display: block;
+    }
+
+    .hamburger-inscricao {
+        display: block;
+    }
+}
+
+@media (max-width: 640px) {
+    .menu-inscricao {
+        display: none;
+        position: absolute;
+        background-color: #c38a34;
+        right: 0;
+        left: 0;
+        top: 5rem;
+        text-align: center;
+        padding: 16px 0;
+    }
+
+    .menu-inscricao li:hover {
+        display: inline-block;
+        transition: 0.3s ease;
+    }
+
+    .menu-inscricao li + li {
+        margin-top: 12px;
+    }
+
+    .input-navbar-inscricao[type='checkbox']:checked ~ .menu-inscricao {
+        display: block;
+    }
+
+    .hamburger-inscricao {
+        display: block;
+    }
+}

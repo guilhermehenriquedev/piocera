@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load website_tags %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    <title>{{ edition.get_type_display.title }} {{ edition.ano }}</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' with header='home' %}
+{% endblock navbar %}
+
+{% block content %}
+<!DOCTYPE html>
+<div class="w-full h-full bg-white">
+    <div class="flex w-full h-full flex-col gap-10 pb-10 sm:pb-20 justify-center items-center">
+        <div class="text-xl sm:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+             style="
+                            background-image: url(/static/images/inscricao/faixaInscricao.png);
+                        ">
+            {% if single_edition %}
+                <div class="text-2xl font-semibold">
+                    <p>Galeria de fotos</p>
+                </div>
+            {% else %}
+                <div class="text-2xl font-semibold">
+                    Todos os Álbuns
+                </div>
+            {% endif %}
+        </div>
+        {% if subalbuns %}
+            <div class="flex flex-col w-full justify-center items-center gap-7 py-6 px-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 w-full text-black">
+
+{#                {% for album in albuns %}#}
+{#					{% include 'inc/_album_preview.html' %}#}
+{#                {% endfor %}#}
+
+                    {% for subalbum in subalbuns %}
+{#	                    {% include 'inc/_album_preview.html' %}#}
+                        <a class="hover:scale-105 hover:shadow-2xl border cursor-pointer ease-out duration-200 pt-5 bg-gray-100" href="{% url 'sub_album_photos' edition.id subalbum.id %}">
+                            <div class="flex flex-col p-4 gap-4">
+                                <div class="grid grid-cols-2">
+                                    {% for photo in subalbum.photos_set.all|slice:':4' %}
+                                       <div style="background-image: url('{% thumbnail photo.photo 150x150 %}')" class="h-[150px] bg-center bg-cover overflow-hidden" ></div>
+                                     {% endfor %}
+                                </div>
+                                <div class="flex flex-col h-full gap-2">
+                                    <div class="text-xs md:text-sm lg:text-base font-light">
+                                        {{ subalbum.album.date|date:'d/m/Y' }}
+                                    </div>
+                                    <div class="text-sm md:text-base lg:text-lg font-medium h-full">
+                                        {{ subalbum.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+{#        <button#}
+{#                type="button"#}
+{#                class="uppercase flex justify-center text-xl items-center rounded-lg text-white hover:border hover:border-[#8FC74A] hover:text-[#8FC74A] hover:bg-white bg-[#8FC74A] px-20 sm:px-32 py-2 font-bold"#}
+{#        >#}
+{#            Ver mais fotos#}
+{#        </button>#}
+
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block footer %}
+
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

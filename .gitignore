@@ -1,0 +1,15 @@
+*/venv/*
+*.sqlite3
+*.pyc
+.idea/
+venv
+staticfiles
+public/
+.env
+__pycache__
+**__pycache__/
+**/__pycache__/
+**/**/__pycache__/
+**/**/**/__pycache__/
+
+dev.env

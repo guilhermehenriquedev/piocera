@@ -1,0 +1,14 @@
+<div class="col-span-full grid grid-cols-1 sm:grid-cols-4">
+    <div class="col-span-1">
+        <span class="font-semibold">Modalidade:</span>
+        {{ category_modality.modality_edition.modality.name }}
+    </div>
+    <div class="col-span-1 sm:col-span-3">
+        <span class="font-semibold">Categoria:</span>
+        {% if not category_modality.modality_edition.modality.is_apoio_zequinha %}
+            {{ category_modality.modality_edition.modality.name }}
+            -
+        {% endif %}
+        {{ category_modality.category.name }} | {{ lot.name }}: R$ {{ lot.price }}
+    </div>
+</div>

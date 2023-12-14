@@ -1,0 +1,30 @@
+@import "../poll/css/pesquisa.css";
+/* ### FIGURE ### */
+ul > li {list-style: none;}
+.image-full {padding: 0; margin: 0; list-style: none;}
+
+.big-image-noticia, .image-full {margin-bottom: 20px;}
+.big-image-noticia img, .small-image-noticia img, .image-full img {max-width: 100%; height: auto;}
+.big-image-noticia .credit, .small-image-noticia .credit, .image-full .image-credits {text-align: right; display: block;}
+
+.big-image-noticia .legend,
+.big-image-noticia .image-noticia .legend,
+.small-image-noticia .legend,
+.small-image-noticia .image-noticia .legend,
+.image-full .image-legend {padding:.25rem .5rem; background: #f5f5f5; font-family:"Gp1Serif-Regular", serif; border: 1px solid #e4e4e4; border-top-color: transparent; line-height: 1.2;  display: block;}
+
+.small-image-noticia {margin-bottom: 20px}
+
+
+
+
+/*.cke_editable .cke_show_border {background: blue}*/
+
+.cke_editable table.cke_show_border {width: 100%; max-width: 100%;  margin-bottom: 20px}
+.cke_editable table.cke_show_border tr {width: 100%; max-width: 100%}
+.cke_editable table.cke_show_border tr:nth-child(2n-2) {background: #f9f9f9}
+.cke_editable table.cke_show_border th,.article-texto table tr td, .cke_show_borders table.cke_show_border > tbody > tr > td {border: 1px solid #ddd !important; padding: 4px 5px; border-collapse: collapse}
+.cke_editable table.cke_show_border th p,.article-texto table tr td p {margin-bottom: 0; line-height: 1.1}
+
+
+.cke_show_borders table.cke_show_border {border-collapse: collapse;}

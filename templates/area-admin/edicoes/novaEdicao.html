@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="/tailwind.config.js"></script>
+		<script src="/components/global.js"></script>
+		<script src="/components/admin/painel.js"></script>
+		<link rel="stylesheet" type="text/css" href="/styles/global.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="/styles/componentes/inputCards.css"
+		/>
+		<title>Nova Edição | Área de Admin</title>
+		<link rel="icon" type="image/x-icon" href="/images/logos/branca.png" />
+	</head>
+	<body>
+		<div class="w-full h-full bg-[#656667]">
+			<div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+				<painel-lateral></painel-lateral>
+
+				<div
+					class="overflow-y-auto max-h-screen flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl"
+				>
+					<div
+						class="w-full flex lg:flex-row items-center gap-2 flex-col justify-between"
+					>
+						<div
+							class="w-full font-semibold text-2xl whitespace-nowrap"
+						>
+							Criar nova edição
+						</div>
+						<div
+							class="flex whitespace-nowrap flex-col sm:flex-row gap-2 items-center text-center w-full lg:w-auto"
+						>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow"
+							>
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 20 20"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M6.66699 14.1667L10.0003 17.5M10.0003 17.5L13.3337 14.1667M10.0003 17.5V10M16.667 13.9524C17.6849 13.1117 18.3337 11.8399 18.3337 10.4167C18.3337 7.88536 16.2816 5.83333 13.7503 5.83333C13.5682 5.83333 13.3979 5.73833 13.3054 5.58145C12.2187 3.73736 10.2124 2.5 7.91699 2.5C4.46521 2.5 1.66699 5.29822 1.66699 8.75C1.66699 10.4718 2.3632 12.0309 3.48945 13.1613"
+										stroke="#344054"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+
+								<div
+									class="font-semibold text-sm text-gray-700"
+								>
+									Salvar como Rascunho
+								</div>
+							</button>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+							>
+								<div class="font-semibold text-sm text-white">
+									Publicar esta edição
+								</div>
+							</button>
+						</div>
+					</div>
+					<form class="flex flex-col w-full gap-8">
+						<div
+							class="flex flex-row flex-wrap items-center justify-center gap-6"
+						>
+							<label class="card">
+								<input
+									name="edition"
+									class="radio"
+									type="radio"
+									value="piocera"
+								/>
+								<span class="edition-details">
+									<span>Piocerá</span>
+								</span>
+							</label>
+							<label class="card">
+								<input
+									name="edition"
+									class="radio"
+									type="radio"
+									value="cerapio"
+								/>
+								<span class="edition-details">
+									<span>Cerapió</span>
+								</span>
+							</label>
+							<input
+								type="text"
+								name="edition-name"
+								id="edition-name"
+								class="flex rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+								placeholder="Edição"
+								maxlength="256"
+							/>
+						</div>
+						<div
+							class="grid grid-cols-1 gap-6 sm:grid-cols-2 w-full items-stretch"
+						>
+							<div class="col-span-1 flex flex-col">
+								<label
+									for="start-date"
+									class="block text-sm font-semibold leading-6 h-full"
+									>Data de Início das incrições</label
+								>
+								<div
+									class="mt-2 flex items-center flex-row gap-2"
+								>
+									<input
+										type="date"
+										name="start-date"
+										id="start-date"
+										class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+									/>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-5 h-5 text-[#545454]"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+										/>
+									</svg>
+								</div>
+							</div>
+							<div class="col-span-1 flex flex-col">
+								<label
+									for="end-date"
+									class="block text-sm font-semibold leading-6 h-full"
+									>Data de Término das incrições</label
+								>
+								<div
+									class="mt-2 flex items-center flex-row gap-2"
+								>
+									<input
+										type="date"
+										name="end-date"
+										id="end-date"
+										class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+									/>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-5 h-5 text-[#545454]"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+										/>
+									</svg>
+								</div>
+							</div>
+							<div class="col-span-full flex flex-col">
+								<label
+									for="about-edition"
+									class="block text-sm font-semibold leading-6 h-full"
+									>Sobre a edição</label
+								>
+								<div class="mt-2">
+									<textarea
+										rows="6"
+										name="about-edition"
+										id="about-edition"
+										class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+										placeholder="Texto sobre o evento"
+									></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="gap-8 flex flex-col w-full">
+							<div class="flex flex-col justify-start gap-6">
+								<div class="text-2xl">Modalidades</div>
+								<div
+									class="text-[#344054] flex flex-col gap-6 w-full"
+								>
+									<div
+										class="border rounded-lg flex py-3 px-6 w-full flex-col justify-start gap-3"
+									>
+										<div
+											class="flex flex-row items-center gap-3 w-full justify-between"
+										>
+											<div
+												class="text-base font-semibold"
+											>
+												Motos
+											</div>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+										</div>
+
+										<div
+											class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+										>
+											<div
+												class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+											>
+												<div
+													class="text-sm font-semibold"
+												>
+													Elite
+												</div>
+											</div>
+											<div
+												class="flex flex-row gap-3 items-center"
+											>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+											</div>
+										</div>
+										<div
+											class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+										>
+											<div
+												class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+											>
+												<div
+													class="text-sm font-semibold"
+												>
+													Graduado
+												</div>
+											</div>
+											<div
+												class="flex flex-row gap-3 items-center"
+											>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+											</div>
+										</div>
+										<div
+											class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+										>
+											<div
+												class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+											>
+												<div
+													class="text-sm font-semibold"
+												>
+													Turismo
+												</div>
+											</div>
+											<div
+												class="flex flex-row gap-3 items-center"
+											>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div
+										class="border rounded-lg flex py-3 px-6 w-full flex-col justify-start gap-3"
+									>
+										<div
+											class="flex flex-row items-center gap-3 w-full justify-between"
+										>
+											<div
+												class="text-base font-semibold"
+											>
+												Carros 4x4
+											</div>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+										</div>
+
+										<div
+											class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+										>
+											<div
+												class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+											>
+												<div
+													class="text-sm font-semibold"
+												>
+													Elite
+												</div>
+											</div>
+											<div
+												class="flex flex-row gap-3 items-center"
+											>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+											</div>
+										</div>
+										<div
+											class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+										>
+											<div
+												class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+											>
+												<div
+													class="text-sm font-semibold"
+												>
+													Graduado
+												</div>
+											</div>
+											<div
+												class="flex flex-row gap-3 items-center"
+											>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+											</div>
+										</div>
+										<div
+											class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+										>
+											<div
+												class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+											>
+												<div
+													class="text-sm font-semibold"
+												>
+													Turismo
+												</div>
+											</div>
+											<div
+												class="flex flex-row gap-3 items-center"
+											>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+												<button type="button">
+													<svg
+														width="19"
+														height="20"
+														viewBox="0 0 20 21"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path
+															d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+															stroke="#475467"
+															stroke-width="1.66667"
+															stroke-linecap="round"
+															stroke-linejoin="round"
+														/>
+													</svg>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div
+								class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4"
+							>
+								<div class="h-0.5 bg-gray-100 w-full"></div>
+								<div
+									class="text-sm font-semibold flex flex-row gap-2 items-center"
+								>
+									<svg
+										width="14"
+										height="14"
+										viewBox="0 0 14 14"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M7.00033 1.16602V12.8327M1.16699 6.99935H12.8337"
+											stroke="#344054"
+											stroke-width="1.66667"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+									Adicionar nova modalidade / categoria
+								</div>
+								<div class="h-0.5 bg-gray-100 w-full"></div>
+							</div>
+
+							<div
+								class="flex flex-col w-full gap-6 justify-center items-center"
+							>
+								<div
+									class="grid grid-cols-1 gap-6 sm:grid-cols-4 w-full items-stretch"
+								>
+									<div
+										class="col-span-1 sm:col-span-2 flex flex-col"
+									>
+										<label
+											for="modality"
+											class="block text-sm font-semibold leading-6 h-full"
+											>Modalidade</label
+										>
+										<div class="mt-2">
+											<select
+												id="modality"
+												name="modality"
+												class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+											>
+												<option
+													selected="selected"
+													disabled
+												>
+													Selecione
+												</option>
+												<option>Modalidade 1</option>
+												<option>Modalidade 2</option>
+												<option>Modalidade 3</option>
+											</select>
+										</div>
+									</div>
+									<div
+										class="col-span-1 sm:col-span-2 flex flex-col"
+									>
+										<label
+											for="category"
+											class="block text-sm font-semibold leading-6 h-full"
+											>Categoria</label
+										>
+										<div class="mt-2">
+											<select
+												id="category"
+												name="category"
+												class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+											>
+												<option
+													selected="selected"
+													disabled
+												>
+													Selecione
+												</option>
+												<option>Categoria 1</option>
+												<option>Categoria 2</option>
+												<option>Categoria 3</option>
+											</select>
+										</div>
+									</div>
+									<div
+										class="col-span-1 sm:col-span-2 flex flex-col"
+									>
+										<label
+											for="quantity"
+											class="block text-sm font-semibold leading-6 h-full"
+											>Quantidade de vagas</label
+										>
+										<div class="mt-2">
+											<input
+												type="number"
+												name="quantity"
+												id="quantity"
+												class="sm:after:max-w-[250px] flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+												placeholder="Digite um número inteiro"
+												maxlength="256"
+											/>
+										</div>
+									</div>
+								</div>
+								<button
+									type="button"
+									class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+								>
+									<svg
+										width="20"
+										height="20"
+										viewBox="0 0 20 20"
+										fill="none"
+										xmlns="http://www.w3.org/2000/svg"
+									>
+										<path
+											d="M10.0003 4.16602V15.8327M4.16699 9.99935H15.8337"
+											stroke="white"
+											stroke-width="1.66667"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
+
+									<div
+										class="font-semibold text-sm text-white"
+									>
+										Adicionar modalidade / categoria
+									</div>
+								</button>
+							</div>
+						</div>
+						<div class="gap-8 flex flex-col w-full">
+							<div
+								class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4"
+							>
+								<div class="h-0.5 bg-gray-100 w-full"></div>
+								<div class="text-sm font-semibold">
+									Patrocinadores
+								</div>
+								<div class="h-0.5 bg-gray-100 w-full"></div>
+							</div>
+							<div class="flex flex-col justify-start gap-6">
+								<div class="text-2xl">
+									Patrocinadores da Edição
+								</div>
+								<div
+									class="text-[#344054] flex flex-col gap-6 w-full"
+								>
+									<div
+										class="border rounded-lg py-2 px-6 gap-y-2 gap-x-4 w-full grid grid-cols-1 sm:grid-cols-3 grid-flow-col"
+									>
+										<div class="flex text-sm font-semibold">
+											Petrobrás
+										</div>
+										<div
+											class="flex text-sm font-semibold text-[#309E3A]"
+										>
+											Patrocínio
+										</div>
+										<div
+											class="flex flex-row gap-3 items-center w-full justify-end"
+										>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+										</div>
+									</div>
+									<div
+										class="border rounded-lg py-2 px-6 gap-y-2 gap-x-4 w-full grid grid-cols-1 sm:grid-cols-3 grid-flow-col"
+									>
+										<div class="flex text-sm font-semibold">
+											Governo Federal
+										</div>
+										<div
+											class="flex text-sm font-semibold text-[#309E3A]"
+										>
+											Co-Patrocínio
+										</div>
+										<div
+											class="flex flex-row gap-3 items-center w-full justify-end"
+										>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div
+									class="w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-5 items-start"
+								>
+									<div
+										class="col-span-1 flex flex-col h-full"
+									>
+										<label
+											for="sponsor-name"
+											class="text-sm font-semibold leading-6 h-full flex"
+											>Nome do patrocinador</label
+										>
+										<div
+											class="mt-2 flex items-center flex-row gap-2"
+										>
+											<input
+												type="text"
+												name="sponsor-name"
+												id="sponsor-name"
+												class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+												placeholder="Nome patrocinador"
+											/>
+											<svg
+												xmlns="http://www.w3.org/2000/svg"
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke-width="1.5"
+												stroke="currentColor"
+												class="w-5 h-5 text-[#545454]"
+											>
+												<path
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+												/>
+											</svg>
+										</div>
+									</div>
+									<div
+										class="col-span-1 flex flex-col h-full"
+									>
+										<label
+											for="sponsor-type"
+											class="flex text-sm font-semibold leading-6 h-full"
+											>Tipo de Patrocínio</label
+										>
+										<div class="mt-2">
+											<select
+												id="sponsor-type"
+												name="sponsor-type"
+												class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+											>
+												<option
+													selected="selected"
+													disabled
+												>
+													Selecione
+												</option>
+												<option>Tipo 1</option>
+												<option>Tipo 2</option>
+												<option>Tipo 3</option>
+											</select>
+										</div>
+									</div>
+									<div
+										class="col-span-1 flex flex-col h-full"
+									>
+										<div
+											class="flex text-sm font-semibold leading-6 h-full"
+										>
+											Logomarca do Patroinador
+										</div>
+										<label
+											for="sponsor-logo"
+											class="mt-2 w-full justify-between flex flex-row items-center gap-2 rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+										>
+											<span
+												id="sponsor-logo-name"
+												class="text-xs text-[#545454]"
+												>PNG/JPG/JPEG</span
+											>
+											<svg
+												width="22"
+												height="22"
+												viewBox="0 0 22 22"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													d="M12.9404 16.2492H9.65918C9.11367 16.2492 8.6748 15.8103 8.6748 15.2647V8.37308H5.07773C4.34766 8.37308 3.98262 7.49111 4.49941 6.97424L10.7379 0.730747C11.0455 0.423084 11.55 0.423084 11.8576 0.730747L18.1002 6.97424C18.617 7.49111 18.252 8.37308 17.5219 8.37308H13.9248V15.2647C13.9248 15.8103 13.4859 16.2492 12.9404 16.2492ZM21.7998 15.9211V20.5155C21.7998 21.0611 21.3609 21.5 20.8154 21.5H1.78418C1.23867 21.5 0.799805 21.0611 0.799805 20.5155V15.9211C0.799805 15.3755 1.23867 14.9365 1.78418 14.9365H7.3623V15.2647C7.3623 16.5323 8.3918 17.5619 9.65918 17.5619H12.9404C14.2078 17.5619 15.2373 16.5323 15.2373 15.2647V14.9365H20.8154C21.3609 14.9365 21.7998 15.3755 21.7998 15.9211ZM16.7139 19.531C16.7139 19.0797 16.3447 18.7105 15.8936 18.7105C15.4424 18.7105 15.0732 19.0797 15.0732 19.531C15.0732 19.9822 15.4424 20.3514 15.8936 20.3514C16.3447 20.3514 16.7139 19.9822 16.7139 19.531ZM19.3389 19.531C19.3389 19.0797 18.9697 18.7105 18.5186 18.7105C18.0674 18.7105 17.6982 19.0797 17.6982 19.531C17.6982 19.9822 18.0674 20.3514 18.5186 20.3514C18.9697 20.3514 19.3389 19.9822 19.3389 19.531Z"
+													fill="black"
+												/>
+											</svg>
+
+											<input
+												type="file"
+												accept="image/png, image/jpg, image/jpeg"
+												name="sponsor-logo"
+												id="sponsor-logo"
+												class="hidden"
+											/>
+										</label>
+									</div>
+
+									<div
+										class="col-span-1 flex flex-col h-full"
+									>
+										<div
+											class="flex text-sm font-semibold leading-6 h-full"
+										>
+											Logomarca do Patroinador
+										</div>
+										<label
+											for="sponsor-logo2"
+											class="mt-2 w-full justify-between flex flex-row items-center gap-2 rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+										>
+											<span
+												id="sponsor-logo-name2"
+												class="text-xs text-[#545454]"
+												>PNG/JPG/JPEG</span
+											>
+											<svg
+												width="22"
+												height="22"
+												viewBox="0 0 22 22"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													d="M12.9404 16.2492H9.65918C9.11367 16.2492 8.6748 15.8103 8.6748 15.2647V8.37308H5.07773C4.34766 8.37308 3.98262 7.49111 4.49941 6.97424L10.7379 0.730747C11.0455 0.423084 11.55 0.423084 11.8576 0.730747L18.1002 6.97424C18.617 7.49111 18.252 8.37308 17.5219 8.37308H13.9248V15.2647C13.9248 15.8103 13.4859 16.2492 12.9404 16.2492ZM21.7998 15.9211V20.5155C21.7998 21.0611 21.3609 21.5 20.8154 21.5H1.78418C1.23867 21.5 0.799805 21.0611 0.799805 20.5155V15.9211C0.799805 15.3755 1.23867 14.9365 1.78418 14.9365H7.3623V15.2647C7.3623 16.5323 8.3918 17.5619 9.65918 17.5619H12.9404C14.2078 17.5619 15.2373 16.5323 15.2373 15.2647V14.9365H20.8154C21.3609 14.9365 21.7998 15.3755 21.7998 15.9211ZM16.7139 19.531C16.7139 19.0797 16.3447 18.7105 15.8936 18.7105C15.4424 18.7105 15.0732 19.0797 15.0732 19.531C15.0732 19.9822 15.4424 20.3514 15.8936 20.3514C16.3447 20.3514 16.7139 19.9822 16.7139 19.531ZM19.3389 19.531C19.3389 19.0797 18.9697 18.7105 18.5186 18.7105C18.0674 18.7105 17.6982 19.0797 17.6982 19.531C17.6982 19.9822 18.0674 20.3514 18.5186 20.3514C18.9697 20.3514 19.3389 19.9822 19.3389 19.531Z"
+													fill="black"
+												/>
+											</svg>
+
+											<input
+												type="file"
+												accept="image/png, image/jpg, image/jpeg"
+												name="sponsor-logo2"
+												id="sponsor-logo2"
+												class="hidden"
+											/>
+										</label>
+									</div>
+									<div
+										class="col-span-1 flex flex-col h-full"
+									>
+										<div
+											class="flex text-sm font-semibold leading-6 h-full"
+										>
+											Logomarca do Patroinador
+										</div>
+										<label
+											for="sponsor-logo3"
+											class="mt-2 w-full justify-between flex flex-row items-center gap-2 rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+										>
+											<span
+												id="sponsor-logo-name3"
+												class="text-xs text-[#545454]"
+												>PNG/JPG/JPEG</span
+											>
+											<svg
+												width="22"
+												height="22"
+												viewBox="0 0 22 22"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													d="M12.9404 16.2492H9.65918C9.11367 16.2492 8.6748 15.8103 8.6748 15.2647V8.37308H5.07773C4.34766 8.37308 3.98262 7.49111 4.49941 6.97424L10.7379 0.730747C11.0455 0.423084 11.55 0.423084 11.8576 0.730747L18.1002 6.97424C18.617 7.49111 18.252 8.37308 17.5219 8.37308H13.9248V15.2647C13.9248 15.8103 13.4859 16.2492 12.9404 16.2492ZM21.7998 15.9211V20.5155C21.7998 21.0611 21.3609 21.5 20.8154 21.5H1.78418C1.23867 21.5 0.799805 21.0611 0.799805 20.5155V15.9211C0.799805 15.3755 1.23867 14.9365 1.78418 14.9365H7.3623V15.2647C7.3623 16.5323 8.3918 17.5619 9.65918 17.5619H12.9404C14.2078 17.5619 15.2373 16.5323 15.2373 15.2647V14.9365H20.8154C21.3609 14.9365 21.7998 15.3755 21.7998 15.9211ZM16.7139 19.531C16.7139 19.0797 16.3447 18.7105 15.8936 18.7105C15.4424 18.7105 15.0732 19.0797 15.0732 19.531C15.0732 19.9822 15.4424 20.3514 15.8936 20.3514C16.3447 20.3514 16.7139 19.9822 16.7139 19.531ZM19.3389 19.531C19.3389 19.0797 18.9697 18.7105 18.5186 18.7105C18.0674 18.7105 17.6982 19.0797 17.6982 19.531C17.6982 19.9822 18.0674 20.3514 18.5186 20.3514C18.9697 20.3514 19.3389 19.9822 19.3389 19.531Z"
+													fill="black"
+												/>
+											</svg>
+
+											<input
+												type="file"
+												accept="image/png, image/jpg, image/jpeg"
+												name="sponsor-logo3"
+												id="sponsor-logo3"
+												class="hidden"
+											/>
+										</label>
+									</div>
+									<div
+										class="col-span-full flex flex-col h-full"
+									>
+										<div
+											class="flex text-sm font-semibold leading-6 h-full"
+										>
+											Banner do Patroinador
+										</div>
+										<label
+											for="sponsor-banner"
+											class="mt-2 w-full justify-between flex flex-row items-center gap-2 rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"
+										>
+											<span
+												id="sponsor-banner"
+												class="text-xs text-[#545454]"
+												>PNG/JPG/JPEG</span
+											>
+											<svg
+												width="22"
+												height="22"
+												viewBox="0 0 22 22"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													d="M12.9404 16.2492H9.65918C9.11367 16.2492 8.6748 15.8103 8.6748 15.2647V8.37308H5.07773C4.34766 8.37308 3.98262 7.49111 4.49941 6.97424L10.7379 0.730747C11.0455 0.423084 11.55 0.423084 11.8576 0.730747L18.1002 6.97424C18.617 7.49111 18.252 8.37308 17.5219 8.37308H13.9248V15.2647C13.9248 15.8103 13.4859 16.2492 12.9404 16.2492ZM21.7998 15.9211V20.5155C21.7998 21.0611 21.3609 21.5 20.8154 21.5H1.78418C1.23867 21.5 0.799805 21.0611 0.799805 20.5155V15.9211C0.799805 15.3755 1.23867 14.9365 1.78418 14.9365H7.3623V15.2647C7.3623 16.5323 8.3918 17.5619 9.65918 17.5619H12.9404C14.2078 17.5619 15.2373 16.5323 15.2373 15.2647V14.9365H20.8154C21.3609 14.9365 21.7998 15.3755 21.7998 15.9211ZM16.7139 19.531C16.7139 19.0797 16.3447 18.7105 15.8936 18.7105C15.4424 18.7105 15.0732 19.0797 15.0732 19.531C15.0732 19.9822 15.4424 20.3514 15.8936 20.3514C16.3447 20.3514 16.7139 19.9822 16.7139 19.531ZM19.3389 19.531C19.3389 19.0797 18.9697 18.7105 18.5186 18.7105C18.0674 18.7105 17.6982 19.0797 17.6982 19.531C17.6982 19.9822 18.0674 20.3514 18.5186 20.3514C18.9697 20.3514 19.3389 19.9822 19.3389 19.531Z"
+													fill="black"
+												/>
+											</svg>
+
+											<input
+												type="file"
+												accept="image/png, image/jpg, image/jpeg"
+												name="sponsor-banner"
+												id="sponsor-banner"
+												class="hidden"
+											/>
+										</label>
+									</div>
+								</div>
+								<div
+									class="flex flex-col w-full justify-center items-center"
+								>
+									<button
+										type="button"
+										class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+									>
+										<svg
+											width="20"
+											height="20"
+											viewBox="0 0 20 20"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M10.0003 4.16602V15.8327M4.16699 9.99935H15.8337"
+												stroke="white"
+												stroke-width="1.66667"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+
+										<div
+											class="font-semibold text-sm text-white"
+										>
+											Adicionar novo patrocinador
+										</div>
+									</button>
+								</div>
+							</div>
+						</div>
+						<div class="gap-8 flex flex-col w-full">
+							<div
+								class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4"
+							>
+								<div class="h-0.5 bg-gray-100 w-full"></div>
+								<div class="text-sm font-semibold">Banners</div>
+								<div class="h-0.5 bg-gray-100 w-full"></div>
+							</div>
+							<div class="flex flex-col justify-start gap-6">
+								<div
+									class="w-full flex items-center gap-2 flex-row justify-between"
+								>
+									<div class="text-2xl">
+										Banners da página
+									</div>
+									<button
+										type="button"
+										class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+									>
+										<svg
+											width="20"
+											height="20"
+											viewBox="0 0 20 20"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M10.0003 4.16602V15.8327M4.16699 9.99935H15.8337"
+												stroke="white"
+												stroke-width="1.66667"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+
+										<div
+											class="font-semibold text-sm text-white"
+										>
+											Adicionar novo Banner
+										</div>
+									</button>
+								</div>
+								<div
+									class="col-span-full flex flex-row items-center justify-between gap-4 border rounded-lg p-6 bg-white"
+								>
+									<label
+										for="banner-page"
+										class="gap-2 flex-col cursor-pointer bg-gray-50 w-full h-full flex p-4 rounded-lg justify-center items-center"
+									>
+										<svg
+											width="40"
+											height="39"
+											viewBox="0 0 40 39"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M28.575 37.875H9.65155C8.41467 37.875 7.79624 37.875 7.50987 37.6304C7.26138 37.4182 7.12952 37.0998 7.15516 36.7741C7.18471 36.3986 7.62201 35.9613 8.49661 35.0867L25.8568 17.7265C26.6653 16.918 27.0696 16.5137 27.5358 16.3623C27.9458 16.229 28.3875 16.229 28.7976 16.3623C29.2637 16.5137 29.668 16.918 30.4765 17.7265L38.375 25.625V28.075M28.575 37.875C32.0053 37.875 33.7205 37.875 35.0307 37.2074C36.1832 36.6202 37.1202 35.6832 37.7074 34.5307C38.375 33.2205 38.375 31.5053 38.375 28.075M28.575 37.875H11.425C7.99468 37.875 6.27952 37.875 4.96931 37.2074C3.81682 36.6202 2.87981 35.6832 2.29259 34.5307C1.625 33.2205 1.625 31.5053 1.625 28.075V10.925C1.625 7.49468 1.625 5.77952 2.29259 4.46931C2.87981 3.31682 3.81682 2.37981 4.96931 1.79259C6.27952 1.125 7.99468 1.125 11.425 1.125H28.575C32.0053 1.125 33.7205 1.125 35.0307 1.79259C36.1832 2.37981 37.1202 3.31682 37.7074 4.46931C38.375 5.77952 38.375 7.49468 38.375 10.925V28.075M16.9375 12.3542C16.9375 14.6093 15.1093 16.4375 12.8542 16.4375C10.599 16.4375 8.77083 14.6093 8.77083 12.3542C8.77083 10.099 10.599 8.27083 12.8542 8.27083C15.1093 8.27083 16.9375 10.099 16.9375 12.3542Z"
+												stroke="#88929E"
+												stroke-width="1.33333"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
+										<div
+											class="font-light text-lg text-[#636D77]"
+										>
+											Aqui vai a imagem do Banner
+										</div>
+										<input
+											type="file"
+											accept="image/png, image/jpg, image/gif, image/jpeg"
+											name="banner-page"
+											id="banner-page"
+											class="hidden"
+										/>
+										<span id="banner-page-name"></span>
+									</label>
+									<div
+										class="flex flex-row gap-3 items-center"
+									>
+										<button type="button">
+											<svg
+												width="19"
+												height="20"
+												viewBox="0 0 20 21"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+													stroke="#475467"
+													stroke-width="1.66667"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												/>
+											</svg>
+										</button>
+										<button type="button">
+											<svg
+												width="19"
+												height="20"
+												viewBox="0 0 20 21"
+												fill="none"
+												xmlns="http://www.w3.org/2000/svg"
+											>
+												<path
+													d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+													stroke="#475467"
+													stroke-width="1.66667"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												/>
+											</svg>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div
+							class="flex whitespace-nowrap flex-col sm:flex-row gap-2 text-center w-full justify-center items-center"
+						>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow"
+							>
+								<div
+									class="font-semibold text-sm text-gray-700"
+								>
+									Salvar rascunho
+								</div>
+							</button>
+							<button
+								class="justify-center lg:w-auto w-full py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+							>
+								<div class="font-semibold text-sm text-white">
+									Publicar esta edição
+								</div>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			let inputSponsorLogo = document.getElementById('sponsor-logo');
+			let imageNameSponsorLogo =
+				document.getElementById('sponsor-logo-name');
+
+			inputSponsorLogo.addEventListener('change', () => {
+				let inputImageSponsorLogo =
+					document.querySelector('input[type=file]').files[0];
+
+				imageNameSponsorLogo.innerText = inputImageSponsorLogo.name;
+			});
+
+			let inputSponsorLogo2 = document.getElementById('sponsor-logo2');
+			let imageNameSponsorLogo2 =
+				document.getElementById('sponsor-logo-name2');
+
+			inputSponsorLogo2.addEventListener('change', () => {
+				let inputImageSponsorLogo2 =
+					document.querySelector('input[type=file]').files[0];
+
+				imageNameSponsorLogo2.innerText = inputImageSponsorLogo2.name;
+			});
+
+			let inputSponsorLogo3 = document.getElementById('sponsor-logo3');
+			let imageNameSponsorLogo3 =
+				document.getElementById('sponsor-logo-name3');
+
+			inputSponsorLogo3.addEventListener('change', () => {
+				let inputImageSponsorLogo3 =
+					document.querySelector('input[type=file]').files[0];
+
+				imageNameSponsorLogo3.innerText = inputImageSponsorLogo3.name;
+			});
+
+			let inputBannerPage = document.getElementById('banner-page');
+			let imageBannerPage = document.getElementById('banner-page-name');
+
+			inputBannerPage.addEventListener('change', () => {
+				let inputImageBannerPage =
+					document.querySelector('input[type=file]').files[0];
+
+				imageBannerPage.innerText = inputImageBannerPage.name;
+			});
+		</script>
+	</body>
+</html>

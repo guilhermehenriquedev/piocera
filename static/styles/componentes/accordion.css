@@ -1,0 +1,54 @@
+.input-accordion {
+	position: absolute;
+	opacity: 0;
+	z-index: -1;
+}
+.accordion {
+	border-radius: 5px;
+	overflow: hidden;
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.accordion-label {
+	padding: 48px;
+	flex-direction: row;
+	gap: 16px;
+
+	display: flex;
+	justify-content: space-between;
+	cursor: pointer;
+	background: #fff;
+	color: #333e49;
+	align-items: center;
+	width: full;
+	border-radius: 12px 12px 0px 0px;
+	border-color: #e4e4e4;
+	border-width: 1px;
+	border-style: solid;
+}
+
+@media (max-width: 768px) {
+	.accordion-label {
+		padding: 32px;
+		flex-direction: column;
+		gap: 8px;
+	}
+}
+
+.accordion-content {
+	max-height: 0;
+	overflow: hidden;
+	display: none;
+	transition: all 0.4s;
+}
+
+.input-accordion:checked ~ .accordion-content {
+	max-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background: #f9f9f9;
+	transition: all 0.4s;
+	overflow: auto;
+}

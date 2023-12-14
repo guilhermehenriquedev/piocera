@@ -1,0 +1,824 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %}
+    <title>Selecione a Forma de pagamento</title>
+{% endblock title %}
+
+{% block css_head %}
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="{% static 'styles/componentes/modal.css' %}"/>
+{% endblock css_head %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block js_footer %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#number_credit_card').inputmask('9999 9999 9999 9999');
+        });
+
+        $(document).ready(function () {
+            $('#cvv').inputmask('999');
+        });
+
+        $(document).ready(function () {
+            $('#expiration_date').inputmask('99/9999');
+        });
+        $(document).ready(function () {
+            $('#phone').inputmask('(99) 9 9999-9999');
+        });
+        $(document).ready(function () {
+            $('#cep').inputmask('99999-999');
+        });
+
+    </script>
+    <script>
+        $('.select_method').click(function () {
+            let choice = $(this).attr('id');
+            $('.class_payment_form').val(choice);
+        });
+
+        $('#post-pix').submit(function () {
+            let $form = $('#post-pix');
+            let buttonGeraQrCode = $('#gera_qr_code');
+
+            buttonGeraQrCode.html('Carregando...');
+            buttonGeraQrCode.prop('disable', true);
+
+            $.post($form.attr('action'), $form.serialize(), function(result){
+                if (result.finalizado) {
+                    $('#pix_key').html('Chave PIX: ' + result.data_pix_key.qrcode_key);
+                    $('#pix_qrcode_image').html('<img height="250" width="250" alt="qrcode pix" src="data:image/png;base64,' + result.data_pix_key.qrcode_image + '" />');
+                    buttonGeraQrCode.html('Seguir para próxima página');
+                    buttonGeraQrCode.attr('type', 'button');
+                }
+            })
+
+        });
+
+        $('#gera_qr_code').click(function () {
+            let type = $(this).attr('type');
+
+            if (type === 'button') {
+                window.location.href = $(this).attr('next_page');
+            };
+
+        })
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="w-full h-full bg-white">
+        {% include 'inc/_subscription_top.html' %}
+
+        <div class="flex min-h-screen w-full px-8 lg:px-10 py-12 sm:py-24 flex-col gap-12 sm:gap-20 justify-center items-center lg:container mx-auto">
+
+            <div class="overflow-x-auto scrollbar flex flex-row justify-start items-center w-full text-base font-semibold text-[#475467] gap-2 sm:gap-10 lg:gap-1 text-center whitespace-nowrap">
+            {% include 'inc/_header_steps_form.html' with initial=1 competitorA=1 competitorB=1 payment=1 %}
+            </div>
+
+{#            <div class="w-full bg-[#DCB341] p-6 sm:px-8 py-10 gap-12 shadow-lg rounded-lg grid items-center justify-center text-center border">#}
+{#                <div class="text-4xl font-bold text-white uppercase">#}
+{#                    Lote promocional#}
+{#                    <div class="text-5xl font-bold text-white ">#}
+{#                        10% OFF#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-5">#}
+{#                    <a href="#modal-pix"#}
+{#                        id="pix"#}
+{#                        class="border bg-white py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method">#}
+{#                        <img class="h-24" src="{% static 'images/inscricao/pix.png' %}">#}
+{#                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">#}
+{#                            PIX#}
+{#                        </div>#}
+{#                    </a>#}
+{##}
+{#                    <a href="#modal-ted"#}
+{#                            class="border bg-white py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method">#}
+{#                        <img class="h-24" src="{% static 'images/inscricao/ted.png' %}">#}
+{#                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">#}
+{#                            Transferência Bancária<br/> (TED/DOC)#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="text-5xl font-bold text-white uppercase">#}
+{#                    Acaba em#}
+{#                </div>#}
+{#                <div class="flex flex-row gap-2 items-center text-white font-semibold justify-center">#}
+{#                    <div class="flex rounded-lg text-[#8FC74A] bg-white flex-col justify-center items-center p-2 w-[70px] sm:w-[80px]">#}
+{#                        <div class="text-4xl" id="dias">{{ dias }}</div>#}
+{#                        <div class="text-xs sm:text-sm">Dias</div>#}
+{#                    </div>#}
+{#                    <div class="flex rounded-lg text-[#8FC74A] bg-white flex-col justify-center items-center p-2 w-[70px] sm:w-[80px]">#}
+{#                        <div class="text-4xl" id="horas">{{ horas }}</div>#}
+{#                        <div class="text-xs sm:text-sm">Horas</div>#}
+{#                    </div>#}
+{#                    <div class="flex rounded-lg text-[#8FC74A] bg-white flex-col justify-center items-center p-2 w-[70px] sm:w-[80px]">#}
+{#                        <div class="text-4xl" id="minutos">{{ minutos }}</div>#}
+{#                        <div class="text-xs sm:text-sm">Minutos</div>#}
+{#                    </div>#}
+{#                    <div class="flex rounded-lg text-[#8FC74A] bg-white flex-col justify-center items-center p-2 w-[70px] sm:w-[80px]">#}
+{#                        <div class="text-4xl" id="segundos">{{ segundos }}</div>#}
+{#                        <div class="text-xs sm:text-sm">Segundos</div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+            <div class="w-full p-6 sm:px-8 py-10 text-[#344054] gap-12 shadow-lg rounded-lg grid items-center justify-center text-center border">
+                <div class="text-2xl font-bold">
+                    Selecione a Forma de pagamento
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 w-full gap-5">
+                    <a href="#modal-pix"
+                        id="pix"
+                        class="border py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method">
+                        <img class="h-24" src="{% static 'images/inscricao/pix.png' %}">
+                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">
+                            PIX
+                        </div>
+                    </a>
+
+{#	                <a#}
+                    <a target="_blank" href="{% url 'payment_pagseguro' inscricao lot_slug %}?source_url={{ request.scheme }}://{{ request.get_host }}{{ request.path }}"
+                            class="border w-full py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method">
+                        <img class="h-12" src="https://seeklogo.com/images/P/pagbank-logo-11812EDA89-seeklogo.com.png">
+                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">
+                            Cartão de crédito
+                        </div>
+                    </a>
+
+                    <a href="#modal-ted"
+                            class="border py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method">
+                        <img class="h-24" src="{% static 'images/inscricao/ted.png' %}">
+                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">
+                            Transferência Bancária<br/> (TED/DOC)
+                        </div>
+                    </a>
+                </div>
+                <a href="#modal-sem-pagamento" class="underline text-base">
+                    Prosseguir e realizar o pagamento posteriormente
+                </a>
+            </div>
+
+
+{#            <div class="w-full p-6 sm:px-8 py-10 text-[#344054] gap-12 flex flex-col shadow-lg rounded-lg items-center justify-center text-center border">#}
+{#                <div class="text-2xl font-bold">#}
+{#                    Selecione a Forma de pagamento#}
+{#                </div>#}
+{#                <div class="flex flex-col sm:flex-row gap-12 flex-wrap items-stretch">#}
+{#                    <button type="button"#}
+{#                            name="pix-button"#}
+{#                            class="border py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method"#}
+{#                            id="PIX">#}
+{#                        <img class="h-24" src="{% static 'images/inscricao/pix.png' %}">#}
+{#                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">#}
+{#                            PIX#}
+{#                        </div>#}
+{#                    </button>#}
+{#                    <button type="button"#}
+{#                            name="credit-button"#}
+{#                            class="border py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center select_method"#}
+{#                            id="CREDIT_CARD">#}
+{#                        <img class="h-24" src="{% static 'images/inscricao/cc.png' %}">#}
+{##}
+{#                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">#}
+{#                            Cartão de Crédito#}
+{#                        </div>#}
+{#                    </button>#}
+{#                    <a href="#modal-ted" class="border py-5 md:py-9 px-12 md:px-16 text-[#344054] gap-2 flex flex-col shadow-lg rounded-lg items-center justify-center text-center">#}
+{#                        <img class="h-24" src="{% static 'images/inscricao/ted.png' %}">#}
+{#                        <div class="text-xl sm:text-2xl text-gray-500 font-bold">#}
+{#                            Transferência Bancária<br/> (TED/DOC)#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <a href="#modal-sem-pagamento" class="underline text-base">#}
+{#                    Prosseguir e realizar o pagamento posteriormente#}
+{#                </a>#}
+{#            </div>#}
+{##}
+{#            <form method="post" action="{% url 'payment_type' ano slug_modalidade slug_categoria lot_slug inscricao %}" id="post-pix" onsubmit="return false;">#}
+                {# seleção de metodo de pagamento #}
+{#                {% render_field order_form.payment_form style='display:none;' class='class_payment_form' %}#}
+{#                {% csrf_token %}#}
+                {# pix #}
+{#                <div class="border my-10 pix-card w-full p-6 sm:px-8 py-10 text-[#344054] gap-12 hidden flex-col shadow-lg rounded-lg">#}
+{#                    <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4 w-full items-stretch">#}
+{#                        {% include 'inc/_modality_category_top.html' %}#}
+{##}
+{#                        <div class="flex flex-col col-span-full gap-2">#}
+{#                            <label id="pix_key" for="pix" class="block text-sm font-semibold leading-6 h-full"></label>#}
+{#                            <div id="pix_qrcode_image"></div>#}
+{#                            <div class="mt-2 col-span-2">#}
+{#                                {% render_field order_form.pix class="flex w-full rounded-lg border border-gray-300 px-3 py-2 text-sm leading-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out" %}#}
+{#                            </div>#}
+{#                            <div class="flex w-full justify-between items-center gap-4">#}
+{#                                <button type="submit"#}
+{#                                        id="gera_qr_code"#}
+{#                                        next_page="{% url 'competitor_area.html' %}"#}
+{#                                        class="gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg bg-[#8FC74A] text-white shadow p-2">#}
+{#                                        Gerar QR Code#}
+{#                                    <svg#}
+{#                                            xmlns="http://www.w3.org/2000/svg"#}
+{#                                            fill="none"#}
+{#                                            viewBox="0 0 24 24"#}
+{#                                            stroke-width="1.5"#}
+{#                                            stroke="currentColor"#}
+{#                                            class="w-4 h-4 shrink-0 rotate-180"#}
+{#                                    >#}
+{#                                        <path#}
+{#                                                stroke-linecap="round"#}
+{#                                                stroke-linejoin="round"#}
+{#                                                d="M15.75 19.5L8.25 12l7.5-7.5"#}
+{#                                        />#}
+{#                                    </svg>#}
+{#                                </button>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+{##}
+{##}
+{#            <form method="post" action="">#}
+                {# seleção de metodo de pagamento #}
+{#                {% render_field order_form.payment_form style='display:none;' class='class_payment_form' %}#}
+{#                {% csrf_token %}#}
+                {# cartão #}
+{#                <div class="credit-card my-10 hidden flex-col gap-12">#}
+{#                    <div class="border w-full p-6 sm:px-8 py-10 text-[#344054] shadow-lg rounded-lg">#}
+{#                        <h3 class="text-xl font-semibold mb-5">Dados do Titular</h3>#}
+{#                        <div class="col-span-full grid grid-cols-1 sm:grid-cols-4 gap-3">#}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label for="name" class="block text-sm font-semibold leading-6 h-full">#}
+{#	                                Nome*#}
+{#                                </label>#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.name class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Nome" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.name.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.name.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{##}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label#}
+{#                                        for="email"#}
+{#                                        class="block text-sm font-semibold leading-6 h-full"#}
+{#                                >Email*</label#}
+{#                                >#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.email class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Email" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.email.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.email.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label#}
+{#                                        for="cpfCnpj"#}
+{#                                        class="block text-sm font-semibold leading-6 h-full"#}
+{#                                >CPF ou CNPJ*</label#}
+{#                                >#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.cpfCnpj class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="999.999.999-99" maxlength="14" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.cpfCnpj.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.cpfCnpj.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label#}
+{#                                        for="phone"#}
+{#                                        class="block text-sm font-semibold leading-6 h-full"#}
+{#                                >Telefone*</label#}
+{#                                >#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.phone class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="(99) 9 9999-9999" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.phone.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.phone.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label#}
+{#                                        for="postalCode"#}
+{#                                        class="block text-sm font-semibold leading-6 h-full"#}
+{#                                >CEP*</label#}
+{#                                >#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.postalCode class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="99999-999" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.postalCode.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.postalCode.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label#}
+{#                                        for="addressNumber"#}
+{#                                        class="block text-sm font-semibold leading-6 h-full"#}
+{#                                >Número da Casa*</label#}
+{#                                >#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.addressNumber class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex: 20" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.addressNumber.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.addressNumber.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                <label#}
+{#                                        for="addressComplement"#}
+{#                                        class="block text-sm font-semibold leading-6 h-full"#}
+{#                                >Complemento</label#}
+{#                                >#}
+{#                                <div class="mt-2 col-span-2">#}
+{#                                    {% render_field credit_card_holder_info_form.addressComplement class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Complemento" %}#}
+{##}
+{#                                    {% if credit_card_holder_info_form.addressComplement.errors %}#}
+{#                                        <div class="text-sm text-red-500">#}
+{#                                            {{ credit_card_holder_info_form.addressComplement.errors }}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{#                        </div>#}
+{##}
+{#                    </div>#}
+{##}
+{##}
+{#                    <div class="border w-full p-6 sm:px-8 py-10 text-[#344054] shadow-lg rounded-lg">#}
+{#                        <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-4 w-full items-stretch">#}
+{#                            {% include 'inc/_modality_category_top.html' %}#}
+{#                            <div class="col-span-full flex items-center gap-2 flex-row">#}
+                                {#                        <input#}
+                                {#                            type="text"#}
+                                {#                            name="hold_name"#}
+                                {#                            id="hold_name"#}
+                                {#                            class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+                                {#                            placeholder="NOME IMPRESSO"#}
+                                {#                        />#}
+{##}
+{#                                {% render_field form_card.hold_name class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="NOME IMPRESSO" %}#}
+{##}
+{#                                {% if form_card.hold_name.errors %}#}
+{#                                    <div class="text-sm text-red-500">#}
+{#                                        {{ form_card.hold_name.errors }}#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-span-full grid grid-cols-1 sm:grid-cols-5 gap-3">#}
+{##}
+{#                                <div class="col-span-1 sm:col-span-2 flex flex-col">#}
+{#                                    <label#}
+{#                                            for="number_credit_card"#}
+{#                                            class="block text-sm font-semibold leading-6 h-full"#}
+{#                                    >Dados do Cartão</label#}
+{#                                    >#}
+{#                                    <div class="mt-2 col-span-2">#}
+                                        {#                                <input#}
+                                        {#                                    type="text"#}
+                                        {#                                    id="cc"#}
+                                        {#                                    class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+                                        {#                                    placeholder="XXXX XXXX XXXX XXXX"#}
+                                        {#                                    maxlength="19"#}
+                                        {#                                />#}
+{#                                        {% render_field form_card.number_credit_card class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="XXXX XXXX XXXX XXXX" %}#}
+{##}
+{#                                        {% if form_card.number_credit_card.errors %}#}
+{#                                            <div class="text-sm text-red-500">#}
+{#                                                {{ form_card.number_credit_card.errors }}#}
+{#                                            </div>#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                </div>#}
+{##}
+{#                                <div class="col-span-1 sm:col-span-1 flex flex-col">#}
+{#                                    <label#}
+{#                                            for="number_credit_card"#}
+{#                                            class="block text-sm font-semibold leading-6 h-full"#}
+{#                                    >CVV</label#}
+{#                                    >#}
+{#                                    <div class="mt-2 col-span-2">#}
+                                        {#                            <input#}
+                                        {#                                type="text"#}
+                                        {#                                name="cvv"#}
+                                        {#                                id="cvv"#}
+                                        {#                                class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+                                        {#                                placeholder="CVV"#}
+                                        {#                                maxlength="16"#}
+                                        {#                            />#}
+{#                                        {% render_field form_card.cvv class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="CVV" maxlength="3" %}#}
+{##}
+{#                                        {% if form_card.cvv.errors %}#}
+{#                                            <div class="text-sm text-red-500">#}
+{#                                                {{ form_card.cvv.errors }}#}
+{#                                            </div>#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                </div>#}
+{##}
+{#                                <div class="col-span-1 sm:col-span-1 flex flex-col">#}
+{#                                    <label#}
+{#                                            for="number_credit_card"#}
+{#                                            class="block text-sm font-semibold leading-6 h-full"#}
+{#                                    >Validade</label#}
+{#                                    >#}
+{#                                    <div class="mt-2 col-span-2">#}
+                                        {#                                <input#}
+                                        {#                                    type="text"#}
+                                        {#                                    name="expiration_date"#}
+                                        {#                                    id="validade"#}
+                                        {#                                    class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+                                        {#                                    placeholder="00 / 00"#}
+                                        {#                                    maxlength="16"#}
+                                        {#                                />#}
+{#                                        {% render_field form_card.expiration_date class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="00 / 00" %}#}
+{##}
+{#                                        {% if form_card.expiration_date.errors %}#}
+{#                                            <div class="text-sm text-red-500">#}
+{#                                                {{ form_card.expiration_date.errors }}#}
+{#                                            </div>#}
+{#                                        {% endif %}#}
+{#                                    </div>#}
+{#                                </div>#}
+{##}
+{#                                <div class="col-span-1 sm:col-span-1 flex flex-col">#}
+{##}
+{#                                    <label#}
+{#                                            for="number_credit_card"#}
+{#                                            class="block text-sm font-semibold leading-6 h-full"#}
+{#                                    >Parcelamento</label#}
+{#                                    >#}
+{#                                    <div class="mt-2 col-span-2">#}
+{#                                        <select#}
+{#                                                type="text"#}
+{#                                                class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+{#                                                placeholder="00 / 00"#}
+{#                                                maxlength="16"#}
+{#                                                name="split_condictions"#}
+{#                                                id="split_condictions"#}
+{#                                        >#}
+{#                                            {% for parcela in parcelas %}#}
+{#                                                {% if parcela.parcela == 1 %}#}
+{#                                                    <option value='1'>A vista (R$ {{ parcela.valor }}) com juros</option>#}
+{#                                                {% else %}#}
+{#                                                    <option value="{{ parcela.parcela }}">{{ parcela.parcela }}x de#}
+{#                                                        R$ {{ parcela.valor }} com juros</option>#}
+{#                                                {% endif %}#}
+{#                                            {% endfor %}#}
+{#                                        </select>#}
+{#                                    </div>#}
+{#                                </div>#}
+{##}
+{#                            </div>#}
+{##}
+{#                            <div class="container">#}
+{#                                <div class="circles">#}
+{#                                    <div class="circle circle-1"></div>#}
+{#                                    <div class="circle circle-2"></div>#}
+{#                                </div>#}
+{##}
+                                {#                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-6">#}
+                                {#                        <div class="col-span-1 flex flex-col">#}
+                                {#                            <label#}
+                                {#                                for="subdivision"#}
+                                {#                                class="block text-sm font-semibold leading-6 h-full"#}
+                                {#                                >Parcelamento</label#}
+                                {#                            >#}
+                                {#                            <div class="mt-2 col-span-2">#}
+                                {#                                <input#}
+                                {#                                    type="number"#}
+                                {#                                    name="subdivision"#}
+                                {#                                    id="subdivision"#}
+                                {#                                    class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+                                {#                                    placeholder="2x"#}
+                                {#                                    maxlength="4"#}
+                                {#                                />#}
+                                {#                            </div>#}
+                                {#                        </div>#}
+                                {#                    </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <!--Quadro pagamento cartão-->#}
+{##}
+{#                    <div class="flex w-full justify-between items-center gap-4">#}
+{#                        <a href="#">#}
+{#                            <button type="button"#}
+{#                                    class="gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg border border-gray-50 shadow p-2">#}
+{#                                <svg#}
+{#                                        xmlns="http://www.w3.org/2000/svg"#}
+{#                                        fill="none"#}
+{#                                        viewBox="0 0 24 24"#}
+{#                                        stroke-width="1.5"#}
+{#                                        stroke="currentColor"#}
+{#                                        class="w-4 h-4 shrink-0"#}
+{#                                >#}
+{#                                    <path#}
+{#                                            stroke-linecap="round"#}
+{#                                            stroke-linejoin="round"#}
+{#                                            d="M15.75 19.5L8.25 12l7.5-7.5"#}
+{#                                    />#}
+{#                                </svg>#}
+{#                                Voltar#}
+{#                            </button>#}
+{#                        </a>#}
+{#                        <button type="submit"#}
+{#                                class="gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg bg-[#8FC74A] text-white shadow p-2">#}
+{#                            Salvar e Prosseguir#}
+{#                            <svg#}
+{#                                    xmlns="http://www.w3.org/2000/svg"#}
+{#                                    fill="none"#}
+{#                                    viewBox="0 0 24 24"#}
+{#                                    stroke-width="1.5"#}
+{#                                    stroke="currentColor"#}
+{#                                    class="w-4 h-4 shrink-0 rotate-180"#}
+{#                            >#}
+{#                                <path#}
+{#                                        stroke-linecap="round"#}
+{#                                        stroke-linejoin="round"#}
+{#                                        d="M15.75 19.5L8.25 12l7.5-7.5"#}
+{#                                />#}
+{#                            </svg>#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+        </div>
+    </div>
+
+
+    <div id="modal-sem-pagamento" class="modal">
+        <div class="modal__content">
+            <div class="w-full gap-8 flex flex-col p-6 sm:px-8 sm:py-5">
+                <div class="text-[#344054] font-bold text-2xl w-full text-center">
+                    Olá, {{ request.user.get_full_name }}!!
+                </div>
+                <div class="font-light text-base text-center w-full">
+                    Você optou por finalizar a inscrição sem realizar o pagamento, Fique Atento para não perder os
+                    prazos de pagamento!! Você pode ter acesso ao pagamento a qualquer momento (dentro do prazo) na Área
+                    do Competidor.
+                </div>
+                <a href="{% url 'home' %}" class="w-full">
+                    <a
+                            href="{% url 'competitor_area.html' %}"
+                            class="w-full bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-lg"
+                    >
+                        Ir para área do Competidor
+                    </a>
+                </a>
+            </div>
+
+            <a href="#" class="modal__close">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5 shrink-0"
+                >
+                    <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                    />
+                </svg>
+            </a>
+        </div>
+    </div>
+    <div id="modal-ted" class="modal">
+        <div class="modal__content">
+            <div class="w-full gap-2 flex flex-col p-6 sm:px-8 sm:py-5">
+                <div class="text-[#344054] font-bold text-2xl w-full text-center">
+                    PAGAMENTO POR TRANSFERÊNCIA BANCÁRIA
+                </div>
+                <div class="text-xl font-bold text-center">
+                    Valor
+                </div>
+                <div class="text-4xl font-bold text-center text-[#0FA958]">
+{#                    R${{ value_discont_final }}#}
+                    R${{ lot.price }}
+                </div>
+                <div>
+                    <div class="flex">
+                        <h3>Banco:</h3> <span
+                            class="ml-2 font-bold">{{ account_bank.bank_number }} - {{ account_bank.bank_name|upper }}</span>
+                    </div>
+                    <div class="flex">
+                        <h3 class="text-bold">Agência:</h3> <span
+                            class="ml-2 font-bold">{{ account_bank.agency }}</span>
+                    </div>
+                    <div class="flex">
+                        <h3 class="text-bold">Conta {{ account_bank.get_account_type_display|title }}:</h3> <span
+                            class="ml-2 font-bold">{{ account_bank.account_number }}</span>
+                    </div>
+                    <div class="flex">
+                        <h3 class="text-bold">{{ account_bank.get_type_document_display|upper }}:</h3> <span
+                            class="ml-2 font-bold">{{ account_bank.document }}</span>
+                    </div>
+                </div>
+
+                <div class="font-bold">
+                    Após realizado o pagamento da taxa de inscrição, envie o comprovante de pagamento para o WhatsApp abaixo:
+                </div>
+
+                <div>
+                    <a href="https://api.whatsapp.com/send?phone={{ account_bank.phone_for_send_comprovation }}&text=Meu%20c%C3%B3digo%20de%20inscri%C3%A7%C3%A3o%3A%20{{ registration.registration_number }}%0AModalidade%3A%20{{ category_modality.modality_edition.modality.name }}%0ACategoria%3A{{ category_modality.category.name }}%0ALote%3A{{ lot.name }}%0ANome%3A{{ full_name_user }}%0A"
+{#                    <a href="https://api.whatsapp.com/send?phone={{ account_bank.phone_for_send_comprovation }}"#}
+                       class="w-full bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-lg"
+                       target="_blank" title="Enviar comprovante">
+	                    <button>
+	                        Whatsapp
+	                        {{ account_bank.phone_for_send_comprovation }}
+	                    </button>
+                        </a>
+	                <div class="text-center text-sm text-gray-600 w-full">
+                        Clique sobre o número para abrir o WhatsApp
+	                </div>
+	                <a href="{% url 'competitor_area.html' %}"
+                        class="w-full mt-5 border-[#8FC74A] border text-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-lg">
+                        Ir para área do Competidor
+	                </a>
+                </div>
+            </div>
+
+            <a href="#" class="modal__close">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5 shrink-0"
+                >
+                    <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                    />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <div id="modal-pix" class="modal">
+        <div class="modal__content">
+            <div class="w-full gap-5 flex flex-col p-6 sm:px-8 sm:py-5">
+                <div class="text-[#344054] font-bold text-2xl w-full text-center">
+                    PAGAMENTO POR PIX
+                </div>
+                <div class="text-xl font-bold text-center">
+                    Valor
+                </div>
+                <div class="text-4xl font-bold text-center text-[#0FA958]">
+{#                    R${{ value_discont_final }}#}
+                    R${{ lot.price }}
+                </div>
+                <div class="text-2xl font-bold text-center text-[#0FA958]">
+                    Transfira o valor acima para a chave Pix abaixo:
+                </div>
+                <div class="text-2xl font-bold text-center">
+                    CNPJ: 02.180.530/0001-94
+                </div>
+                <button id="btnCopiar" class="flex items-center justify-center border border-white hover:border-gray-100 hover:text-blue-600">
+                    <img class="h-5 px-1" src="{% static '/images/admin/copyicon.svg' %}"/>
+                    <div>Copiar Chave PIX</div>
+                </button>
+                <div class="font-bold text-center">
+                    Após realizado o pagamento da taxa de inscrição, envie o comprovante de pagamento para o WhatsApp abaixo:
+                </div>
+
+                <div>
+                    <a href="https://api.whatsapp.com/send?phone={{ account_bank.phone_for_send_comprovation }}&text=Meu%20c%C3%B3digo%20de%20inscri%C3%A7%C3%A3o%3A%20{{ registration.registration_number }}%0AModalidade%3A%20{{ category_modality.modality_edition.modality.name }}%0ACategoria%3A{{ category_modality.category.name }}%0ALote%3A{{ lot.name }}%0ANome%3A{{ full_name_user }}%0A"
+                       class="w-full bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-lg"
+                       target="_blank" title="Enviar comprovante">
+	                    <button>
+	                        Whatsapp
+	                        {{ account_bank.phone_for_send_comprovation }}
+	                    </button>
+                        </a>
+	                <div class="text-center text-sm text-gray-600 w-full">
+                        Clique sobre o número para abrir o WhatsApp
+	                </div>
+	                <a href="{% url 'competitor_area.html' %}"
+                        class="w-full mt-5 border-[#8FC74A] border text-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-lg">
+                        Ir para área do Competidor
+	                </a>
+                </div>
+            </div>
+
+            <a href="#" class="modal__close">
+                <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-5 h-5 shrink-0"
+                >
+                    <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 18L18 6M6 6l12 12"
+                    />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <script src="{% static 'components/inscricao/paymentInfoCards.js' %}"></script>
+
+    <script>
+    $(document).ready(function() {
+      $("#btnCopiar").click(function() {
+        // Cria um elemento de input oculto
+        var inputElement = $("<input>");
+
+        // Define o valor do elemento como o número a ser copiado
+        inputElement.val("02.180.530/0001-94");
+
+        // Anexa o elemento ao corpo do documento
+        $(document.body).append(inputElement);
+
+        // Copia o valor do elemento para a área de transferência
+        inputElement.select();
+        document.execCommand("copy");
+
+        // Remove o elemento do corpo do documento
+        inputElement.remove();
+        $("#btnCopiar").text("Chave PIX copiada!");
+      });
+    });
+  </script>
+
+        <script>
+    $(document).ready(function() {
+        let countDownDate = new Date("2023-05-17T21:00:00-03:00").getTime();
+
+        let x = setInterval(function() {
+            let now = new Date().getTime();
+            let distance = countDownDate - now;
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            $("#dias").html(days);
+            $("#horas").html(hours);
+            $("#minutos").html(minutes);
+            $("#segundos").html(seconds);
+
+            if (distance < 0) {
+                clearInterval(x);
+                $("#dias").html(0);
+                $("#horas").html(0);
+                $("#minutos").html(0);
+                $("#segundos").html(0);
+            }
+        }, 1000);
+    });
+</script>
+
+
+{% endblock content %}
+
+{% block footer %}
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

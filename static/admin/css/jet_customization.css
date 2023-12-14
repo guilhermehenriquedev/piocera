@@ -1,0 +1,40 @@
+
+.input, .background-form .input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"], textarea {border:1px solid #ccc !important;}
+
+
+.select2-container--jet .select2-selection {border:1px solid #ccc !important;}
+
+.background-form .input,
+.background-form input[type="text"],
+.background-form input[type="email"],
+.background-form input[type="password"],
+.background-form input[type="url"],
+.background-form input[type="number"], .background-form textarea {border:1px solid #ccc !important;}
+
+
+.changeform-tabs-item a, .changeform-tabs-item a:hover, .changeform-tabs-item a:visited,
+.module .form-row {color:#444;}
+
+.breadcrumbs a, .breadcrumbs a:visited, .breadcrumbs a:hover {color:#444 !important;}
+
+
+::-webkit-input-placeholder {
+   color: #222 !important;
+}
+
+:-moz-placeholder {
+   color: #222 !important;
+}
+
+::-moz-placeholder {
+   color: #222 !important;
+}
+
+:-ms-input-placeholder {
+   color: #222 !important;
+}

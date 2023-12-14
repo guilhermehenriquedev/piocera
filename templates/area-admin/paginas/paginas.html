@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="/tailwind.config.js"></script>
+		<script src="/components/global.js"></script>
+		<script src="/components/admin/painel.js"></script>
+		<link rel="stylesheet" type="text/css" href="/styles/global.css" />
+		<title>Páginas | Área de Admin</title>
+		<link rel="icon" type="image/x-icon" href="/images/logos/branca.png" />
+	</head>
+	<body>
+		<div class="w-full h-full bg-[#656667]">
+			<div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+				<painel-lateral></painel-lateral>
+
+				<div
+					class="overflow-y-auto max-h-screen flex w-full gap-7 flex-col pt-7 pb-12 px-5 bg-white sm:rounded-tl-3xl"
+				>
+					<div
+						class="w-full flex items-start sm:items-center gap-2 flex-col sm:flex-row justify-start sm:justify-between"
+					>
+						<div
+							class="w-full font-semibold text-2xl whitespace-nowrap"
+						>
+							Páginas Cerapió 2024
+						</div>
+						<a
+							href="/pages/area-admin/paginas/novaPagina.html"
+							class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+						>
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 20 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M10.0003 4.16602V15.8327M4.16699 9.99935H15.8337"
+									stroke="white"
+									stroke-width="1.66667"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+
+							<div
+								class="font-semibold text-sm text-white whitespace-nowrap"
+							>
+								Criar nova página
+							</div>
+						</a>
+					</div>
+					<div class="w-full flex flex-col gap-8">
+						<div
+							class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4"
+						>
+							<div class="h-0.5 bg-gray-100 w-full"></div>
+							<div class="text-sm font-semibold">
+								Páginas já criadas
+							</div>
+							<div class="h-0.5 bg-gray-100 w-full"></div>
+						</div>
+						<div class="flex flex-col w-full justify-start gap-6">
+							<div
+								class="text-[#344054] flex flex-col gap-6 w-full"
+							>
+								<div
+									class="border rounded-lg flex py-3 px-6 w-full flex-col justify-start gap-3"
+								>
+									<div class="text-base font-semibold">
+										Página XXXXXXX
+									</div>
+									<div
+										class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+									>
+										<div
+											class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+										>
+											<div class="text-sm font-semibold">
+												Menu: O Evento
+											</div>
+										</div>
+										<div
+											class="flex flex-row gap-3 items-center"
+										>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
+								<div
+									class="border rounded-lg flex py-3 px-6 w-full flex-col justify-start gap-3"
+								>
+									<div class="text-base font-semibold">
+										Página EDITAL DO EVENTO
+									</div>
+									<div
+										class="border rounded-lg flex py-2 px-6 w-full flex-row justify-between items-center"
+									>
+										<div
+											class="flex flex-row gap-y-3 gap-x-6 items-center justify-start flex-wrap"
+										>
+											<div class="text-sm font-semibold">
+												Menu: O Evento
+											</div>
+										</div>
+										<div
+											class="flex flex-row gap-3 items-center"
+										>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M2.39686 15.5973C2.43515 15.2527 2.45429 15.0804 2.50642 14.9194C2.55268 14.7765 2.61802 14.6405 2.70069 14.5152C2.79388 14.3739 2.91645 14.2513 3.1616 14.0061L14.1669 3.0009C15.0873 2.08043 16.5797 2.08043 17.5002 3.0009C18.4207 3.92138 18.4207 5.41376 17.5002 6.33424L6.49493 17.3395C6.24978 17.5846 6.12721 17.7072 5.9859 17.8004C5.86054 17.883 5.72457 17.9484 5.5817 17.9946C5.42067 18.0468 5.24838 18.0659 4.9038 18.1042L2.0835 18.4176L2.39686 15.5973Z"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+											<button type="button">
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 20 21"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M13.3333 5.49935V4.83268C13.3333 3.89926 13.3333 3.43255 13.1517 3.07603C12.9919 2.76243 12.7369 2.50746 12.4233 2.34767C12.0668 2.16602 11.6001 2.16602 10.6667 2.16602H9.33333C8.39991 2.16602 7.9332 2.16602 7.57668 2.34767C7.26308 2.50746 7.00811 2.76243 6.84832 3.07603C6.66667 3.43255 6.66667 3.89926 6.66667 4.83268V5.49935M8.33333 10.0827V14.2493M11.6667 10.0827V14.2493M2.5 5.49935H17.5M15.8333 5.49935V14.8327C15.8333 16.2328 15.8333 16.9329 15.5608 17.4677C15.3212 17.9381 14.9387 18.3205 14.4683 18.5602C13.9335 18.8327 13.2335 18.8327 11.8333 18.8327H8.16667C6.76654 18.8327 6.06647 18.8327 5.53169 18.5602C5.06129 18.3205 4.67883 17.9381 4.43915 17.4677C4.16667 16.9329 4.16667 16.2328 4.16667 14.8327V5.49935"
+														stroke="#475467"
+														stroke-width="1.66667"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

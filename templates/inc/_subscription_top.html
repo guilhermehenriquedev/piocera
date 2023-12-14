@@ -1,0 +1,12 @@
+{% load static %}
+
+
+<div class="flex-wrap text-lg sm:text-xl lg:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+        style="
+                background-image: url({% static 'images/inscricao/faixaInscricao.png' %});
+                ">
+    Modalidade
+    <span class="uppercase mx-2 font-bold">{{ category_modality.modality_edition.modality.name }}</span> -
+    Categoria:
+    <span class="ml-2 font-bold">{{ category_modality.category.name }}</span>
+</div>

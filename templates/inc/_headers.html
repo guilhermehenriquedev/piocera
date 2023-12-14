@@ -1,0 +1,85 @@
+{% load static %}
+{% load website_tags %}
+
+<nav>
+    <div class="px-10 flex items-center bg-[#386380] justify-between font-bold">
+        <a href="{% url 'home' %}">
+            {% logo request edition.ano as logos %}
+            <img alt="" src="{{ logos.SITE_LOGO_BRANCA }}" class="p-4 w-32 shrink-0"/>
+        </a>
+        <ul id="nav_links" class="hidden flex flex-col lg:block">
+            <li><a href="/">HOME</a></li>
+            {% for category_page in MENU %}
+                {% if category_page.name.upper != 'ÁREA DO COMPETIDOR' %}
+                    <li>
+                        {% if category_page.page_set.all %}
+                            <a class="uppercase" href="#">{{ category_page.name }}</a>
+                            {% if category_page.page_set.all %}
+                                <ul>
+                                    {% for page in category_page.page_set.all|dictsort:'position' %}
+                                        {% if page.status == 3 %}
+                                            <li>
+                                                {% if page.external_link %}
+                                                    <a href="{{ page.external_link }}"
+                                                       target="_blank">{{ page.title }}</a>
+                                                {% else %}
+                                                    <a href="{{ page.get_absolute_url }}">{{ page.title }}</a>
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <ul></ul>
+                            {% endif %}
+                        {% else %}
+                            <a class="uppercase"
+                               href="{{ category_page.get_absolute_url }}">{{ category_page.name }}</a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+
+
+
+
+            <li><a href="#">ÁREA DO COMPETIDOR</a>
+                <ul>
+                    <li><a href="
+                            {% if request.user.is_authenticated %}
+{% url 'competitor_area.html' %}
+{% else %}{% url 'entrar' %}?next={% url 'competitor_area.html' %}{% endif %}">ACESSAR
+                        ÁREA DO COMPETIDOR</a></li>
+                    <li><a class="uppercase" href="{% url 'modality' CURRENT_EDITION %}">GARANTA SUA INSCRIÇÃO</a></li>
+                    {% for pages in PAGES_COMPETIDOR %}
+                        {% if pages.external_link %}
+                            <li><a class="uppercase" href="{{ pages.external_link }}"
+                                   target="_blank">{{ pages.title }}</a></li>
+                        {% else %}
+                            <li><a class="uppercase" href="{{ pages.get_absolute_url }}">{{ pages.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            {% include 'inc/_menu_user.html' with butao_inscricao=True %}
+        </ul>
+        <input type="checkbox" id="checkbox_toggle_home" class="input-navbar"/>
+        <label for="checkbox_toggle_home" class="text-white lg:hidden hamburger">&#9776;</label>
+    </div>
+</nav>
+
+<script>
+    $('nav li').hover(
+        function () {
+            $('ul', this).stop().slideDown(200);
+        },
+        function () {
+            $('ul', this).stop().slideUp(200);
+        });
+
+    $("#checkbox_toggle_home").click(function () {
+        $("#nav_links").toggleClass("hidden");
+    });
+
+</script>

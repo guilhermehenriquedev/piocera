@@ -1,0 +1,114 @@
+<!-- upload_documents.html -->
+{% extends 'base.html' %} {% load cloudinary %} {% load static %} {% load competitortags %}
+
+{% block title %} <title>Área de Competidor | Início</title> {% endblock title %}
+
+{% block navbar %} {% include 'inc/_headers.html' %} {% endblock navbar %}
+
+{% block content %}
+    <div class="w-full h-full bg-[#656667]">
+        <div class="flex flex-col-reverse md:flex-row w-full min-h-screen"> {% include 'inc/_menu_admin.html' %}
+            <div class="flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl">
+                <div class="flex justify-center items-center mb-5">
+                    <select id="modality" name="modality"
+                            class="font-semibold text-sm text-gray-700 justify-center w-full py-2 px-3 bg-white rounded-md border shadow"
+                            onchange="updateURL()">
+                        <option value="?q=all_modality" {% if selected_modality_id is None %}selected{% endif %}>Todas
+                            as Modalidades
+                        </option>
+                        {% for mod in modality %}
+                            <option value="?modality_id={{ mod.id }}"
+                                    {% if selected_modality_id == mod.id %}selected{% endif %}>{{ mod.modality.name }}
+                                - {{ mod.edition.ano }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="text-center mb-5">
+                    {% if selected_modality_id %}
+                        <h3 class="text-lg font-semibold text-gray-700">Modalidade
+                            Selecionada: {{ selected_modality.modality.name }}
+                            - {{ selected_modality.edition.ano }}</h3>
+                    {% else %}
+                        <h3 class="text-lg font-semibold text-gray-700">Todas as
+                            Modalidades</h3>
+                    {% endif %}
+                </div>
+                <div class="flex overflow-x">
+                    {% for item in list_item %}
+                        <div class="m-2 shadow p-1 bg-gray-50 flex flex-col w-full rounded border border-gray-500">
+                            <div class="bg-gray-100 mb-3 text-center rounded border border-gray-500 p-2">
+                                {{ item.text }}
+                            </div>
+
+                            {% for competitor in competitors %}
+                                {% with competitor_check_list=competitor.competitorchecklist_set.all %}
+                                    {% for comp_check in competitor_check_list %}
+                                    {% if item in comp_check.check_list_item_concluded.all %}
+                                        <div class="bg-white text-center mb-3 mx-2 rounded border border-gray-500 p-2">
+                                            <div class="mb-1 font-bold">
+                                                {{ competitor.user.first_name }}
+                                                {{ competitor.user.last_name }}
+                                            </div>
+                                            <div class="mb-2">
+                                                Último item concluído: {{ item.text }}
+                                            </div>
+                                            <div class="mb-1">
+                                                {{ competitor.registration }}
+                                            </div>
+                                            <div class="mb-1">
+                                                {{ competitor.registration.lot.category_modality.category.name }}
+                                                - {{ competitor.registration.lot.category_modality.modality_edition.modality.name }}
+                                            </div>
+                                            <div>
+                                                {% if competitor.registration.team %}
+                                                    Equipe: {{ competitor.registration.team.name }}
+                                                {% else %}
+                                                    Sem equipe
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="flex justify-center mt-5">
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if competitors.has_previous %}
+                                <a href="?page=1">&laquo; primeira</a>
+                                <a href="?page={{ competitors.previous_page_number }}">anterior</a>
+                            {% endif %}
+
+                            <span class="current-page">Página {{ competitors.number }} de {{ competitors.paginator.num_pages }}.</span>
+
+                            {% if competitors.has_next %}
+                                <a href="?page={{ competitors.next_page_number }}">próxima</a>
+                                <a href="?page={{ competitors.paginator.num_pages }}">última &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateURL() {
+            const selectModality = document.getElementById('modality');
+            const selectedOption = selectModality.options[selectModality.selectedIndex];
+            const value = selectedOption.value;
+
+            if (value === '?q=all_modality') {
+                window.location.href = window.location.pathname;
+            } else {
+                const modalityId = value.split('=')[1];
+                const url = new URL(window.location.href);
+                url.searchParams.set('modality_id', modalityId);
+                window.location.href = url.href;
+            }
+        }
+    </script>
+{% endblock content %}

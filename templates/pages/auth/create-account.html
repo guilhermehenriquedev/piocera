@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    <title>Criar conta</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="w-full h-full bg-white flex justify-center items-center p-6 sm:p-16">
+        <div class="flex flex-col gap-10 justify-center items-center rounded-lg border shadow w-full max-w-screen-md">
+            <div class="flex w-full justify-center items-center py-14 px-6 bg-cover bg-no-repeat bg-bottom"
+                 style="background-image: url({% static 'images/accounts/decorationBorder.png' %});">
+                <img src="{% static 'images/logos/cerapioBranca.png' %}" class="shrink-0"/>
+            </div>
+            <div class="flex w-full px-4 sm:px-14 md:px-28 pb-6 sm:pb-11 gap-8 flex-col">
+                <div class="flex flex-col gap-10 w-full">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="text-2xl sm:text-3xl font-semibold text-gray-700 text-center">Criar conta</div>
+                        <div class="w-full flex flex-col gap-6 pt-4">
+
+                            {% if messages %}
+                                {% for m in messages %}
+                                    <div>
+                                        {{ m }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <p class="font-semibold text-black font-sm">Seu nome</p>
+                                <p class="font-semibold text-black font-sm">Seu sobrenome</p>
+                                {% render_field form.first_name|attr:'autofocus' class='flex w-full rounded-md py-2 px-4 border border-[#232321]' placeholder='Nome' %}
+                                {% render_field form.last_name class='flex w-full rounded-md py-2 px-4 border border-[#232321]' placeholder='Sobrenome' %}
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                            <span>
+                                <p class="font-semibold text-black font-sm">Informe seu CPF</p>
+                                {% render_field form.cpf class='flex w-full rounded-md py-2 px-4 border border-[#232321]' id="cpf" placeholder='CPF' required='True' %}
+                                {% for error in form.cpf.errors %}
+                                    <p class="font-semibold text-red-500 font-sm">{{ error }}</p>
+                                {% endfor %}
+                            </span>
+                                <span>
+                                    <p class="font-semibold text-black font-sm">Data de Aniversário</p>
+                                    {% render_field form.birthdate class='flex w-full rounded-md py-2 px-4 border border-[#232321]' %}
+                                    {% for error in form.birthdate.errors %}
+                                        <p class="font-semibold text-red-500 font-sm">Você deve ter +18 anos</p>
+                                    {% endfor %}
+                                </span>
+                            </div>
+
+                            <span>
+                            <p class="font-semibold text-black font-sm">Informe um E-mail válido (Obs: Será seu login)</p>
+                            {% render_field form.username class='flex w-full rounded-md py-2 px-4 border border-[#232321]' placeholder='E-mail' type='email' %}
+                                {% for error in form.username.errors %}
+                                    <p class="font-semibold text-red-500 font-sm">{{ error }}</p>
+                                {% endfor %}
+                            </span>
+                            <span>
+                                <p class="font-semibold text-black font-sm">Crie sua senha para acesso ao sistema</p>
+                                {% render_field form.password1 class='flex w-full rounded-md py-2 px-4 border border-[#232321]' placeholder='Senha' %}
+                                {% for error in form.password1.errors %}
+                                    <p class="font-semibold text-red-500 font-sm">{{ error }}</p>
+                                {% endfor %}
+                            </span>
+                            <span>
+                                <p class="font-semibold text-black font-sm">Repita a senha</p>
+                                {% render_field form.password2 class='flex w-full rounded-md py-2 px-4 border border-[#232321]' placeholder='Senha' %}
+                                {% for error in form.password2.errors %}
+                                    <p class="font-semibold text-red-500 font-sm">{{ error }}</p>
+                                {% endfor %}
+                            </span>
+
+                            <div>
+                            <span style="display: flex; fex-direction: row;">
+                                {% render_field form.lgpd_acceptance|attr:'style:width: 20px; height: 20px; margin-right: 5px' class='flex w-full rounded-md py-2 px-4 border border-[#232321]' %}
+                                Aceito os termos e condições.
+                            </span>
+                                {% for error in form.lgpd_acceptance.errors %}
+                                    <p class="font-semibold text-red-500 font-sm">{{ error }}</p>
+                                {% endfor %}
+
+                            </div>
+
+
+                            <div class="text-lg sm:text-xl flex flex-col w-full gap-3 sm:gap-6 justify-center items-center text-center">
+                                <button
+                                        type="submit"
+                                        class="uppercase w-full bg-[#6C9F41] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-black shadow-md"
+                                >
+                                    Criar conta
+                                </button>
+                                <a href="{% url 'entrar' %}"
+                                   class="font-semibold text-sm sm:text-base text-[#6C9F41] mt-2">Já possui uma conta?
+                                    <span class="underline">Fazer login</span></a>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#cpf').inputmask('999.999.999-99');
+        });
+    </script>
+{% endblock content %}
+
+{% block footer %}{% endblock footer %}

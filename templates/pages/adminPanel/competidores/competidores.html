@@ -1,0 +1,870 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load competitortags %}
+{% load widget_tweaks %}
+{% block title %}
+    <title>Área de Competidor | Início</title>
+{% endblock title %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block css_head %}
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'styles/componentes/accordion.css' %}"
+    />
+
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'styles/componentes/modal.css' %}"
+    />
+
+{% endblock css_head %}
+
+
+{% block content %}
+    <div class="w-full h-full bg-[#656667]">
+    <div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+        {% include 'inc/_menu_admin.html' %}
+
+        <div class="flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl">
+            <div class="w-full flex lg:flex-row items-center gap-2 flex-col justify-between">
+                <div class="w-full font-semibold text-2xl whitespace-nowrap">
+                    Gerenciamento de Competidores
+                </div>
+                <div class="flex whitespace-nowrap flex-col sm:flex-row gap-2 items-center text-center w-full lg:w-auto">
+                    {#                        <select id="edition" name="edition"#}
+                    {#                                class="font-semibold text-sm text-gray-700 justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow">#}
+                    {#                            <option selected="selected" disabled>#}
+                    {#                                Selecione#}
+                    {#                            </option>#}
+                    {#                            <option>Cerapió 2024</option>#}
+                    {#                            <option>Piocerá 2023</option>#}
+                    {#                        </select>#}
+                    {#                        <button type="button"#}
+                    {#                                class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center">#}
+                    {#                            <svg#}
+                    {#                                    width="20"#}
+                    {#                                    height="20"#}
+                    {#                                    viewBox="0 0 20 20"#}
+                    {#                                    fill="none"#}
+                    {#                                    xmlns="http://www.w3.org/2000/svg"#}
+                    {#                            >#}
+                    {#                                <path#}
+                    {#                                        d="M10.0003 4.16602V15.8327M4.16699 9.99935H15.8337"#}
+                    {#                                        stroke="white"#}
+                    {#                                        stroke-width="1.66667"#}
+                    {#                                        stroke-linecap="round"#}
+                    {#                                        stroke-linejoin="round"#}
+                    {#                                />#}
+                    {#                            </svg>#}
+                    {##}
+                    {#                            <div class="font-semibold text-sm text-white">#}
+                    {#                                Adicionar Competidor#}
+                    {#                            </div>#}
+                    {#                        </button>#}
+                </div>
+            </div>
+            <div class="flex flex-col w-full gap-8 items-center justify-center">
+                <div class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4">
+                    <div class="h-0.5 bg-gray-100 w-full"></div>
+                    <div class="text-sm font-semibold">Competidores</div>
+                    <div class="h-0.5 bg-gray-100 w-full"></div>
+                </div>
+
+                <div class="flex flex-col w-full gap-8 items-center justify-center">
+                    <div class="flex w-full items-center justify-start">
+                        <a href="{% url 'dashboard_admin_modalidades' %}">
+                            <div class="text-[#344054] font-semibold gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg border border-gray-50 shadow p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor"
+                                     class="w-4 h-4 shrink-0"
+                                >
+                                    <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15.75 19.5L8.25 12l7.5-7.5"
+                                    />
+                                </svg>
+
+                                Retornar às Modalidades
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="flex w-full justify-between gap-4 items-center">
+                        <div class="text-2xl">{{ modality_edition.modality.name }}</div>
+                        <form method="get" class="flex gap-2">
+                            <input id="search" name="search" class="p-2 border rounded-md" type="text"
+                                   placeholder="Busca"/>
+                            <button type="submit" class="p-2 bg-blue-200 hover:bg-blue-300 text-blue-800 rounded-md">
+                                Buscar
+                            </button>
+                            <button id="clearSearch" class="p-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md">
+                                Limpar
+                            </button>
+                        </form>
+
+                        <div class="flex flex-row gap-3">
+                            <select id="edition" name="edition" class="p-2 border rounded-md">
+                                <option selected="selected" disabled>FILTRAR</option>
+                                <option>Exibir todos</option>
+                                <option>Exibir apenas confirmados</option>
+                                <option>Exibir não confirmados</option>
+                            </select>
+                            <a href="{% url 'exportar_csv_modalidty' modality_edition.id %}"
+                               class="p-2 bg-white text-gray-700 border rounded-md shadow">
+                                Exportar relatório ⇩
+                            </a>
+                        </div>
+                    </div>
+
+
+                    <div class="flex flex-col justify-start gap-6 w-full">
+                        {% for category in page_obj %}
+                            <div class="text-[#344054] flex flex-col gap-6 w-full">
+                            <div class="border rounded-lg flex py-3 px-6 w-full flex-col justify-start gap-3">
+                                <div class="flex w-full justify-between gap-4 items-center">
+                                    <div class="text-lg sm:text-xl font-semibold">
+                                        {{ category.category.name }}
+                                    </div>
+                                    <div class="text-sm font-semibold">
+                                        {{ category.inscritos }} inscritos
+                                    </div>
+                                </div>
+                                <div class="w-full flex gap-2 flex-col justify-start justify-items-start overflow-x-auto">
+                                    <div class="w-full flex gap-2 flex-col justify-start justify-items-start overflow-x-auto">
+                                        <div class="grid grid-cols-4">
+                                            <div class="w-[200px] shrink-0">
+                                                Inscrição
+                                            </div>
+                                            <div class="w-[200px] shrink-0">
+                                                Status
+                                            </div>
+                                            <div class="w-[200px] shrink-0">
+                                                Nome
+                                            </div>
+                                            <div class="w-[200px] shrink-0">
+                                                Equipe
+                                            </div>
+                                            <div class="w-[200px] shrink-0">
+                                                Veículo | Pneu
+                                            </div>
+
+                                        </div>
+                                        {% get_sorted_registrations registrations=category.registration as order_registration %}
+                                        {% for registration in order_registration %}
+
+                                            {# ACORDEON INICIO#}
+                                            <div class="accordion">
+                                            <input type="checkbox"
+                                                   id="tab-{{ registration }}-{{ registration.registration_number }}"
+                                                   class="input-accordion"/>
+                                            <label class="accordion-label rounded-lg bg-gray-200 hover:bg-gray-300 grid grid-cols-4 px-1 py-5 gap-0"
+                                                   for="tab-{{ registration }}-{{ registration.registration_number }}">
+                                                <p>
+                                                    {{ registration.registration_number }}
+                                                </p>
+                                                <p class="status-display" data-id="{{ registration.id }}">
+                                                    {{ registration.get_status_display }}
+                                                </p>
+
+                                                <p>
+                                                    {{ registration.names }}
+                                                </p>
+                                                <p>
+                                                    {{ registration.team.name }}
+                                                </p>
+                                                <p>
+                                                    {{ registration.vehicle_brand.name }} {{ registration.vehicle_model.name }}
+                                                    |
+                                                    {{ registration.tire_brand.name }} {{ registration.wheel_rim }}
+                                                </p>
+                                            </label>
+                                            <div class="accordion-content"
+                                                 style="justify-content: start !important;">
+                                                <div class="flex w-full gap-6 flex-col p-3">
+
+                                                    <div class="grid grid-cols-2 grid-rows-2 gap-1">
+                                                        <div class="">
+                                                            Valor:
+                                                            <span id="amount-{{ registration.history.id }}"
+                                                                  class="font-light">{{ registration.history.amount }}</span>
+                                                        </div>
+                                                        <div class="">
+                                                            Nº de parcelas:
+                                                            <span id="split-{{ registration.history.id }}"
+                                                                  class="font-light">{{ registration.history.split_condictions }}</span>
+                                                        </div>
+                                                        <div class="">
+                                                            Status do pagamento:
+                                                            <span id="status-{{ registration.history.id }}"
+                                                                  class="font-light">{{ registration.history.get_transaction_status_display }}</span>
+                                                        </div>
+
+                                                        <div class="">
+                                                            Pedido:
+                                                            <span class="font-light">{{ registration.history.order }}</span>
+                                                        </div>
+
+                                                        <div class="">
+                                                            Tipo de pagamento:
+                                                            <span id="payment-{{ registration.history.id }}"
+                                                                  class="font-light">{{ registration.history.get_billing_type_display }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <details>
+                                                        <summary class="cursor-pointer hover:underline">
+                                                            Modificar Categoria
+                                                        </summary>
+                                                        <form method="post"
+                                                              action="{% url 'update_registration_category' registration.id modality_edition.id %}"
+                                                              class="font-semibold text-sm rounded-2xl w-full flex flex-col gap-1 py-1">
+                                                            {% csrf_token %}
+                                                            Categoria da Inscrição:
+                                                            {% render_field lot_form.lot class="w-full bg-white py-2 rounded-lg border px-4" %}
+                                                            <span class="font-light"></span>
+                                                            <button class="bg-green-400 py-2 rounded-lg text-white hover:bg-green-500"
+                                                                    type="submit">
+                                                                Alterar Categoria
+                                                            </button>
+                                                        </form>
+                                                    </details>
+
+                                                    <details>
+                                                        <summary class="cursor-pointer hover:underline">
+                                                            Modificar Status da Inscrição
+                                                        </summary>
+                                                        <form method="post"
+                                                              action="{% url 'update_registration_remake' registration.history.id modality_edition.id %}"
+                                                              class="font-semibold text-sm rounded-2xl w-full flex flex-col gap-1 py-1">
+                                                            {% csrf_token %}
+                                                            Status da Inscrição:
+                                                            {# TODO: Aqui estou exibindo o status da inscrição, utilize essa variavel abaixo para exibir onde quiser dentro do form de sub. #}
+                                                            {#                                                                             <span class="font-light">{{ sub.registration.get_status_display }}</span>#}
+                                                            {% render_field registration_form.status class="w-full bg-white py-2 rounded-lg border px-4" %}
+                                                            <span class="font-light"></span>
+                                                            <button class="bg-green-400 py-2 rounded-lg text-white hover:bg-green-500"
+                                                                    type="submit">Atualizar Status
+                                                            </button>
+                                                        </form>
+                                                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                                                        <script>
+                                                            $("form[action='{% url 'update_registration_remake' registration.history.id modality_edition.id %}']").submit(function (e) {
+                                                                e.preventDefault();
+                                                                var form = $(this);
+                                                                var url = form.attr('action');
+                                                                var paymentId = form.data('payment-id');
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: url,
+                                                                    data: form.serialize(),
+                                                                    success: function (data) {
+                                                                        if (data.success) {
+                                                                            $('.status-display[data-id="' + data.id + '"]').text(data.status);
+                                                                            // Aqui você pode atualizar a exibição do status no template, se necessário
+                                                                        } else {
+                                                                            // Aqui você pode lidar com os erros
+                                                                            var errors = data.errors;
+                                                                            var error_message = "Erro ao atualizar o status da inscrição: \n";
+                                                                            for (var field in errors) {
+                                                                                error_message += field + ": " + errors[field] + "\n";
+                                                                            }
+                                                                            console.log(error_message);
+                                                                        }
+                                                                    }
+                                                                });
+                                                            });
+
+                                                        </script>
+                                                    </details>
+
+                                                    <details>
+                                                        <summary class="cursor-pointer hover:underline">
+                                                            Atualizar dados de pagamento
+                                                        </summary>
+                                                        <form id="update-payment-form-{{ forloop.counter }}"
+                                                              data-payment-id="{{ registration.history.id }}"
+                                                              method="post"
+                                                              action="{% url 'update_history_payment' registration.history.id modality_edition.id %}"
+                                                              class="font-semibold text-sm rounded-2xl w-full grid grid-cols-4 gap-4 py-1 px-2">
+                                                            {% csrf_token %}
+                                                            <div class="span-col-1">
+                                                                <p class="text-black">Forma de Pagamento</p>
+                                                                {% render_field form.billing_type|attr:"class:w-full bg-white py-2 rounded-lg border px-4" %}
+                                                                {% if form.billing_type.errors %}
+                                                                    <div class="text-sm text-red-500">
+                                                                        {{ form.billing_type.errors }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="span-col-1">
+                                                                <p class="text-black">Status do Pagamento</p>
+                                                                {% render_field form.transaction_status class="w-full bg-white py-2 rounded-lg border px-4" %}
+                                                                {% if form.transaction_status.errors %}
+                                                                    <div class="text-sm text-red-500">
+                                                                        {{ form.transaction_status.errors }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="span-col-1">
+                                                                <p class="text-black">Valor de Pagamento</p>
+                                                                {% render_field form.amount class="w-full py-2 rounded-lg border px-4" %}
+                                                                {% if form.amount.errors %}
+                                                                    <div class="text-sm text-red-500">
+                                                                        {{ form.amount.errors }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            <div class="span-col-1">
+                                                                <p class="text-black">Número de Parcelas</p>
+                                                                {% render_field form.split_condictions class="w-full py-2 rounded-lg border px-4" %}
+                                                                {% if form.split_condictions.errors %}
+                                                                    <div class="text-sm text-red-500">
+                                                                        {{ form.split_condictions.errors }}
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+
+                                                            <button class="bg-green-400 py-2 rounded-lg text-white hover:bg-green-500"
+                                                                    type="submit">
+                                                                Atualizar
+                                                            </button>
+                                                        </form>
+                                                    </details>
+                                                    <details>
+                                                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                                                        <script>
+                                                            $("#update-payment-form-{{ forloop.counter }}").submit(function (e) {
+                                                                e.preventDefault(); // impede o envio do formulário normal
+                                                                var form = $(this);
+                                                                var url = form.attr('action');
+                                                                var paymentId = form.data('payment-id');
+
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: url,
+                                                                    data: form.serialize(), // serializa os dados do formulário
+                                                                    success: function (data) {
+                                                                        if (data.success) {
+                                                                            console.log(data.payment)
+                                                                            // Atualiza os valores no template
+                                                                            $("#amount-" + paymentId).text(data.amount);
+                                                                            $("#split-" + paymentId).text(data.split);
+                                                                            $("#status-" + paymentId).text(data.status);
+                                                                            $("#payment-" + paymentId).text(data.payment);
+                                                                        } else {
+                                                                            alert("Erro ao atualizar os dados!");
+                                                                        }
+                                                                    }
+                                                                });
+                                                            });
+                                                        </script>
+
+                                                        <a href="{% url 'download_ficha' registration.id %}"
+                                                           class="bg-blue-700 hover:bg-blue-800 w-64 text-white text-center rounded-xl">
+                                                            Baixar ficha
+                                                        </a>
+
+                                                        {% for competitor in registration.competitorsregistration_set.all %}
+
+
+                                                            {#                                                            TODO: REPETIR TODOS OS COMPETIDORES COM MESMA INSCRIÇÃO -------------------------#}
+                                                            {# REPETIR ESSA DIV ----------------------#}
+                                                            <hr/>
+                                                            <div class="grid grid-cols-2 grid-rows-2 gap-1">
+                                                                <div class="">
+                                                                    Tipo:
+                                                                    <span class="font-light">{{ competitor.type.name }}</span>
+                                                                </div>
+                                                                <div class="">
+                                                                    Nome:
+                                                                    <span class="font-light">{{ competitor.user }}</span>
+                                                                </div>
+                                                                <div class="">
+                                                                    Apelido:
+                                                                    <span class="font-light">{{ competitor.user.nickname }}</span>
+                                                                </div>
+                                                                <div class="">
+                                                                    Inscrição:
+                                                                    <span class="font-light">{{ competitor.registration.registration_number }}</span>
+                                                                </div>
+                                                                <div class="">
+                                                                    Equipe:
+                                                                    <span class="font-light">{{ competitor.registration.team.name }}</span>
+                                                                </div>
+                                                                <div class="">
+                                                                    Veículo:
+                                                                    <span class="font-light"> {{ competitor.registration.vehicle_brand.name }} {{ competitor.registration.vehicle_model.name }}</span>
+                                                                </div>
+                                                                <div class="">
+                                                                    Pneus:
+                                                                    <span class="font-light">{{ competitor.registration.tire_brand.name }} {{ competitor.registration.wheel_rim }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mt-4 flex w-full flex-col gap-3">
+                                                            <div class="font-semibold text-sm">
+                                                                Conferência de Documentação:
+                                                            </div>
+                                                            {% if competitor.thermo %}
+                                                                <div class="flex flex-row flex-wrap w-full gap-2">
+                                                                <button type="button"
+                                                                        class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center w-full lg:w-auto justify-center">
+                                                                    <div class="font-semibold text-sm text-white">
+                                                                        Declaração de Responsabilidade
+                                                                    </div>
+                                                                    <svg width="18"
+                                                                         height="14"
+                                                                         viewBox="0 0 18 14"
+                                                                         fill="none"
+                                                                         xmlns="http://www.w3.org/2000/svg"
+                                                                    >
+                                                                        <path
+                                                                                d="M6.1136 13.725L0.263593 7.62349C-0.0878643 7.25692 -0.0878643 6.66256 0.263593 6.29596L1.53636 4.96843C1.88781 4.60182 2.4577 4.60182 2.80915 4.96843L6.75 9.07869L15.1908 0.274927C15.5423 -0.0916425 16.1122 -0.0916425 16.4636 0.274927L17.7364 1.60246C18.0879 1.96903 18.0879 2.56338 17.7364 2.92998L7.3864 13.7251C7.0349 14.0916 6.46506 14.0916 6.1136 13.725Z"
+                                                                                fill="#FDFDFD"></path>
+                                                                    </svg>
+                                                                </button>
+                                                            {% else %}
+                                                                <div class="flex flex-row flex-wrap w-full gap-2">
+                                                                <button type="button"
+                                                                        class="py-2 px-3 bg-gray rounded-md border flex flex-row gap-2 items-center w-full lg:w-auto justify-center">
+                                                                    <div class="font-semibold text-sm text-black ">
+                                                                        Declaração de Responsabilidade
+                                                                    </div>
+                                                                    <svg id="btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                         width="16"
+                                                                         height="16"
+                                                                         viewBox="0 0 16 16"
+                                                                         fill="none"
+                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8 0C3.58065 0 0 3.58065 0 8C0 12.4194 3.58065 16 8 16C12.4194 16 16 12.4194 16 8C16 3.58065 12.4194 0 8 0ZM9.84194 11.2935L6.99677 9.22581C6.89677 9.15161 6.83871 9.03548 6.83871 8.9129V3.48387C6.83871 3.27097 7.0129 3.09677 7.22581 3.09677H8.77419C8.9871 3.09677 9.16129 3.27097 9.16129 3.48387V7.92581L11.2097 9.41613C11.3839 9.54193 11.4194 9.78387 11.2935 9.95807L10.3839 11.2097C10.2581 11.3806 10.0161 11.4194 9.84194 11.2935Z"
+                                                                              fill="black"/>
+                                                                    </svg>
+                                                                </button>
+                                                            {% endif %}
+
+                                                        <script>
+                                                            var documentsArray = [];
+
+                                                            function carregarProximo(num, user, registration) {
+                                                                window.open('#modal-' + documentsArray[num] + '-' + user + '-' + registration, '_self');
+                                                            }
+
+                                                            function carregarAnterior(num, user, registration) {
+                                                                window.open('#modal-' + documentsArray[num - 2] + '-' + user + '-' + registration, '_self');
+                                                            }
+                                                        </script>
+                                                        {% for document in modality_edition.documents.all %}
+                                                            {% document_admin document competitor as competitor_document %}
+                                                            <script>
+                                                                documentsArray.push("{{ competitor_document.slug }}");
+                                                            </script>
+
+                                                            {% if document == competitor_document.document_type %}
+                                                                {% if competitor_document.approval_status == '1' or competitor_document.approval_status == '4' %}
+                                                                    <a id="btn-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                       href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                       class="justify-center lg:w-auto w-full py-2 px-3 bg-yellow-500 rounded-md border flex flex-row gap-2 items-center shadow">
+                                                                        <div id="btn-status-await-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             class="font-semibold text-sm text-white">
+                                                                            {{ competitor_document.document_type }}
+                                                                            - (Aguardando Envio)
+                                                                        </div>
+                                                                        <svg id="btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             width="16"
+                                                                             height="16"
+                                                                             viewBox="0 0 16 16"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M8 0C3.58065 0 0 3.58065 0 8C0 12.4194 3.58065 16 8 16C12.4194 16 16 12.4194 16 8C16 3.58065 12.4194 0 8 0ZM9.84194 11.2935L6.99677 9.22581C6.89677 9.15161 6.83871 9.03548 6.83871 8.9129V3.48387C6.83871 3.27097 7.0129 3.09677 7.22581 3.09677H8.77419C8.9871 3.09677 9.16129 3.27097 9.16129 3.48387V7.92581L11.2097 9.41613C11.3839 9.54193 11.4194 9.78387 11.2935 9.95807L10.3839 11.2097C10.2581 11.3806 10.0161 11.4194 9.84194 11.2935Z"
+                                                                                  fill="white"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                {% elif competitor_document.approval_status == '2' %}
+                                                                    <a id="btn-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                       href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                       class="justify-center lg:w-auto w-full py-2 px-3 bg-blue-400 rounded-md border flex flex-row gap-2 items-center shadow">
+                                                                        <div id="btn-status-await-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             class="font-semibold text-sm text-gray-700">
+                                                                            {{ competitor_document.document_type }}
+                                                                            - (Aguardando analise)
+                                                                        </div>
+                                                                        <svg id="btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             width="16"
+                                                                             height="16"
+                                                                             viewBox="0 0 16 16"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M8 0C3.58065 0 0 3.58065 0 8C0 12.4194 3.58065 16 8 16C12.4194 16 16 12.4194 16 8C16 3.58065 12.4194 0 8 0ZM9.84194 11.2935L6.99677 9.22581C6.89677 9.15161 6.83871 9.03548 6.83871 8.9129V3.48387C6.83871 3.27097 7.0129 3.09677 7.22581 3.09677H8.77419C8.9871 3.09677 9.16129 3.27097 9.16129 3.48387V7.92581L11.2097 9.41613C11.3839 9.54193 11.4194 9.78387 11.2935 9.95807L10.3839 11.2097C10.2581 11.3806 10.0161 11.4194 9.84194 11.2935Z"
+                                                                                  fill="black"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                {% elif competitor_document.approval_status == '3' %}
+                                                                    <a id="btn-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                       href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                       class="justify-center lg:w-auto w-full py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center shadow">
+                                                                        <div id="btn-status-await-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             class="font-semibold text-sm text-white">
+                                                                            {{ competitor_document.document_type }}
+                                                                            - (Validado)
+                                                                        </div>
+                                                                        <svg id="btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             width="18"
+                                                                             height="14"
+                                                                             viewBox="0 0 18 14"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg"
+                                                                        >
+                                                                            <path
+                                                                                    d="M6.1136 13.725L0.263593 7.62349C-0.0878643 7.25692 -0.0878643 6.66256 0.263593 6.29596L1.53636 4.96843C1.88781 4.60182 2.4577 4.60182 2.80915 4.96843L6.75 9.07869L15.1908 0.274927C15.5423 -0.0916425 16.1122 -0.0916425 16.4636 0.274927L17.7364 1.60246C18.0879 1.96903 18.0879 2.56338 17.7364 2.92998L7.3864 13.7251C7.0349 14.0916 6.46506 14.0916 6.1136 13.725Z"
+                                                                                    fill="#FDFDFD"
+                                                                            />
+                                                                        </svg>
+                                                                    </a>
+                                                                {% else %}
+                                                                    <a id="btn-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                       href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                       class="justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow">
+                                                                        <div id="btn-status-await-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             class="font-semibold text-sm text-gray-700">
+                                                                            {{ competitor_document.document_type }}
+                                                                            - (Cancelado)
+                                                                        </div>
+                                                                        <svg id="btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}"
+                                                                             width="16"
+                                                                             height="16"
+                                                                             viewBox="0 0 16 16"
+                                                                             fill="none"
+                                                                             xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M8 0C3.58065 0 0 3.58065 0 8C0 12.4194 3.58065 16 8 16C12.4194 16 16 12.4194 16 8C16 3.58065 12.4194 0 8 0ZM9.84194 11.2935L6.99677 9.22581C6.89677 9.15161 6.83871 9.03548 6.83871 8.9129V3.48387C6.83871 3.27097 7.0129 3.09677 7.22581 3.09677H8.77419C8.9871 3.09677 9.16129 3.27097 9.16129 3.48387V7.92581L11.2097 9.41613C11.3839 9.54193 11.4194 9.78387 11.2935 9.95807L10.3839 11.2097C10.2581 11.3806 10.0161 11.4194 9.84194 11.2935Z"
+                                                                                  fill="black"/>
+                                                                        </svg>
+                                                                    </a>
+                                                                {% endif %}
+
+                                                                <div id="modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                     class="modal">
+                                                                    <div class="modal__content w-full p-10 max-h-vh">
+                                                                        <a target="_blank"
+                                                                           href="{{ competitor_document.document_file.url }}"
+                                                                           class="cursor-pointer hover:underline">
+                                                                            Abrir em uma nova guia ➜
+                                                                        </a>
+
+                                                                        {% if competitor_document.document_file.url|lower|slice:'-3:' == 'pdf' %}
+                                                                            <iframe title="{{ doc.document_type.title }}"
+                                                                                    src="{{ competitor_document.document_file.url }}"
+                                                                                    width="100%" height="400"
+                                                                                    style="border:1px solid black;"></iframe>
+                                                                        {% else %}
+                                                                            <img alt=""
+                                                                                 src="{{ competitor_document.document_file.url }}"
+                                                                                 class="max-h-[350px] max-w-full rounded-lg"/>
+                                                                        {% endif %}
+                                                                        <div class="w-full flex flex-row gap-10">
+                                                                            <a class="bg-gray-100 hover:bg-gray-200 cursor-pointer px-2 text-black font-bold text-center py-3 rounded-lg"
+                                                                               onclick="carregarAnterior({{ forloop.counter }}, '{{ competitor.user.id }}', '{{ competitor.registration.registration_number }}')">
+                                                                                Voltar
+                                                                            </a>
+                                                                            <a href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}-negar"
+                                                                               class="bg-red-500 hover:bg-red-600 cursor-pointer w-full text-white font-bold text-center py-3 rounded-lg">Negar</a>
+
+                                                                            <a href="#tab-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                               id="btn-approve-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                               data-document-id-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}="{{ document.id }}"
+                                                                               data-competitor-id-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}="{{ competitor.user.id }}"
+                                                                               data-competitor-registration-id-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}="{{ competitor.id }}"
+                                                                               class="bg-green-500 hover:bg-green-600 cursor-pointer w-full text-white font-bold text-center py-3  rounded-lg">
+                                                                                Aprovar
+                                                                            </a>
+                                                                            <a class="bg-gray-100 hover:bg-gray-200 cursor-pointer px-2 text-black font-bold text-center py-3 rounded-lg"
+                                                                               onclick="carregarProximo({{ forloop.counter }}, '{{ competitor.user.id }}', '{{ competitor.registration.registration_number }}')">
+                                                                                Próximo
+                                                                            </a>
+                                                                        </div>
+                                                                        <a href="#tab-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                           class="modal__close text-red-600 text-bold">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none"
+                                                                                 viewBox="0 0 24 24"
+                                                                                 stroke-width="1.5"
+                                                                                 stroke="currentColor"
+                                                                                 class="w-5 h-5 shrink-0">
+                                                                                <path
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        d="M6 18L18 6M6 6l12 12"
+                                                                                />
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            {% else %}
+                                                                <a href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                   class="justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow">
+                                                                    <div class="font-semibold text-sm text-gray-700">{{ document }}
+                                                                    </div>
+                                                                    <svg width="16"
+                                                                         height="16"
+                                                                         viewBox="0 0 16 16"
+                                                                         fill="none"
+                                                                         xmlns="http://www.w3.org/2000/svg">
+                                                                        <path d="M8 0C3.58065 0 0 3.58065 0 8C0 12.4194 3.58065 16 8 16C12.4194 16 16 12.4194 16 8C16 3.58065 12.4194 0 8 0ZM9.84194 11.2935L6.99677 9.22581C6.89677 9.15161 6.83871 9.03548 6.83871 8.9129V3.48387C6.83871 3.27097 7.0129 3.09677 7.22581 3.09677H8.77419C8.9871 3.09677 9.16129 3.27097 9.16129 3.48387V7.92581L11.2097 9.41613C11.3839 9.54193 11.4194 9.78387 11.2935 9.95807L10.3839 11.2097C10.2581 11.3806 10.0161 11.4194 9.84194 11.2935Z"
+                                                                              fill="black"/>
+                                                                    </svg>
+                                                                </a>
+
+                                                            {% endif %}
+                                                            <script>
+                                                                var svgValidated = `
+                                                                                <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <path d="M6.1136 13.725L0.263593 7.62349C-0.0878643 7.25692 -0.0878643 6.66256 0.263593 6.29596L1.53636 4.96843C1.88781 4.60182 2.4577 4.60182 2.80915 4.96843L6.75 9.07869L15.1908 0.274927C15.5423 -0.0916425 16.1122 -0.0916425 16.4636 0.274927L17.7364 1.60246C18.0879 1.96903 18.0879 2.56338 17.7364 2.92998L7.3864 13.7251C7.0349 14.0916 6.46506 14.0916 6.1136 13.725Z" fill="#FDFDFD"/>
+                                                                                </svg>
+                                                                            `;
+                                                                $(document).ready(function () {
+                                                                    $('#btn-approve-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}').click(function () {
+                                                                        var documentId = {{ document.id }};
+                                                                        var competitorId = {{ competitor.user.id }};
+                                                                        var competitorRegistrationId = {{ competitor.id }};
+
+                                                                        var baseUrl = window.location.origin;
+                                                                        var url = baseUrl + '/aproved_document';
+                                                                        var csrfToken = '{{ csrf_token }}';
+                                                                        $.ajax({
+                                                                            url: url,
+                                                                            type: 'POST',
+                                                                            data: {
+                                                                                csrfmiddlewaretoken: csrfToken,
+                                                                                document_id: documentId,
+                                                                                competitor_id: competitorId,
+                                                                                competitor_registration_id: competitorRegistrationId
+                                                                            },
+
+                                                                            success: function (response) {
+                                                                                console.log(response)
+                                                                                let buttonId = 'btn-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}'
+                                                                                let document_btn = document.getElementById(buttonId);
+
+                                                                                let yellow_svg = document.getElementById('btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}')
+
+
+                                                                                try {
+                                                                                    document_btn.classList.remove('bg-yellow-500')
+                                                                                    document_btn.classList.remove('bg-blue-400')
+                                                                                    document_btn.classList.remove('bg-white')
+                                                                                    yellow_svg.remove()
+
+                                                                                } catch (e) {
+                                                                                    console.log('Não existe o elemento')
+                                                                                }
+                                                                                document_btn.classList.add('bg-[#79B142]')
+                                                                                let status = document.getElementById("btn-status-await-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}")
+
+                                                                                status.textContent = response.document_name + ' - (Aprovado)'
+                                                                                // Crie um elemento SVG para o segundo 'if' e adicione-o ao elemento 'yellow'
+                                                                                let svgElement = document.createElement('div');
+                                                                                svgElement.innerHTML = svgValidated.trim(); // Converta a string HTML para um elemento DOM
+
+                                                                                // Se o elemento 'svgElement' contiver um elemento SVG, adicione-o ao elemento 'yellow'
+                                                                                if (svgElement.firstChild instanceof SVGElement) {
+                                                                                    document_btn.appendChild(svgElement.firstChild);
+                                                                                }
+
+                                                                            },
+                                                                            error: function () {
+                                                                                alert('Ocorreu um erro ao enviar a solicitação.');
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                });
+                                                            </script>
+                                                            <div id="modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}-negar"
+                                                                 class="modal">
+                                                                <div class="modal__content w-full p-10 max-h-vh">
+                                                                    <form id="form-recuse-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.id }}"
+                                                                          class="w-full"
+                                                                          action="{% url 'recuse_document' document.slug competitor.user.id competitor.id %}">
+                                                                        {% csrf_token %}
+                                                                        {% render_field recuse_form.recuse_reason id="id_recuse_reason" placeholder="Escreva o motivo da recusa do documento aqui..." class="w-full p-5 bg-gray-200 border rounded-lg min-h-20" %}
+                                                                        {% if recuse_form.recuse_reason.errors %}
+                                                                            <div class="text-sm text-red-500">
+                                                                                {{ recuse_form.recuse_reason.errors }}
+                                                                            </div>
+                                                                        {% endif %}
+                                                                        <div class="w-full flex flex-row gap-10 pt-10">
+                                                                            <a href="#modal-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                               class="bg-gray-400 hover:bg-gray-500 cursor-pointer w-full text-white font-bold text-center py-3 rounded-lg">Cancelar</a>
+
+                                                                            <!-- Altere o atributo 'type' para 'button' em vez de 'submit' -->
+                                                                            <a href="#tab-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                               id="btn-recuse-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}"
+                                                                               type="button"
+                                                                               class="bg-red-500 hover:bg-green-600 cursor-pointer w-full text-white font-bold text-center py-3 rounded-lg">
+                                                                                Submeter Recusa
+                                                                            </a>
+                                                                        </div>
+                                                                    </form>
+
+
+                                                                </div>
+                                                                <script>
+                                                                    $(document).ready(function () {
+                                                                        $('#btn-recuse-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }}').click(function () {
+                                                                            // Obtenha o formulário usando o ID
+                                                                            var form = $('#form-recuse-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.id }}');
+                                                                            var formData = form.serializeArray();
+                                                                            var formDataObject = {};
+                                                                            $.map(formData, function (n, i) {
+                                                                                formDataObject[n['name']] = n['value'];
+                                                                            });
+                                                                            // Verifique se o campo recuse_reason está preenchido
+                                                                            if (!formDataObject['recuse_reason']) {
+                                                                                alert("Por favor, preencha o motivo da recusa.");
+                                                                                return; // Impedir o envio da solicitação se o campo estiver vazio
+                                                                            }
+                                                                            // Realize a requisição AJAX
+                                                                            $.ajax({
+                                                                                url: form.attr('action'), // Use a URL definida no atributo 'action' do formulário
+                                                                                type: 'POST',
+                                                                                data: formDataObject,
+                                                                                dataType: 'json', // Defina o tipo de dados esperado na resposta (JSON)
+
+                                                                                success: function (response) {
+                                                                                    let buttonId = 'btn-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}'
+                                                                                    let document_btn = document.getElementById(buttonId);
+                                                                                    let yellow_svg = document.getElementById('btn-svg-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}')
+
+
+                                                                                    try {
+                                                                                        document_btn.classList.remove('bg-[#79B142]')
+                                                                                        document_btn.classList.remove('bg-blue-400')
+                                                                                        document_btn.classList.remove('bg-white')
+                                                                                        yellow_svg.remove()
+                                                                                    } catch (e) {
+                                                                                        console.log('Não existe o elemento')
+                                                                                    }
+                                                                                    document_btn.classList.add('bg-yellow-500')
+                                                                                    let status = document.getElementById("btn-status-await-{{ document.slug }}-{{ competitor.user.id }}-{{ competitor.registration.registration_number }} - {{ competitor_document.document_type.title }}")
+
+                                                                                    status.textContent = response.document_name + ' - (Aguardando Envio)'
+                                                                                    // Crie um elemento SVG para o segundo 'if' e adicione-o ao elemento 'yellow'
+                                                                                    let svgElement = document.createElement('div');
+                                                                                    svgElement.innerHTML = svgValidated.trim(); // Converta a string HTML para um elemento DOM
+
+                                                                                    // Se o elemento 'svgElement' contiver um elemento SVG, adicione-o ao elemento 'yellow'
+                                                                                    if (svgElement.firstChild instanceof SVGElement) {
+                                                                                        document_btn.appendChild(svgElement.firstChild);
+                                                                                    }
+                                                                                },
+                                                                                error: function (xhr, status, error) {
+                                                                                    alert('Ocorreu um erro ao enviar a solicitação. Verifique o console do navegador para mais detalhes.');
+                                                                                }
+                                                                            });
+                                                                        });
+                                                                    });
+                                                                </script>
+
+                                                            </div>
+                                                        {% endfor %}
+
+
+
+                                                        </div>
+
+                                                        </div>
+
+                                                            {# ESSA DIV TERMINA AQUI --------------------------------------#}
+                                                        {% endfor %}
+
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            {# ACORDEON FIM#}
+
+                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="flex justify-center mt-5">
+                        <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; primeira</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                            {% endif %}
+
+                            <span class="current-page">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.</span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">próxima</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                            {% endif %}
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+        const clearSearchButton = document.getElementById("clearSearch");
+        const searchInput = document.getElementById("search");
+
+        clearSearchButton.addEventListener("click", function () {
+            searchInput.value = ""; // Limpa o valor do campo de busca
+            location.reload(); // Recarrega a página
+        });
+    </script>
+
+    <script>
+        var selectElement = document.getElementById('edition');
+
+        function atualizarURL() {
+            var selecionado = selectElement.value;
+            var url = window.location.href;
+            var parametro = '';
+
+            if (selecionado === 'Exibir apenas confirmados') {
+                parametro = 'completed=true';
+            } else if (selecionado === 'Exibir não confirmados') {
+                parametro = 'uncompleted=true';
+            } else {
+                parametro = 'all';
+            }
+
+            if (parametro) {
+                url = url.replace(/(\?)completed=true|(\?)uncompleted=true|(\?)all/g, '');
+                url += '?' + parametro;
+            }
+
+            // Redireciona para a nova URL
+            window.location.href = url;
+        }
+
+        // Adiciona o evento de mudança ao <select>
+        selectElement.addEventListener('change', function () {
+            atualizarURL();
+        });
+    </script>
+
+
+{% endblock content %}

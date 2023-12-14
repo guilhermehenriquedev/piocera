@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="/tailwind.config.js"></script>
+		<script src="/components/global.js"></script>
+		<link rel="stylesheet" type="text/css" href="/styles/global.css" />
+		<title>Login | Área de Admin</title>
+		<link rel="icon" type="image/x-icon" href="/images/logos/branca.png" />
+	</head>
+	<body>
+		<div
+			class="flex justify-center items-center p-6 sm:p-10 md:p-20 lg:p-32 w-full min-h-screen bg-cover bg-center bg-no-repeat"
+			style="background-image: url(/images/admin/backgroundLogin.png)"
+		>
+			<div
+				class="bg-white w-full sm:w-1/2 h-auto flex flex-col p-6 sm:px-8 sm:py-5 text-[#344054] gap-10 items-center justify-center rounded-lg shadow-lg border"
+			>
+				<div
+					class="flex flex-row items-center gap-2 w-full justify-center"
+				>
+					<img
+						src="/images/admin/logos/piocera.png"
+						class="max-w-[160px] w-full shrink-0"
+					/>
+					<img
+						src="/images/admin/logos/cerapio.png"
+						class="max-w-[160px] w-full shrink-0"
+					/>
+				</div>
+
+				<div class="font-black text-2xl sm:text-3xl text-gray-900">
+					Acessar conta
+				</div>
+
+				<div class="w-full text-[#344054] gap-5 flex flex-col">
+					<div class="flex gap-2 items-start w-full flex-col">
+						<div>Email*</div>
+						<input
+							type="email"
+							name="email"
+							placeholder="Digite seu email"
+							class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD]"
+						/>
+					</div>
+					<div class="flex gap-2 items-start w-full flex-col">
+						<div>Senha*</div>
+						<input
+							type="password"
+							name="password"
+							placeholder="Digite sua senha"
+							class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD]"
+						/>
+					</div>
+					<div
+						class="flex flex-row gap-3 justify-between items-center"
+					>
+						<div class="flex gap-x-3 flex-row">
+							<div class="flex h-6 items-center">
+								<input
+									id="bound"
+									name="bound"
+									type="checkbox"
+									class="h-4 w-4 rounded"
+								/>
+							</div>
+							<div
+								class="text-sm leading-6 flex flex-row gap-2 items-center"
+							>
+								<label for="bound" class="font-medium"
+									>Lembrar-me</label
+								>
+							</div>
+						</div>
+						<span class="text-[#DC8831] font-bold"
+							><button type="button">
+								Esqueci minha senha
+							</button></span
+						>
+					</div>
+				</div>
+
+				<div class="w-full gap-3 flex flex-col">
+					<a
+						href="/pages/area-admin/home.html"
+						class="w-full"
+						><button
+							type="button"
+							class="w-full bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base"
+						>
+							Acessar conta
+						</button></a
+					>
+					<button
+						type="button"
+						class="border border-[#D0D5DD] shadow-md flex gap-3 items-center justify-center text-center rounded-lg py-3 px-4 text-white font-bold text-base"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 48 48"
+							class="w-6 h-6 shrink-0"
+						>
+							<path
+								fill="#FFC107"
+								d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+							/>
+							<path
+								fill="#FF3D00"
+								d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+							/>
+							<path
+								fill="#4CAF50"
+								d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+							/>
+							<path
+								fill="#1976D2"
+								d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+							/>
+						</svg>
+						<div class="text-[#344054]">Entrar com Google</div>
+					</button>
+				</div>
+
+				<div class="text-[#475467] text-base">
+					Não tem conta ainda?
+					<span class="text-[#DC8831] font-bold"
+						><a href="#">Cadastre-se</a></span
+					>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

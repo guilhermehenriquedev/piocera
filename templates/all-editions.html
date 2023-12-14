@@ -1,0 +1,52 @@
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/tailwind.config.js"></script>
+    <script src="/static/components/global.js"></script>
+    <script src="/static/components/navbars/navbars.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/styles/global.css"/>
+    <title>Edições Anteriores</title>
+    <link rel="icon" type="image/x-icon" href="/images/logos/branca.png"/>
+</head>
+<body>
+<div class="w-full h-full bg-white min-h-screen">
+    <navbar-editions></navbar-editions>
+    <div class="flex h-full justify-center items-center gap-16 flex-col py-10 md:py-16 px-6">
+        {% if editions %}
+            <div class="flex flex-col w-full  items-center gap-5">
+                {% for edition in editions %}
+                    {% for edition_banner in edition.banner_set.all %}
+                        {% if edition_banner.position == 1 %}
+                            <div
+                                    class="flex w-full flex-col w-[1364px] h-[200px] sm:flex-row rounded-lg bg-gray-500 justify-between gap-6 items-center py-6 px-12 md:px-24 bg-cover bg-center bg-no-repeat"
+                                    style="background-image: url({% thumbnail edition_banner.banner 1440x121 %});">
+                                <div class="flex flex-col items-center gap-4 justify-center">
+                                    <img src="/static/images/logos/cerapioBranca.png" class="shrink-0 w-[150px]"/>
+                                    <div class="font-black uppercase text-white text-5xl tracking-tighter shadow-lg">
+                                        {{ edition.ano }}
+                                    </div>
+
+
+                                </div>
+
+                                <a href="{% url 'edition' edition.ano %}"
+                                   class="whitespace-nowrap bg-[#8FC74A] rounded-lg py-3 px-4 flex font-black uppercase text-white text-2xl tracking-tighter hover:bg-white hover:text-[#8FC74A]">
+                                    Ver detalhes
+                                </a>
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+        {% endif %}
+    </div>
+</div>
+<footer-editions></footer-editions>
+</body>
+</html>

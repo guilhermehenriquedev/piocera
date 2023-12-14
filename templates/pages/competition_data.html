@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    <title>Dados Competição</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+
+{% block content %}
+    <div class="w-full h-full bg-white">
+        {% include 'inc/_subscription_top.html' %}
+
+        <form method="POST" id="form_competition_data"
+              class="container mx-auto flex w-full px-8 lg:px-10 flex-col">
+            {% csrf_token %}
+
+            {% include 'inc/_header_steps_form.html' with initial=1 competitorA=0 hasCompetitorB=0 competitorB=0 payment=0 %}
+
+            <div class="flex flex-col gap-2">
+                {% for erro in form.lot.errors %}
+                    <div class="alert alert-danger bg-red-500 px-4 py-1 text-white text-sm rounded text-center">
+                    <span>
+                        {{ erro }}
+                    </span>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="border w-full p-6 sm:px-8 text-[#344054] gap-12 flex flex-col shadow-lg rounded-lg">
+                <div class="text-2xl font-bold">Dados da Competição</div>
+                <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4 w-full items-stretch">
+                    {% include 'inc/_modality_category_top.html' %}
+
+
+                <div id="create-team-container" class="col-span-1 md:col-span-2 flex flex-col hidden">
+                    </div>
+                        <div class="col-span-1 sm:col-span-2 flex flex-col">
+                            <label for="team" class="block text-sm font-semibold leading-6 h-full">Equipe</label>
+
+{#                  SELECIONAR EQUIPE INPUT#}
+                            <div class="mt-2">
+                                {% render_field form.team id="select_team" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none" %}
+                                {% if form.team.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.team.errors }}
+                                    </div>
+                                {% endif %}
+
+{#                  ADICIONAR EQUIPE INPUT#}
+                            {% render_field form.create_team_name id="create_team" class="flex w-full hidden rounded-md py-2 px-4 border border-[#D0D5DD] bg-white disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none" placeholder="Digite o nome da nova equipe" %}
+                            {% if form.create_team_name.errors %}
+                                <div class="text-sm text-red-500">
+                                    {{ form.create_team_name.errors }}
+                                </div>
+                            {% endif %}
+
+                            </div>
+
+                            <div class="flex gap-x-3 mt-3 flex-row">
+                                <div class="flex h-6 items-center">
+                                    <input
+                                            id="noneTeam"
+                                            name="noneTeam"
+                                            type="checkbox"
+                                            class="h-4 w-4 rounded "
+                                    />
+                                </div>
+                                <div class="text-sm leading-6 flex flex-row gap-2 items-center">
+                                    <label for="noneTeam" class="font-medium">Não tenho vinculo com nenhuma equipe</label>
+                                </div>
+                            </div>
+
+                            <div class="col-span-1 sm:col-span-full flex gap-x-3 flex-row">
+                                <div class="flex h-6 items-center">
+                                    <input
+                                            id="registerTeam"
+                                            name="registerTeam"
+                                            type="checkbox"
+                                            class="h-4 w-4 rounded"
+                                    />
+                                </div>
+                                <div class="text-sm leading-6 flex flex-row gap-2 items-center">
+                                    <label for="registerTeam" class="font-medium">Registrar uma nova equipe.</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 sm:col-span-2 flex flex-col">
+                            <label for="team" class="block text-sm font-semibold leading-6">
+                                O que você é da equipe?
+                            </label>
+                            <div class="mt-2">
+                                {% render_field form.team_member id="team" placeholder='Chefe, Membro...' class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none" %}
+                                {% if form.team_member.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.team_member.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    {% if not category_modality.modality_edition.modality.is_apoio_zequinha %}
+                        <div class="col-span-1 sm:col-span-full flex flex-col">
+                            <label for="sponsorship" class="block text-sm font-semibold leading-6">Patrocínio</label>
+                            <div class="mt-2">
+                                {% render_field form.sponsorship oninput="limitInput(this, 250, `charCount`)" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Máximo de 250 caracteres" %}
+                                <span id="charCount">250</span> caracteres restantes
+                                {% if form.sponsorship.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.sponsorship.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 sm:col-start-1 flex flex-col">
+                            <label for="vehicle-brand" class="block text-sm font-semibold leading-6">
+                                Marca do Veículo ou Bike*</label>
+                            <div class="mt-2">
+                                {% render_field form.vehicle_brand class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white " placeholder="Ex.:Toyota" required=required %}
+                                {% if form.vehicle_brand.errors %}
+                                    <div id="errorVehicleBrand" class="text-sm text-red-500">
+                                        {{ form.vehicle_brand.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 flex flex-col">
+
+                            <label for="vehicle-model" class="block text-sm font-semibold leading-6">
+                                Modelo do Veículo ou Bike*</label>
+                            <div class="mt-2">
+                                <select name="vehicle_model" id="vehicle-model" placeholder="Ex.:Hilux"
+                                        class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white">
+
+                                </select>
+
+                                {% if form.vehicle_model.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.vehicle_model.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 flex flex-col gap-2">
+                            <label for="tire-brand" class="block text-sm font-semibold leading-6">Marca do Pneu*</label>
+                            <div>
+                                {% render_field form.tire_brand class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.:Pirelli" %}
+                                {% if form.tire_brand.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.tire_brand.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 flex flex-col">
+                            <label for="tire-rim" class="block text-sm font-semibold leading-6 h-full">Aro do Pneu*</label>
+                            <div class="mt-2">
+                                {% render_field form.wheel_rim type="text" oninput="limitInput(this, 20, ``)" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.:18" %}
+                                {% if form.wheel_rim.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.wheel_rim.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse w-full md:flex-row w-full justify-between items-center gap-4 py-5">
+                <a href="{% url 'category' ano category_modality.modality_edition.modality.slug %}">
+                    <button type="button"
+                            class="gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg border border-gray-50 shadow p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-4 h-4 shrink-0"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M15.75 19.5L8.25 12l7.5-7.5"
+                            />
+                        </svg>
+                        Voltar
+                    </button>
+                </a>
+
+                <button
+                        type="submit"
+                        id="submit_button"
+                        class="gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg bg-[#8FC74A] text-white shadow p-2 hover:brightness-90 ease-in"
+                >
+                    Salvar e Prosseguir
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-4 h-4 shrink-0 rotate-180"
+                    >
+                        <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+    </div>
+    <script>
+        var create_team_checkbox = document.getElementById('registerTeam');
+        var none_team_checkbox = document.getElementById('noneTeam');
+        var create_team = document.getElementById('create_team');
+        var select_team = document.getElementById('select_team');
+        var owner_team = document.getElementById('team');
+
+        create_team_checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                create_team.classList.remove('hidden');
+                select_team.classList.add('hidden');
+            } else {
+                create_team.classList.add('hidden');
+                select_team.classList.remove('hidden');
+            }
+        });
+
+        none_team_checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                create_team.disabled = true;
+                select_team.disabled = true;
+                create_team_checkbox.disabled = true;
+                owner_team.disabled = true;
+            } else {
+                create_team.disabled = false;
+                select_team.disabled = false;
+                create_team_checkbox.disabled = false;
+                owner_team.disabled = false;
+            }
+        });
+
+        document.getElementById("my-input").disabled = true;
+
+        function limitInput(input, maxLength, count) {
+            if (input.value.length > maxLength) {
+                input.value = input.value.slice(0, maxLength);
+            }
+            var charCount = document.getElementById(count);
+            charCount.innerHTML = maxLength - input.value.length;
+        }
+    </script>
+
+	    <script>
+        $(document).ready(function () {
+            // Obtém as opções de modelos de veículo com base na marca selecionada
+            async function updateVehicleModels() {
+                var brandId = $('#vehicle-brand').val();
+                var url = '/inscricao/get_vehicle_models/' + brandId + '/';
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        var vehicleModels = $('#vehicle-model');
+                        vehicleModels.empty();
+                        $.each(data, function (key, value) {
+                            vehicleModels.append($('<option>').text(value).attr('value', parseInt(key)));
+                        });
+                    },
+                    error: function () {
+                        alert('Ocorreu um erro ao obter os modelos de veículo.');
+                    }
+                });
+            }
+
+            // Chama a função de atualização de modelos de veículo quando a marca é alterada
+            $('#vehicle-brand').change(async function () {
+                await updateVehicleModels();
+            });
+            if($('#vehicle-brand').val() )
+            // Chama a função de atualização de modelos de veículo ao carregar a página (caso já haja uma marca selecionada)
+                updateVehicleModels();
+        });
+    </script>
+{% endblock content %}
+
+{% block footer %}
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

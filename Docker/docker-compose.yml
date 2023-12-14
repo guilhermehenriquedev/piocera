@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  piocera:
+    container_name: piocera
+    build:
+      context: ../
+      dockerfile: Docker/Dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - ../public:/home/radical360/dev/public/media/
+    restart: always

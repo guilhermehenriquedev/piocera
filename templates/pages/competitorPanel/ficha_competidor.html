@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .bg-gray-300 {
+                background-color: #e5e7eb !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .bg-[#386380] {
+                background-color: #386380 !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="w-full md:w-2/3 mx-auto flex flex-col justify-center border px-2">
+        <div class="bg-gray-300 w-full flex items-center flex-col">
+            <img alt="" src="http://piocera.com.br/static/images/logos/cerapioPalavraPreta.png" class="p-4 w-32 shrink-0">
+            <p class="text-sm">2024</p>
+            <a href="javascript:void(0)" onclick="window.print()">
+                <button class="px-2 print:hidden py-1 mb-2 rounded-xl bg-white hover:bg-gray-50">Imprimir</button>
+            </a>
+        </div>
+        <h1 class="text-lg bg-gray-300 py-1 font-bold text-center my-2">Dados da competição - {{ registration.registration_number }}</h1>
+        <table class="table-auto mb-4">
+            <tbody>
+                <tr class="flex flex-wrap gap-1">
+                    <td class="border px-4 py-1"><b>Modalidade:</b> {{ registration.lot.category_modality.modality_edition.modality.name }} </td>
+                    <td class="border px-4 py-1"><b>Categoria:</b> {{ registration.lot.category_modality.category.name }} </td>
+
+                        <td class="border px-4 py-1">
+                            <b>Equipe:</b>
+                            {% if registration.team %}
+                                {{ registration.team.name }}
+                            {% else %}
+                                Não há
+                            {% endif %}
+                        </td>
+
+                    <td class="border px-4 py-1">
+                        <b>Patrocinador:</b>
+                        {% if registration.sponsorship %}
+                                {{ registration.sponsorship }}
+                            {% else %}
+                                Não há
+                            {% endif %}
+                    </td>
+
+                    <td class="border px-4 py-1"><b>Modelo do veículo:</b> {{ registration.vehicle_model }} </td>
+
+                    <td class="border px-4 py-1"><b>Marca do veículo:</b> {{ registration.vehicle_brand }}</td>
+                    <td class="border px-4 py-1"><b>Marca do pneu:</b> {{ registration.tire_brand }}</td>
+                    <td class="border px-4 py-1"><b>Aro da roda:</b> {{ registration.wheel_rim }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% for competitor in registration.competitorsregistration_set.all %}
+            <h2 class="bg-gray-300 py-1 text-lg font-bold text-center mb-2">Informações do Competidor - {{ competitor.type }}</h2>
+            <table class="table-auto mb-4">
+                <tbody>
+                    <tr class="flex flex-wrap gap-1">
+                        <td class="border px-4 py-1"><b>Competidor:</b> {{ competitor.user }}</td>
+                        <td class="border px-4 py-1"><b>CPF:</b> {{ competitor.user.cpf }}</td>
+                        <td class="border px-4 py-1"><b>RG:</b> {{ competitor.user.rg }}</td>
+                        <td class="border px-4 py-1"><b>Sangue:</b> {{ competitor.user.blood_type }}</td>
+                        <td class="border px-4 py-1"><b>Contato:</b> {{ competitor.user.phone }}</td>
+                        <td class="border px-4 py-1"><b>Contato de emergência:</b> {{ competitor.user.emergency_phone }}</td>
+                        <td class="border px-4 py-1"><b>Alergia:</b> {% if competitor.user.allergy %} {{ competitor.user.allergy }} {% else %} Não há {% endif %} </td>
+                        <td class="border px-4 py-1"><b>Tipo:</b> {{ competitor.type }}</td>
+                        <td class="border px-4 py-1"><b>Número:</b> {% if competitor.number %} {{ competitor.number }} {% else %} Não há {% endif %} </td>
+                        <td class="border px-4 py-1"><b>Plano de saúde:</b> {% if competitor.user.health_insurance_plan %} {{ competitor.user.health_insurance_plan }} {% else %} Não há {% endif %} </td>
+                        <td class="border px-4 py-1"><b>Licença Nacional:</b> {% if competitor.user.national_license %} {{ competitor.user.national_license }} {% else %} Não há {% endif %} </td>
+                        <td class="border px-4 py-1"><b>Data de nascimento:</b> {% if competitor.user.birthdate %} {{ competitor.user.birthdate }} {% else %} Não cadastrado {% endif %}</td>
+                    </tr>
+                </tbody>
+            </table>
+        {% endfor %}
+    <div class="font-bold text-center">
+        <p>
+            Declaro que participo do RALLY CERAPIó 2024 por livre e espontânea vontade, isentando de toda responsabilidade civil e penal,
+            as federações estaduais e confederações esportivas das modalidades envolvidas, a Radical Produções e patrocinadores do mesmo,
+            em meu nome e de meus herdeiros. Declaro ainda gozar de boa saúde para a disputa da prova e aceito todas as regras informadas
+            nos regulamentos, bem como autorizo a utilização da minha imagem em fotos e vídeos que por ventura possam ser utilizadas em publicações diversas.
+        </p>
+        <p class="mt-5">
+            Local: _______________________________________, ________ de _____________________________ de ________.
+        </p>
+        <p class="mt-5">
+            ________________________________________________
+        </p>
+        <p>
+            Competidor, Atleta, Apoio
+        </p>
+    </div>
+    </div>
+</body>
+</html>

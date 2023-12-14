@@ -1,0 +1,193 @@
+
+		h1{
+			font-size: 2.5rem;
+			line-height: 1.2;
+			letter-spacing: -.05em;
+		}
+		h2{
+			font-size: 2rem;
+			line-height: 1.25;
+			letter-spacing: -.05em;
+		}
+		h3{
+			font-size: 1.75rem;
+			line-height: 1.3;
+			letter-spacing: -.05em;
+		}
+		h4{
+			font-size: 1.5rem;
+			line-height: 1.35;
+			letter-spacing: -.05em;
+		}
+		h5{
+			font-size: 1.25rem;
+			line-height: 1.5;
+			letter-spacing: -.05em;
+		}
+		h6{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		p{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		ul{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		ol{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		blockquote{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		a{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		strong{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		em{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		table{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		thead{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		tbody{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		tfoot{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		tr{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		th{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		td{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		code{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		kbd{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		samp{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		pre{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		sub{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		sup{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		figure{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		img{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		iframe{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+		embed{
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+
+		h1 strong {
+			font-size: 2.5rem;
+			line-height: 1.2;
+			letter-spacing: -.05em;
+		}
+
+		h2 strong {
+			font-size: 2rem;
+			line-height: 1.25;
+			letter-spacing: -.05em;
+		}
+
+		h3 strong {
+			font-size: 1.75rem;
+			line-height: 1.3;
+			letter-spacing: -.05em;
+		}
+
+		h4 strong {
+			font-size: 1.5rem;
+			line-height: 1.35;
+			letter-spacing: -.05em;
+		}
+
+		h5 strong {
+			font-size: 1.25rem;
+			line-height: 1.5;
+			letter-spacing: -.05em;
+		}
+
+		h6 strong {
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}
+
+		p strong {
+			font-size: 1rem;
+			line-height: 1.6;
+			letter-spacing: -.05em;
+		}

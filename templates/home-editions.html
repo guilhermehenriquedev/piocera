@@ -1,0 +1,206 @@
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/tailwind.config.js"></script>
+    <script src="/static/components/global.js"></script>
+    <script src="/static/components/navbars/navbars.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/styles/global.css"/>
+    <title>Home | Todas as Edições</title>
+    <link rel="icon" type="image/x-icon" href="/images/logos/branca.png"/>
+</head>
+<body>
+<div class="w-full h-full bg-white min-h-screen">
+    <navbar-editions></navbar-editions>
+
+            <div class="w-full bg-center bg-no-repeat items-end bg-cover flex bg-gray-600 min-h-[320px] md:min-h-[600px]"
+                 style="background-image: url({% thumbnail main_current_edition_banner.banner 1440x121 %});">
+                <div class="flex flex-col md:flex-row items-end justify-between w-full gap-6 px-6 py-4 lg:container mx-auto">
+                    <img src="/static/images/logos/cerapioBranca.png" class="shrink-0 lg:w-[200px] w-[150px]"/>
+                    <div class="flex flex-col justify-end items-end text-end text-white">
+                        <div class="text-xl md:text-2xl  lg:text-4xl font-semibold">07 a 19 Jan</div>
+                        <div class="text-5xl md:text-6xl  lg:text-7xl font-black tracking-tighter whitespace-nowrap">
+                            Cerapió
+                            2024
+                        </div>
+                    </div>
+                    <a href="{% url 'modality' edition.ano %}" class="bg-[#8FC74A] text-white press-style text-5xl hover:bg-[#9bd850] rounded-lg py-3 px-4 flex">
+                        INSCREVA-SE
+                    </a>
+                </div>
+            </div>
+
+
+
+    <img class="flex h-full justify-center items-center gap-16 flex-col py-10 md:py-16 px-6">
+    <div class="font-semibold text-[#6B9F41] text-center text-xl sm:text-2xl lg:text-3xl mb-10">
+        Edições Anteriores
+    </div>
+    {% if editions %}
+        <div class="flex flex-col w-full  items-center gap-5">
+            {% for edition in editions %}
+                {% for edition_banner in edition.banner_set.all %}
+                    {% if edition_banner.position == 1 %}
+                        <div
+                                class="flex w-full flex-col w-[1364px] h-[200px] sm:flex-row rounded-lg bg-gray-500 justify-between gap-6 items-center py-6 px-12 md:px-24 bg-cover bg-center bg-no-repeat"
+                                style="background-image: url({% thumbnail edition_banner.banner 1440x121 %});">
+                            <div class="flex flex-col items-center gap-4 justify-center">
+                                <img src="/static/images/logos/cerapioBranca.png" class="shrink-0 w-[150px]"/>
+                                <div class="font-black uppercase text-white text-5xl tracking-tighter shadow-lg">2023
+                                </div>
+
+
+                            </div>
+
+                            <a href="{% url 'edition' edition.ano %}"
+                               class="whitespace-nowrap bg-[#8FC74A] rounded-lg py-3 px-4 flex font-black uppercase text-white text-2xl tracking-tighter hover:bg-white hover:text-[#8FC74A]">
+                                Ver detalhes
+                            </a>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <button
+                    type="button"
+                    class="uppercase flex lg:mt-6 lg:mb-11 justify-center items-center bg-transparente rounded-lg border-2 border-[#8FC74A] text-[#8FC74A] hover:text-white hover:bg-[#8FC74A] px-10 sm:px-20 py-1 ease-out duration-300"
+            >
+                ver todas as edições
+            </button>
+        </div>
+
+    {% endif %}
+
+
+</div>
+{% if albuns %}
+    <div
+            class="bg-[#8FC74A] flex flex-col w-full justify-center items-center gap-7 py-6 px-10"
+    >
+        <div class="font-bold text-4xl text-white py-4">
+            Galeria de Fotos
+        </div>
+        <div
+                class="flex flex-col items-center gap-5 lg:flex-row w-full justify-around text-black"
+        >
+            {% for album in albuns %}
+                <a class="hover:scale-105 hover:shadow-2xl cursor-pointer ease-out duration-200">
+                    <div class="bg-white flex flex-col w-[300px] p-4 gap-4">
+                        <div class="grid grid-cols-2">
+                            {% for photo in album.photos_set.all %}
+                                <img src="{% thumbnail photo.photo 150x150 %}"
+                                     class="w-[150px] h-[150px] aspect-square"/>
+                            {% endfor %}
+                        </div>
+                        <div class="flex flex-col h-full gap-2">
+                            <div
+                                    class="text-xs md:text-sm lg:text-base font-light"
+                            >
+                                {{ album.album.date|date:'d/m/Y' }}
+                            </div>
+                            <div
+                                    class="text-sm md:text-base lg:text-lg font-medium h-full"
+                            >
+                                {{ album.name }}
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        <a href="{% url 'galeria' %}"
+           type="button"
+           class="uppercase flex justify-center mt-11 items-center bg-transparente rounded-lg border-2 bg-white border-[#8FC74A] text-[#8FC74A] hover:bg-[#8FC74A] hover:text-white px-10 sm:px-20 py-1"
+        >
+            Ver mais fotos
+        </a>
+    </div>
+{% endif %}
+{% if news %}
+    <div
+            class="bg-gray-50 flex flex-col w-full justify-center items-center gap-7 py-6 px-10"
+    >
+        <div class="font-bold text-5xl text-[#8FC74A] py-8">
+            Notícias
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 text-black  lg:container mx-auto">
+            {% for n in news %}
+                <a href="{{ n.get_absolute_url }}" title="{{ n.title }}"
+                   class="border border-white bg-white flex justify-between py-6 px-7 gap-6 hover:shadow-lg hover:border-gray-300 hover:border ease-in-out duration-300">
+                    <div class="flex flex-col justify-between gap-4">
+                        <h3 class="text-sm md:text-base lg:text-lg font-medium">
+                            {{ n.title }}
+                        </h3>
+                        <div class="text-xs md:text-sm lg:text-base font-light">
+                            {{ n.publication_date|date:'d/m/Y' }}
+                        </div>
+                    </div>
+                    <img src="{% thumbnail n.cover 180x180 %}" alt="{{ n.title }}"
+                         class="object-cover h-[200px] w-[200px]">
+                </a>
+            {% endfor %}
+        </div>
+        <button
+                type="button"
+                class="uppercase flex justify-center items-center bg-transparente rounded-lg border-2 border-[#8FC74A] text-[#8FC74A] hover:text-white hover:bg-[#8FC74A] px-10 sm:px-20 py-1 ease-out duration-300"
+        >
+            Ver mais notícias
+        </button>
+    </div>
+{% endif %}
+
+<div
+        class="flex flex-col gap-2 justify-center items-center text-center py-12 px-10  lg:container mx-auto"
+>
+    <div class="text-base font-light">
+        Esse evento é válido pelos Campeonatos brasileiros de Enduro
+        e Rally 4-4 de Regularidade com supervisão das Confederações
+        Brasileiras de Motociclismo – CBM, Autobilismo – CBA e
+        possui estilo Stage Race de Mountain Bike.
+    </div>
+    <div class="flex w-full gap-12">
+        <div
+                class="flex flex-row scrollbar p-4 md:py-8 md:px-9 gap-4 md:gap-6 justify-between items-center overflow-x-auto mx-auto"
+        >
+            <img
+                    src="/static/images/home/logos/cbm.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/faepi.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/engrenagem.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/faem.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/cba.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/fcc.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/fmc.png"
+                    class="w-24 xl:w-36"
+            />
+            <img
+                    src="/static/images/home/logos/cbc.png"
+                    class="w-24 xl:w-36"
+            />
+        </div>
+    </div>
+</div>
+</div>
+<footer-editions></footer-editions>
+</body>
+</html>

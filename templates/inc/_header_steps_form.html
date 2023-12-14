@@ -1,0 +1,116 @@
+<div class="border my-5 py-3 px-3 rounded-lg overflow-x-auto scrollbar flex flex-row justify-start items-center
+	w-full text-base font-semibold text-[#475467] sm:gap-10 text-center whitespace-nowrap">
+
+	<div class="flex flex-col justify-center items-center gap-4">
+		{% if initial %}
+			<div class="shadow-lg rounded-full border-[14px] border-[#6EA142] flex">
+				<div class="bg-white rounded-full w-3 h-3"></div>
+			</div>
+			<div class="text-[#6EA142]">Dados Iniciais</div>
+		{% else %}
+			<div class="shadow-lg rounded-full border-[14px] border-gray-200 flex">
+				<div class="bg-white rounded-full w-3 h-3"></div>
+			</div>
+			<div class="text-[#6EA142]">Dados Iniciais</div>
+		{% endif %}
+	</div>
+
+	{% if competitorA %}
+		<div class="h-1 bg-[#6EA142] flex min-w-[50px] w-full"></div>
+	{% else %}
+		<div class="h-1 bg-gray-50 flex min-w-[50px] w-full"></div>
+	{% endif %}
+
+
+	<div class="flex flex-col justify-center items-center gap-4">
+		{% if competitorA %}
+			<div class="shadow-lg rounded-full border-[14px] border-[#6EA142] flex">
+				<div class="bg-white rounded-full w-3 h-3"></div>
+			</div>
+			<div class="text-[#6EA142]">Dados do Competidor</div>
+		{% else %}
+			<div class="shadow-lg rounded-full border-[14px] border-gray-200 flex">
+				<div class="bg-white rounded-full w-3 h-3"></div>
+			</div>
+			<div class="text-gray-300">Dados do Competidor</div>
+		{% endif %}
+	</div>
+
+	{% if type_m|length > 1 %}
+		{% if competitorB %}
+			<div class="h-1 bg-[#6EA142] flex min-w-[50px] w-full"></div>
+		{% else %}
+			<div class="h-1 bg-gray-50 flex min-w-[50px] w-full"></div>
+		{% endif %}
+
+
+		<div class="flex flex-col justify-center items-center gap-4">
+			{% if competitorB %}
+				<div class="shadow-lg rounded-full border-[14px] border-[#6EA142] flex">
+					<div class="bg-white rounded-full w-3 h-3"></div>
+				</div>
+				<div class="text-[#6EA142]">Dados do Competidor</div>
+			{% else %}
+				<div class="shadow-lg rounded-full border-[14px] border-gray-200 flex">
+					<div class="bg-white rounded-full w-3 h-3"></div>
+				</div>
+				<div class="text-gray-300">Dados do Competidor</div>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	{% if payment %}
+		<div class="h-1 bg-[#6EA142] flex min-w-[50px] w-full"></div>
+	{% else %}
+		<div class="h-1 bg-gray-50 flex min-w-[50px] w-full"></div>
+	{% endif %}
+
+
+	<div class="flex flex-col justify-center items-center gap-4">
+		{% if payment %}
+			<div class="shadow-lg rounded-full border-[14px] border-[#6EA142] flex">
+				<div class="bg-white rounded-full w-3 h-3"></div>
+			</div>
+			<div class="text-[#6EA142]">Pagamento</div>
+		{% else %}
+			<div class="shadow-lg rounded-full border-[14px] border-gray-200 flex">
+				<div class="bg-white rounded-full w-3 h-3"></div>
+			</div>
+			<div class="text-gray-300">Pagamento</div>
+		{% endif %}
+	</div>
+
+
+	{#	{% for type in type_m %}#}
+	{#		<div class="flex flex-col justify-center items-center gap-4">#}
+	{#			{% if initial %}#}
+	{#				<div class="shadow-lg rounded-full border-[14px] border-[#6EA142] flex">#}
+	{#					<div class="bg-white rounded-full w-3 h-3"></div>#}
+	{#				</div>#}
+	{#			{% else %}#}
+	{#				<div class="shadow-lg rounded-full border-[14px] border-gray-200 flex">#}
+	{#					<div class="bg-white rounded-full w-3 h-3"></div>#}
+	{#				</div>#}
+	{#			{% endif %}#}
+	{##}
+	{#			<div class="font-medium">#}
+	{#				{% if not category_modality.modality_edition.modality.is_apoio_zequinha %}#}
+	{#					Dados do Competidor {% else %} Dados do Participante {% endif %}#}
+	{#			</div>#}
+	{#		</div>#}
+	{#		<div class="h-1 bg-gray-50 flex min-w-[50px] w-full"></div>#}
+	{#	{% endfor %}#}
+	{##}
+	{#	<div class="flex flex-col justify-center items-center gap-4">#}
+	{#		{% if initial %}#}
+	{#			<div class="shadow-lg rounded-full border-[14px] border-[#6EA142] flex">#}
+	{#				<div class="bg-white rounded-full w-3 h-3"></div>#}
+	{#			</div>#}
+	{#		{% else %}#}
+	{#			<div class="shadow-lg rounded-full border-[14px] border-gray-200 flex">#}
+	{#				<div class="bg-white rounded-full w-3 h-3"></div>#}
+	{#			</div>#}
+	{#		{% endif %}#}
+	{#		<div class="font-medium">Finalização e Pagamento</div>#}
+	{#	</div>#}
+</div>

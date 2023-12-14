@@ -1,0 +1,575 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+    <title>Formulário de inscrição</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'styles/componentes/modal.css' %}"
+    />
+
+    <div class="w-full h-full bg-white">
+        {% include 'inc/_subscription_top.html' %}
+
+        <form
+            id="form"
+            method="POST"
+            class="flex container mx-auto w-full px-8 lg:px-10 flex-col justify-center items-center">
+            {% csrf_token %}
+        {% if can_skip_registration %}
+            {% include 'inc/_header_steps_form.html' with initial=1 competitorA=1 competitorB=1 payment=0 %}
+            <script>
+            // Obtém a URL atual
+            var url = window.location.href;
+
+            // Verifica se a URL já contém um fragmento
+            if (url.indexOf('#') !== -1) {
+              // Remove o fragmento existente, se houver
+              url = url.split('#')[0];
+            }
+
+            // Adiciona o novo fragmento
+            url += '#modal-skip';
+
+            // Atualiza a URL no navegador
+            window.location.href = url;
+            </script>
+            <div id="modal-skip"
+                 class="modal">
+                <div class="modal__content w-full p-10 max-h-vh">
+                    <div>
+                        Você pode concluir a inscrição do segundo competidor(a) depois,
+                        o formulário estará disponivel dentro do seu painel do competidor
+                    </div>
+                    <a class="gap-2 text-sm whitespace-nowrap w-full
+                    justify-center items-center w-full flex rounded-lg
+                    bg-white border border-[#8FC74A] text-[#8FC74A] shadow p-2 hover:bg-green-50
+                    font-bold" href="{% url 'payment_type' ano slug_modalidade slug_categoria lot_slug inscricao %}">
+                        <div class="flex items-center align-center">
+                            Completar Depois
+                            <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-4 h-4 shrink-0 rotate-180">
+                                <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M15.75 19.5L8.25 12l7.5-7.5"
+                                />
+                            </svg>
+                        </div>
+                    </a>
+                    <a href="#" class="gap-2 text-sm whitespace-nowrap w-full
+                    justify-center items-center w-full flex rounded-lg
+                    bg-[#8FC74A] text-white shadow p-2 hover:bg-green-700
+                    font-bold">
+                        <div class="flex items-center align-center">
+                            Inscrever Competidor Agora
+                        </div>
+                    </a>
+                </div>
+            </div>
+	        {% else %}
+	        {% include 'inc/_header_steps_form.html' with initial=1 competitorA=1 competitorB=0 payment=0 %}
+        {% endif %}
+
+            <div class="border w-full p-6 sm:px-8 py-10 text-[#344054] gap-12 flex flex-col shadow-lg rounded-lg">
+{#                <div class="text-green-700 text-md">#}
+{#                    Aviso: Caso seja necessário adicionar um segundo competidor, é necessário que o mesmo já tenha uma conta criada.#}
+{#                </div>#}
+                <div class="text-2xl font-bold">{% if not category_modality.modality_edition.modality.is_apoio_zequinha %}Dados do competidor{% else %}Dados pessoais do
+                    {{ category_modality.category.name }}{% endif %}</div>
+                {% if messages %}
+                    <div class="flex flex-col gap-2">
+                        {% for erro in messages %}
+                            <div class="alert alert-warning bg-yellow-500 px-4 py-1 text-white text-lg font-bold rounded text-center">
+                            <span>
+                                {{ erro }}
+                            </span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-4 w-full items-stretch">
+                    <div class="col-span-full grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {% if not category_modality.modality_edition.modality.is_apoio_zequinha %}
+                            <div class="col-span-1 flex flex-col">
+                                <label for="clothing" class="block text-sm font-semibold leading-6 h-full">
+                                    Tipo de inscrição
+                                </label>
+                                <div class="mt-2">
+                                    {% render_field form.type class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: Piloto" %}
+                                    {% if form.type.errors %}
+                                        <div class="text-sm text-red-500">
+                                            {{ form.type.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div class="col-span-1 flex flex-col">
+                            <label for="clothing" class="block text-sm font-semibold leading-6 h-full">
+                                Vestuário
+                            </label>
+                            <div class="mt-2">
+                                {% render_field form.clothing class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: Allysson Martins" %}
+                                {% if form.clothing.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.clothing.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="col-span-1 flex flex-col">
+                            <label for="cpf" class="block text-sm font-semibold leading-6 h-full">CPF*</label>
+                            <div class="mt-2">
+                                {% render_field form.cpf id="cpf" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite seu CPF" maxlength="14" %}
+
+                                {% if form.cpf.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.cpf.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 flex flex-col">
+                            <label for="rg" class="block text-sm font-semibold leading-6 h-full">RG*</label>
+                            <div class="mt-2">
+                                {% render_field form.rg class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite seu RG" maxlength="20" %}
+                                {% if form.rg.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.rg.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 flex flex-col">
+                            <label for="rg" class="block text-sm font-semibold leading-6 h-full">Órgão emissor*</label>
+                            <div class="mt-2">
+                                {% render_field form.organ_expedidor class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite o órgão emissor" maxlength="50" %}
+                                {% if form.organ_expedidor.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.organ_expedidor.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="col-span-1 sm:col-span-2 flex flex-col">
+                            <label for="email" class="block text-sm font-semibold leading-6 h-full">E-mail</label>
+                            <div class="mt-2">
+
+                                {% render_field form.email class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="exemplo@exemplo.com" %}
+
+                                {% if form.email.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.email.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-span-1 flex flex-col">
+                            <label for="birthday" class="block text-sm font-semibold leading-6 h-full">Data de nascimento*</label>
+                            <div class="mt-2">
+                                {% render_field form.birthdate type="date" class="w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite seu CPF" %}
+
+                                {% if form.birthdate.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.birthdate.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="col-span-1 sm:col-span-2 flex flex-col">
+                            <label for="full-name" class="block text-sm font-semibold leading-6 h-full">Nome Completo</label>
+                            <div class="mt-2">
+
+                                {% render_field form.full_name class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Nome Completo" %}
+
+                                {% if form.full_name.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.full_name.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 flex flex-col">
+                            <label for="nickname" class="block text-sm font-semibold leading-6 h-full">Apelido</label>
+                            <div class="mt-2">
+                                {% render_field form.nickname class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.:Marcão" %}
+
+                                {% if form.nickname.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.nickname.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="col-span-1 flex flex-col">
+                            <label for="cep" class="block text-sm font-semibold leading-6 h-full">CEP *</label>
+                            <div class="mt-2">
+                                {% render_field form.cep id="cep" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite seu CEP" %}
+
+                                {% if form.cep.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.cep.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 flex flex-col">
+                            <label for="state" class="block text-sm font-semibold leading-6 h-full">UF*</label>
+                            <div class="mt-2">
+                                {% render_field form.uf id="uf" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite a sigla do seu estado" %}
+                                {% if form.uf.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.uf.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 flex flex-col">
+                            <label for="city" class="block text-sm font-semibold leading-6 h-full">Cidade*</label>
+                            <div class="mt-2">
+                                {% render_field form.city class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite o nome da sua cidade" %}
+
+                                {% if form.city.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.city.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="col-span-1 flex flex-col">
+                            <label for="neighborhood" class="block text-sm font-semibold leading-6 h-full">Bairro</label>
+                            <div class="mt-2">
+                                {% render_field form.neighborhood class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite o nome do seu bairro" %}
+
+                                {% if form.neighborhood.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.neighborhood.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 sm:col-span-2 flex flex-col">
+                            <label for="address" class="block text-sm font-semibold leading-6 h-full">Endereço</label>
+                            <div class="mt-2">
+                                {#										<input#}
+                                {#											type="text"#}
+                                {#											name="address"#}
+                                {#											id="address"#}
+                                {#											class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white"#}
+                                {#											placeholder="Digite seu endereço. Ex: R. Deputado João Carvalho, 4791"#}
+                                {#										/>#}
+
+                                {% render_field form.address class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite seu endereço. Ex: R. Deputado João Carvalho, 4791" %}
+
+                                {% if form.address.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.address.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div class="col-span-1 flex flex-col">
+                            <label for="phone"
+                                    class="block text-sm font-semibold leading-6 h-full">Telefone (Whatsapp) *</label>
+                            <div class="mt-2 relative">
+                                {% render_field form.phone id="contato" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: 86 99939-6033" %}
+
+                                {% if form.phone.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.phone.errors }}
+                                    </div>
+                                {% endif %}
+
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-5 h-5 text-[#545454] "
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-1 flex flex-col">
+                            <label for="contact-name" class="block text-sm font-semibold leading-6 h-full">Nome do Contato de Emergência *</label>
+                            <div class="mt-2 relative">
+                                {% render_field form.name_emergency_contact class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: Allysson Martins" %}
+
+                                {% if form.name_emergency_contact.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.name_emergency_contact.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 flex flex-col">
+                            <label for="contact"
+                                    class="block text-sm font-semibold leading-6 h-full">Contato de Emergência *</label>
+                            <div class="mt-2 relative">
+                                {% render_field form.emergency_phone id="contatoEmergencia" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: 86 999-396033" %}
+
+                                {% if form.emergency_phone.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.emergency_phone.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-full grid grid-cols-1 sm:grid-cols-12 gap-5">
+                        <div class="col-span-1 sm:col-span-2 flex flex-col">
+                            <label for="blood-type" class="block text-sm font-semibold leading-6">Tipo Sanguíneo</label>
+                            <div class="mt-2 h-full">
+                                {% render_field form.blood_type class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: 86 999-396033" %}
+                                {% if form.blood_type.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.blood_type.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-span-1 sm:col-span-10 flex flex-col">
+                            <label for="allergy" class="block text-sm font-semibold leading-6">
+                                Alergias
+                            </label>
+                            <div class="mt-2 relative">
+                                {% render_field form.allergy class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite suas alergias caso tenha" %}
+                                <span class="text-sm">No caso de mais de uma alergia, separe com virgulas</span>
+                                {% if form.allergy.errors %}
+                                    <div class="text-sm text-red-500">
+                                        {{ form.allergy.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-span-full grid grid-cols-1 sm:grid-cols-4 gap-5">
+                            {% if not category_modality.modality_edition.modality.is_apoio_zequinha %}
+                                <div class="col-span-1 flex flex-col">
+                                    <label for="phone" class="block text-sm font-semibold leading-6 h-full">
+                                        Federação Filiado
+                                    </label>
+                                    <div class="mt-2 flex items-center flex-row gap-2">
+                                        {% render_field form.federation class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Ex.: 86 999-396033" %}
+                                        {% if form.federation.errors %}
+                                            <div class="text-sm text-red-500">
+                                                {{ form.federation.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-span-1 flex flex-col">
+                                    <label for="cba" class="block text-sm font-semibold leading-6 h-full">
+                                        Licença Nacional da confederação
+                                    </label>
+                                    <div class="mt-2 relative">
+                                        {% render_field form.national_license class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite o número da sua licença" %}
+                                        {% if form.national_license.errors %}
+                                            <div class="text-sm text-red-500">
+                                                {{ form.national_license.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="col-span-1 flex flex-col">
+                                <label for="plan"
+                                    class="block text-sm font-semibold leading-6 h-full">
+                                    Plano de Saúde
+                                </label>
+                                <div class="mt-2 relative">
+                                    {% render_field form.health_insurance_plan class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite o nome do seu plano de saúde" %}
+                                    {% if form.health_insurance_plan.errors %}
+                                        <div class="text-sm text-red-500">
+                                            {{ form.health_insurance_plan.errors }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if not category_modality.modality_edition.modality.is_apoio_zequinha %}
+                                <div class="col-span-1 flex flex-col">
+                                    <label for="cnh" class="block text-sm font-semibold leading-6 h-full">
+                                        CNH
+                                    </label>
+                                    <div class="mt-2">
+                                        {% render_field form.cnh class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" placeholder="Digite o número da sua cnh" %}
+                                        {% if form.cnh.errors %}
+                                            <div class="text-sm text-red-500">
+                                                {{ form.cnh.errors }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border w-full p-6 sm:px-8 py-10 text-[#344054] gap-12 flex flex-col shadow-lg rounded-lg">
+                    <div class="text-2xl font-bold">
+                        Declaração de Responsabilidade
+                    </div>
+                    <div class="flex flex-col justify-center items-center text-center w-full gap-6">
+                        <div class="bg-gray-50 flex py-12 sm:px-6 md:px-10 flex-col text-start w-full gap-8 max-h-[310px] overflow-y-scroll">
+                            <div class="text-base font-light leading-7">
+                                {{ edition.term|safe }}
+                            </div>
+                        </div>
+                        <div class="flex gap-x-3 flex-row">
+                            <div class="flex h-6 items-center">
+                                {% render_field form.thermo id="terms" name="terms" class="flex w-full rounded-md py-2 px-4 border border-[#D0D5DD] bg-white" %}
+                            </div>
+                            <div class="text-sm leading-6 flex flex-row gap-2 items-center">
+                                <label for="terms" class="font-medium">Declaro que Li e Estou de acordo com o Termo de Compromisso</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="flex flex-col-reverse w-full md:flex-row justify-between items-center gap-4 py-5">
+                <a href="
+                        {% if previous_type_m > 1 and next_type_m %}
+                            {% url 'register_pilot' ano slug_modalidade slug_categoria lot.slug previous_type_m inscricao %}
+                        {% else %}
+                            {% url 'inscricao_competicao' ano category_modality.modality_edition.modality.slug category_modality.category.slug lot.slug %}
+                        {% endif %}">
+                    <button type="button"
+                            class="gap-2 text-sm whitespace-nowrap w-full justify-center items-center max-w-[220px] flex rounded-lg border border-gray-50 shadow p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="w-4 h-4 shrink-0">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                        </svg>
+                        Voltar
+                    </button>
+                </a>
+                <button type="submit" class="gap-2 text-sm whitespace-nowrap w-full
+                    justify-center items-center max-w-[220px] flex rounded-lg
+                    bg-[#8FC74A] text-white shadow p-2">Salvar e Prosseguir
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-4 h-4 shrink-0 rotate-180">
+                        <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 19.5L8.25 12l7.5-7.5"
+                        />
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </div>
+
+        {% comment %} <footer-home></footer-home> {% endcomment %}
+    </div>
+    {#    <script src="{% static 'components/inscricao/dynamicInput.js' %}">#}
+    {#    </script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.min.js"></script>
+
+    <script>
+        let cpfInput = document.querySelector('#form [name="cpf"]');
+        cpfInput.addEventListener("input", function () {
+
+            let cpf = cpfInput.value;
+            cpfInput.value = cpfMask(cpf)
+            {#cpf = cpf.replace(/[^\d]/g, "");#}
+            if (cpf.length === 14) {
+                fetch("/inscricao/buscar-cpf/?cpf=" + cpf, {method: 'GET'})
+                    .then(function (response) {
+                        return response.json()
+                            .then(function (data) {
+                                let keys = Object.keys(data);
+                                for (let i = 0; i < keys.length; i++) {
+                                    let key = keys[i];
+                                    let input = document.querySelector('#form [name="' + key + '"]');
+                                    if (input) {
+                                        input.value = data[key];
+                                    }
+                                }
+                                let inputName = document.querySelector('#form [name="full_name"]')
+                                if (data["first_name"] && data["last_name"]) {
+                                    inputName.value = data["first_name"] + ' ' + data["last_name"]
+                                }
+                            })
+                    })
+
+            }
+        });
+
+        function cpfMask(cpf) {
+            cpf = cpf.replace(/[^\d]/g, "");
+            cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+            cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+            cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+            return cpf
+        }
+            $(document).ready(function () {
+                $('#cep').inputmask('99999-999');
+            });
+            $(document).ready(function () {
+                $('#uf').inputmask('AA');
+            });
+            $(document).ready(function () {
+                $('#contato').inputmask('(99) 9 9999-9999');
+            });
+            $(document).ready(function () {
+                $('#contatoEmergencia').inputmask('(99) 9 9999-9999');
+            });
+
+    </script>
+{% endblock content %}
+
+{% block footer %}
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

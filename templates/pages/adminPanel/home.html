@@ -1,0 +1,377 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load competitortags %}
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+{% block title %}
+    <title>Área de Competidor | Início</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="w-full h-full bg-[#656667]">
+        <div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+            {% include 'inc/_menu_admin.html' %}
+            <div class="overflow-y-auto flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl">
+                <div class="w-full flex items-center gap-3 flex-row justify-between">
+                    <div class="font-semibold text-2xl">Visão Geral</div>
+{#                    <a href="{% url 'exportar_csv' %}"#}
+{#                       class="py-2 px-3 bg-white rounded-md border flex flex-row gap-3 items-center">#}
+{#                        <svg#}
+{#                                width="16"#}
+{#                                height="16"#}
+{#                                viewBox="0 0 20 20"#}
+{#                                fill="none"#}
+{#                                xmlns="http://www.w3.org/2000/svg"#}
+{#                                aria-label="Exportar"#}
+{#                        >#}
+{#                            <path#}
+{#                                    d="M6.66699 14.1667L10.0003 17.5M10.0003 17.5L13.3337 14.1667M10.0003 17.5V10M16.667 13.9524C17.6849 13.1117 18.3337 11.8399 18.3337 10.4167C18.3337 7.88536 16.2816 5.83333 13.7503 5.83333C13.5682 5.83333 13.3979 5.73833 13.3054 5.58145C12.2187 3.73736 10.2124 2.5 7.91699 2.5C4.46521 2.5 1.66699 5.29822 1.66699 8.75C1.66699 10.4718 2.3632 12.0309 3.48945 13.1613"#}
+{#                                    stroke="#344054"#}
+{#                                    stroke-width="1.66667"#}
+{#                                    stroke-linecap="round"#}
+{#                                    stroke-linejoin="round"#}
+{#                            />#}
+{#                        </svg>#}
+{##}
+{#                        <div class="font-semibold text-sm text-gray-700">#}
+{#                            Exportar#}
+{#                        </div>#}
+{#                    </a>#}
+                </div>
+
+                <div class="flex gap-4 mb-4">
+                    <div>
+                        <label for="periodo-inicio" class="text-gray-700">Período de Início:</label>
+                        <input type="date" id="periodo-inicio"
+                               class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
+                    </div>
+
+                    <div>
+                        <label for="periodo-fim" class="text-gray-700">Período de Fim:</label>
+                        <input type="date" id="periodo-fim"
+                               class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300">
+                    </div>
+
+                    <button id="atualizar-dados"
+                            class="px-4 py-2 bg-blue-300 text-blue-800 rounded-md hover:bg-blue-400 focus:outline-none focus:ring focus:border-blue-300">
+                        Atualizar Dados
+                    </button>
+
+                    <button id="limpar-filtro"
+                            class="px-4 py-2 bg-red-300 text-red-800 rounded-md hover:bg-red-400 focus:outline-none focus:ring focus:border-red-300">
+                        Limpar Filtro
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="border rounded-lg shadow p-4">
+                        <div class="text-gray-700 text-lg mb-2">Total Arrecadado</div>
+                        <div class="text-2xl font-bold" id="total-arrecadado"></div>
+                    </div>
+
+                    <div class="border rounded-lg shadow p-4">
+                        <div class="text-gray-700 text-lg mb-2">Números de Pedidos</div>
+                        <div class="text-2xl font-bold" id="numero-pedidos"></div>
+                    </div>
+
+                    <div class="border rounded-lg shadow p-4">
+                        <div class="text-gray-700 text-lg mb-2">Valor total Pendente</div>
+                        <div class="text-2xl font-bold" id="valor-pendente"></div>
+                    </div>
+
+                    <div class="border rounded-lg shadow p-4">
+                        <div class="text-gray-700 text-lg mb-2">Número de Inscrições</div>
+                        <div class="text-2xl font-bold" id="numero-inscricoes"></div>
+                    </div>
+
+                    <div class="border rounded-lg shadow p-4">
+                        <div class="text-gray-700 text-lg mb-2">Número de Competidores</div>
+                        <div class="text-2xl font-bold" id="numero-competidores"></div>
+                    </div>
+
+                    <div class="border rounded-lg shadow p-4">
+                        <div class="text-gray-700 text-lg mb-2">Número de Equipes</div>
+                        <div class="text-2xl font-bold" id="numero-equipes"></div>
+                    </div>
+                </div>
+
+
+                <div class="w-full border flex-row flex rounded-lg shadow p-4 sm:p-6 gap-10">
+                    <div class="w-1/2">
+                        <canvas id="myChart"></canvas>
+                    </div>
+                    <div class="w-1/4">
+
+                        <canvas id="pieChart"></canvas>
+                        <div class="mt-4">
+                            <label for="periodSelector" class="block text-gray-700">Selecione o período:</label>
+                            <select id="periodSelector"
+                                    class="block w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                <option value="7">Últimos 7 dias</option>
+                                <option value="30">Últimos 30 dias</option>
+                                <option value="90">Últimos 90 dias</option>
+                                <option value="all">Sem filtro de data</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="relative overflow-x-auto">
+                    <table id="paymentTable" class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Método de pagamento
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Valor pago
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Valor pendente
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Valor total
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Competidores pendentes
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center">
+                                Total de competidores
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="paymentTableBody">
+                        <!-- Os dados serão adicionados dinamicamente aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const vendas = JSON.parse('{{vendas|safe}}');
+        const ctx = document.getElementById('myChart');
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',]
+        const data = meses.map((mes, index) => vendas[index + 1] || 0);
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Vendas por mês',
+                    data: data,
+                    borderWidth: 1,
+
+                }]
+            },
+            options: {
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return 'Valor adquirido : R$' + context.parsed.y;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Vendas'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return 'R$ ' + value + ',00';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        let myChart;  // Variável global para manter o objeto Chart
+
+        function updatePieChart(period) {
+            // Verifique se já existe um gráfico e destrua-o antes de criar um novo
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            $.ajax({
+                url: `/pizza_chart/?period=${period}`,  // Use backticks (`) para interpolação
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Selecione o elemento canvas pelo ID
+                    const ctxPie = document.getElementById('pieChart');
+
+                    myChart = new Chart(ctxPie, {
+                        type: 'pie',
+                        data: {
+                            labels: data.labels,
+                            datasets: [{
+                                data: data.data,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.7)', // Cor para "Pendentes"
+                                    'rgba(75, 192, 192, 0.7)', // Cor para "Confirmados"
+                                ],
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Pagamentos Pendentes vs. Confirmados',
+                                },
+                            },
+                        },
+                    });
+                },
+                error: function () {
+                    console.error('Erro ao buscar dados via AJAX');
+                }
+            });
+        }
+
+        // Chame a função para buscar os dados e atualizar o gráfico
+        $(document).ready(function () {
+            updatePieChart('7');
+
+            // Adicione um evento de alteração ao seletor de período
+            $('#periodSelector').change(function () {
+                const selectedPeriod = $(this).val();  // Obtenha o valor selecionado
+                updatePieChart(selectedPeriod);  // Atualize o gráfico com o novo período
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Função para formatar um valor monetário
+            function formatCurrency(value) {
+                if (value === 'Sem valor') {
+                    return value;
+                }
+                return 'R$ ' + value;
+            }
+
+            // Função para preencher a tabela com os dados
+            function fillPaymentTable(data) {
+                $('#paymentTableBody').empty();
+
+                data.forEach(function (payment, index) {
+                    var rowClass = index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-50';
+                    var row = `<tr class="${rowClass}">
+                    <td class="px-6 py-4 text-center">${payment.payment_method}</td>
+                    <td class="px-6 py-4 text-center">${formatCurrency(payment.paid_amount)}</td>
+                    <td class="px-6 py-4 text-center">${formatCurrency(payment.pending_amount)}</td>
+                    <td class="px-6 py-4 text-center">${formatCurrency(payment.total_amount)}</td>
+                    <td class="px-6 py-4 text-center">${payment.pending_competitors}</td>
+                    <td class="px-6 py-4 text-center">${payment.total_competitors}</td>
+                </tr>`;
+                    $('#paymentTableBody').append(row);
+                });
+            }
+
+            // Função para obter os dados dos pagamentos via AJAX
+            function getPaymentData() {
+                $.ajax({
+                    url: '/get_payment_data/',
+                    type: 'GET',
+                    success: function (data) {
+                        fillPaymentTable(data);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log('Erro na requisição AJAX:', errorThrown);
+                    }
+                });
+            }
+
+            // Chamar a função para obter os dados dos pagamentos ao carregar a página
+            getPaymentData();
+
+            // Atualizar a tabela a cada 10 segundos
+            setInterval(getPaymentData, 10000);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Função para formatar o valor como moeda
+            function formatMoney(value) {
+                return value.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+            }
+
+            function limparFiltro() {
+                $('#periodo-inicio').val('');
+                $('#periodo-fim').val('');
+            }
+
+            // Função para atualizar os elementos HTML com os dados retornados pela view
+            function updateDadosPeriodo(data) {
+                $('#total-arrecadado').text(formatMoney(data.total_arrecadado));
+                $('#numero-pedidos').text(data.numero_pedidos);
+                $('#valor-pendente').text(formatMoney(data.valor_pendente));
+                $('#numero-inscricoes').text(data.numero_inscricoes);
+                $('#numero-competidores').text(data.numero_competidores);
+                $('#numero-equipes').text(data.numero_equipes);
+            }
+
+            // Função para fazer a requisição Ajax
+            function getDadosPeriodo() {
+                var periodo_inicio = $('#periodo-inicio').val();
+                var periodo_fim = $('#periodo-fim').val();
+
+                $.ajax({
+                    url: '/get_dados_periodo/',
+                    data: {
+                        periodo_inicio: periodo_inicio,
+                        periodo_fim: periodo_fim
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        updateDadosPeriodo(data);
+                    }
+                });
+            }
+
+            // Evento de clique no botão para atualizar os dados
+            $('#atualizar-dados').click(function () {
+                getDadosPeriodo();
+            });
+            $('#limpar-filtro').click(function () {
+                limparFiltro();
+                getDadosPeriodo();
+            });
+            // Chamada inicial para carregar os dados ao carregar a página
+            getDadosPeriodo();
+            // Atualizar a tabela a cada 10 segundos
+            setInterval(getDadosPeriodo, 10000);
+        });
+    </script>
+
+
+
+{% endblock content %}
+

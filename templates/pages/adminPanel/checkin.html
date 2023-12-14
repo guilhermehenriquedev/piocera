@@ -1,0 +1,208 @@
+{% load cloudinary %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkin</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/componentes/modal.css' %}"/>
+</head>
+<body>
+<div class="mx-auto w-full bg-gray-100 ">
+    <div class="bg-[#386380] w-full flex items-center flex-col">
+        <img alt="" src="http://piocera.com.br/static/images/logos/cerapioBranca.png" class="p-4 w-32 shrink-0">
+    </div>
+    <div class="my-4 bg-gray-200 p-4 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-center">Dados do Competidor</h2>
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <p>Nome: {{ competitor_check_list.competitor_registration.user.get_full_name }}</p>
+                <p>Apelido: {{ competitor_check_list.competitor_registration.user.nickname }}</p>
+                <p>Nascimento: {{ competitor_check_list.competitor_registration.user.birthdate }}</p>
+            </div>
+            <div>
+                <p>
+                    Modalidade: {{ competitor_check_list.competitor_registration.registration.lot.category_modality.category.name }}</p>
+                <p>
+                    Categoria: {{ competitor_check_list.competitor_registration.registration.lot.category_modality.modality_edition.modality.name }}</p>
+                <p>
+                    Ano: {{ competitor_check_list.competitor_registration.registration.lot.category_modality.modality_edition.edition.ano }}</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="my-4">
+        <h2 class="text-2xl font-bold text-center">Listas de Itens</h2>
+        {% for checklist_item in all_checklist_items %}
+            <div class="grid grid-cols-2 bg-gray-100 p-4 mb-4 rounded-lg shadow-md">
+                <div class="col-span-2 flex items-center justify-center">
+                    <p class="text-white bg-blue-500 rounded-full w-8 h-8 text-center text-2xl font-bold">{{ forloop.counter }}</p>
+                </div>
+                <div class="col-span-2 flex items-center px-4">
+                    <p class="text-xl font-semibold w-full py-3 text-gray-800 text-center">{{ checklist_item.text }}</p>
+                </div>
+                <div class="col-span-2 gap-4 flex flex-col items-center justify-center">
+                    <a href="#modal-{{ checklist_item.id }}">
+                        <button class="text-green-500 border border-green-500 px-4 py-2 rounded-md w-[10rem]">
+                            Ver modelo
+                        </button>
+                    </a>
+                    <label class="text-green-500 text-center border border-green-500 px-4 py-2 rounded-md w-[10rem]">
+                        Carregar foto
+                        <input type="file" class="hidden" id="file-input-{{ checklist_item.id }}">
+                        <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+                    </label>
+                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-[10rem] upload-photo-button"
+                            data-competitor-checklist-id="{{ competitor_check_list.id }}"
+                            data-checklist-item-id="{{ checklist_item.id }}">
+                        Enviar Foto
+                    </button>
+                    {% csrf_token as csrf_token %}
+                    <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+                    {% if checklist_item in checklist_items %}
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md w-[10rem] add-checklist-item-button confirmado"
+                                data-competitor-checklist-id="{{ competitor_check_list.id }}"
+                                data-checklist-item-id="{{ checklist_item.id }}">
+                            Confirmado
+                        </button>
+                    {% else %}
+                        <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md w-[10rem] add-checklist-item-button"
+                                data-competitor-checklist-id="{{ competitor_check_list.id }}"
+                                data-checklist-item-id="{{ checklist_item.id }}">
+                            Confirmar
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="modal-{{ checklist_item.id }}" class="modal">
+                <div class="modal__content w-full p-10 max-h-vh overflow-hidden">
+                    {% cloudinary checklist_item.models_url format="jpg" width=400 height=250 crop="fit" %}
+                    <a href="#" class="modal__close text-red-500 text-bold">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-5 h-5 shrink-0">
+                            <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                            />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="mx-auto w-full bg-gray-200 my-5 text-center py-5 rounded hover:bg-gray-300 cursor-pointer">
+    <button onclick="window.close();"> < Voltar</button>
+</div>
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+        $('.add-checklist-item-button').on('click', function () {
+            var button = $(this);
+            var competitorChecklistId = button.data('competitor-checklist-id');
+            var checklistItemId = button.data('checklist-item-id');
+            var csrfToken = $('#csrf-token').val();
+
+            if (button.hasClass('confirmado')) {
+                // Remove o checklist_item do competidor
+                $.ajax({
+                    url: '/inscricao/competitor-checklist/' + competitorChecklistId + '/remove-checklist-item/' + checklistItemId + '/',
+                    type: 'POST',
+                    headers: {'X-CSRFToken': csrfToken},
+                    success: function (response) {
+                        // Remove a classe 'confirmado' do botão
+                        button.removeClass('confirmado');
+                        button.text('Confirmar');
+
+                        // Altera a cor do botão para verde
+                        button.css('background-color', '#22c55e');
+
+                    },
+
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert('Erro ao remover o checklist item!');
+                        console.log(xhr.responseText);
+                    }
+                });
+            } else {
+                // Adiciona o checklist_item ao competidor
+                $.ajax({
+                    url: '/inscricao/competitor-checklist/' + competitorChecklistId + '/add-checklist-item/' + checklistItemId + '/',
+                    type: 'POST',
+                    headers: {'X-CSRFToken': csrfToken},
+                    success: function (response) {
+                        // Adiciona a classe 'confirmado' ao botão
+                        button.addClass('confirmado');
+                        button.text('Confirmado');
+
+                        // Altera a cor do botão para verde
+                        button.css('background-color', '#3b82f6');
+
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert('Erro ao adicionar o checklist item!');
+                        console.log(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('.upload-photo-button').on('click', function () {
+            var button = $(this);
+            var competitorChecklistId = button.data('competitor-checklist-id');
+            var checklistItemId = button.data('checklist-item-id');
+            var csrfToken = $('#csrf-token').val();
+
+            var fileInput = $('#file-input-' + checklistItemId)[0];
+            var image = fileInput.files[0];
+
+            if (image) {
+                var formData = new FormData();
+                formData.append('image', image);
+
+                // Envie a imagem via AJAX para a view de carregamento de fotos
+                $.ajax({
+                    url: '/inscricao/competitor-checklistitem/' + competitorChecklistId + '/' + checklistItemId + '/',
+                    type: 'POST',
+                    headers: {'X-CSRFToken': csrfToken},
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.success) {
+                            // Limpe o input de arquivo após o envio bem-sucedido
+                            fileInput.value = '';
+                            alert('Foto enviada com sucesso!');
+                        } else {
+                            alert('Erro ao enviar a foto: ' + response.error);
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert('Erro ao enviar a foto!');
+                        console.log(xhr.responseText);
+                        console.error('Erro na requisição AJAX:', xhr.status, xhr.statusText);
+                        console.error('Resposta de erro:', xhr.responseText);
+                    }
+                });
+            } else {
+                alert('Selecione uma imagem para enviar.');
+            }
+        });
+    });
+
+</script>

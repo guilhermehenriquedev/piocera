@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="/tailwind.config.js"></script>
+		<script src="/components/global.js"></script>
+		<script src="/components/admin/painel.js"></script>
+		<link rel="stylesheet" type="text/css" href="/styles/global.css" />
+		<title>Gerenciamento de Páginas | Área de Admin</title>
+		<link rel="icon" type="image/x-icon" href="/images/logos/branca.png" />
+	</head>
+	<body>
+		<div class="w-full h-full bg-[#656667]">
+			<div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+				<painel-lateral></painel-lateral>
+
+				<div
+					class="overflow-y-auto max-h-screen flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl"
+				>
+					<div
+						class="flex-wrap w-full flex items-start sm:items-center gap-2 flex-col sm:flex-row justify-start sm:justify-between"
+					>
+						<div class="font-semibold text-2xl whitespace-nowrap">
+							Gerenciamento de Páginas
+						</div>
+						<a
+							href="/pages/area-admin/paginas/novaPagina.html"
+							class="py-2 px-3 bg-[#79B142] rounded-md border flex flex-row gap-2 items-center"
+						>
+							<svg
+								width="20"
+								height="20"
+								viewBox="0 0 20 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M10.0003 4.16602V15.8327M4.16699 9.99935H15.8337"
+									stroke="white"
+									stroke-width="1.66667"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+
+							<div
+								class="font-semibold text-sm text-white whitespace-nowrap"
+							>
+								Criar nova página
+							</div>
+						</a>
+					</div>
+					<div
+						class="w-full flex flex-col gap-6 items-center justify-center"
+					>
+						<div
+							class="w-full border flex rounded-lg shadow flex-row justify-between p-4 sm:p-6 gap-2"
+						>
+							<div class="flex flex-col gap-2 text-2xl font-bold">
+								Piocerá 2023
+							</div>
+							<a href="/pages/area-admin/paginas/paginas.html">
+								<svg
+									width="4"
+									height="16"
+									viewBox="0 0 4 16"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M1.99935 8.83301C2.45959 8.83301 2.83268 8.45991 2.83268 7.99967C2.83268 7.53944 2.45959 7.16634 1.99935 7.16634C1.53911 7.16634 1.16602 7.53944 1.16602 7.99967C1.16602 8.45991 1.53911 8.83301 1.99935 8.83301Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 2.99967C2.45959 2.99967 2.83268 2.62658 2.83268 2.16634C2.83268 1.7061 2.45959 1.33301 1.99935 1.33301C1.53911 1.33301 1.16602 1.7061 1.16602 2.16634C1.16602 2.62658 1.53911 2.99967 1.99935 2.99967Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 14.6663C2.45959 14.6663 2.83268 14.2932 2.83268 13.833C2.83268 13.3728 2.45959 12.9997 1.99935 12.9997C1.53911 12.9997 1.16602 13.3728 1.16602 13.833C1.16602 14.2932 1.53911 14.6663 1.99935 14.6663Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						</div>
+						<div
+							class="w-full border flex rounded-lg shadow flex-row justify-between p-4 sm:p-6 gap-2"
+						>
+							<div class="flex flex-col gap-2 text-2xl font-bold">
+								Piocerá 2022
+							</div>
+							<a href="/pages/area-admin/paginas/paginas.html">
+								<svg
+									width="4"
+									height="16"
+									viewBox="0 0 4 16"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M1.99935 8.83301C2.45959 8.83301 2.83268 8.45991 2.83268 7.99967C2.83268 7.53944 2.45959 7.16634 1.99935 7.16634C1.53911 7.16634 1.16602 7.53944 1.16602 7.99967C1.16602 8.45991 1.53911 8.83301 1.99935 8.83301Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 2.99967C2.45959 2.99967 2.83268 2.62658 2.83268 2.16634C2.83268 1.7061 2.45959 1.33301 1.99935 1.33301C1.53911 1.33301 1.16602 1.7061 1.16602 2.16634C1.16602 2.62658 1.53911 2.99967 1.99935 2.99967Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 14.6663C2.45959 14.6663 2.83268 14.2932 2.83268 13.833C2.83268 13.3728 2.45959 12.9997 1.99935 12.9997C1.53911 12.9997 1.16602 13.3728 1.16602 13.833C1.16602 14.2932 1.53911 14.6663 1.99935 14.6663Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						</div>
+						<div
+							class="w-full border flex rounded-lg shadow flex-row justify-between p-4 sm:p-6 gap-2"
+						>
+							<div class="flex flex-col gap-2 text-2xl font-bold">
+								Piocerá 2021
+							</div>
+							<a href="/pages/area-admin/paginas/paginas.html">
+								<svg
+									width="4"
+									height="16"
+									viewBox="0 0 4 16"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M1.99935 8.83301C2.45959 8.83301 2.83268 8.45991 2.83268 7.99967C2.83268 7.53944 2.45959 7.16634 1.99935 7.16634C1.53911 7.16634 1.16602 7.53944 1.16602 7.99967C1.16602 8.45991 1.53911 8.83301 1.99935 8.83301Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 2.99967C2.45959 2.99967 2.83268 2.62658 2.83268 2.16634C2.83268 1.7061 2.45959 1.33301 1.99935 1.33301C1.53911 1.33301 1.16602 1.7061 1.16602 2.16634C1.16602 2.62658 1.53911 2.99967 1.99935 2.99967Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 14.6663C2.45959 14.6663 2.83268 14.2932 2.83268 13.833C2.83268 13.3728 2.45959 12.9997 1.99935 12.9997C1.53911 12.9997 1.16602 13.3728 1.16602 13.833C1.16602 14.2932 1.53911 14.6663 1.99935 14.6663Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						</div>
+						<div
+							class="w-full border flex rounded-lg shadow flex-row justify-between p-4 sm:p-6 gap-2"
+						>
+							<div class="flex flex-col gap-2 text-2xl font-bold">
+								Piocerá 2020
+							</div>
+							<a href="/pages/area-admin/paginas/paginas.html">
+								<svg
+									width="4"
+									height="16"
+									viewBox="0 0 4 16"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M1.99935 8.83301C2.45959 8.83301 2.83268 8.45991 2.83268 7.99967C2.83268 7.53944 2.45959 7.16634 1.99935 7.16634C1.53911 7.16634 1.16602 7.53944 1.16602 7.99967C1.16602 8.45991 1.53911 8.83301 1.99935 8.83301Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 2.99967C2.45959 2.99967 2.83268 2.62658 2.83268 2.16634C2.83268 1.7061 2.45959 1.33301 1.99935 1.33301C1.53911 1.33301 1.16602 1.7061 1.16602 2.16634C1.16602 2.62658 1.53911 2.99967 1.99935 2.99967Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 14.6663C2.45959 14.6663 2.83268 14.2932 2.83268 13.833C2.83268 13.3728 2.45959 12.9997 1.99935 12.9997C1.53911 12.9997 1.16602 13.3728 1.16602 13.833C1.16602 14.2932 1.53911 14.6663 1.99935 14.6663Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						</div>
+						<div
+							class="w-full border flex rounded-lg shadow flex-row justify-between p-4 sm:p-6 gap-2"
+						>
+							<div class="flex flex-col gap-2 text-2xl font-bold">
+								Piocerá 2022
+							</div>
+							<a href="/pages/area-admin/paginas/paginas.html">
+								<svg
+									width="4"
+									height="16"
+									viewBox="0 0 4 16"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M1.99935 8.83301C2.45959 8.83301 2.83268 8.45991 2.83268 7.99967C2.83268 7.53944 2.45959 7.16634 1.99935 7.16634C1.53911 7.16634 1.16602 7.53944 1.16602 7.99967C1.16602 8.45991 1.53911 8.83301 1.99935 8.83301Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 2.99967C2.45959 2.99967 2.83268 2.62658 2.83268 2.16634C2.83268 1.7061 2.45959 1.33301 1.99935 1.33301C1.53911 1.33301 1.16602 1.7061 1.16602 2.16634C1.16602 2.62658 1.53911 2.99967 1.99935 2.99967Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+									<path
+										d="M1.99935 14.6663C2.45959 14.6663 2.83268 14.2932 2.83268 13.833C2.83268 13.3728 2.45959 12.9997 1.99935 12.9997C1.53911 12.9997 1.16602 13.3728 1.16602 13.833C1.16602 14.2932 1.53911 14.6663 1.99935 14.6663Z"
+										stroke="#98A2B3"
+										stroke-width="1.66667"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							</a>
+						</div>
+
+						<button
+							class="py-2 px-3 bg-white rounded-md border flex flex-row gap-3 items-center shadow"
+						>
+							<svg
+								width="21"
+								height="20"
+								viewBox="0 0 21 20"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M10.5003 4.16602V15.8327M4.66699 9.99935H16.3337"
+									stroke="#344054"
+									stroke-width="1.66667"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+							</svg>
+
+							<div class="font-semibold text-sm text-gray-700">
+								Ver edições anteriores
+							</div>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

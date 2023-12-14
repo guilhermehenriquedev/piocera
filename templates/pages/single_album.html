@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load website_tags %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    <title>{{ edition.get_type_display.title }} {{ edition.ano }}</title>
+{% endblock title %}
+
+{% block css_head %}
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'styles/componentes/modal.css' %}"
+    />
+{% endblock css_head %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' with header='home' %}
+{% endblock navbar %}
+
+{% block content %}
+<!DOCTYPE html>
+<div class="w-full h-full bg-white">
+    <div class="flex w-full h-full flex-col gap-10 pb-10 sm:pb-20 justify-center items-center">
+        <div
+                class="text-xl sm:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+                style="
+                            background-image: url(/static/images/inscricao/faixaInscricao.png);
+                        "
+        >
+            {% if single_edition %}
+                <div class="text-2xl font-semibold">
+                    <p>Galeria de fotos</p>
+                </div>
+            {% else %}
+				
+
+                <div class="text-2xl font-semibold flex justify-center items-center gap-10">
+					<a href="{% url 'galeria_edicao' edicao_id %}"
+						type="button"
+						class="lowercase flex justify-center items-center bg-transparente rounded-lg border-2 border-white text-white hover:bg-white hover:text-[#8FC74A] px-10 sm:px-4 py-1 ease-in duration-100">
+						Voltar
+					</a>
+                    Fotos do álbum {{ album_name }}
+                </div>
+
+            {% endif %}
+        </div>
+            <div class="flex flex-col w-full justify-center items-center gap-7 py-6 px-10">
+
+	            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-black">
+		            {% for column in columns %}
+		            <div class="grid content-start gap-4">
+	                    {% for photo in column %}
+	                        <a href="#modal-{{ photo.id }}" class="h-auto">
+	                            <img alt="" src="{% thumbnail photo.photo 600x840 %}" class="h-auto max-w-full rounded-lg"/>
+	                        </a>
+	                        <div id="modal-{{ photo.id }}" class="modal">
+	                            <div class="modal__content w-full p-10 max-h-vh overflow-hidden">
+	                                <img alt="" src="{% thumbnail photo.photo 1280x720 %}" class="h-auto max-h-vh max-w-full rounded-lg"/>
+	                                {{ photo.name }} - {{ photo.legend }}
+	                            <a href="#" class="modal__close text-red-500 text-bold">
+	                                <svg xmlns="http://www.w3.org/2000/svg"
+	                                        fill="none"
+	                                        viewBox="0 0 24 24"
+	                                        stroke-width="1.5"
+	                                        stroke="currentColor"
+	                                        class="w-5 h-5 shrink-0">
+	                                    <path
+	                                            stroke-linecap="round"
+	                                            stroke-linejoin="round"
+	                                            d="M6 18L18 6M6 6l12 12"
+	                                    />
+	                                </svg>
+	                            </a>
+	                            </div>
+	                        </div>
+	                    {% endfor %}
+		            </div>
+		            {% endfor %}
+                </div>
+            </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

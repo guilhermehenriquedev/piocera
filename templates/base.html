@@ -1,0 +1,72 @@
+{% load static %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="{% static 'tailwind.config.js' %}"></script>
+	<script src="{% static 'components/global.js' %}"></script>
+	<link rel="stylesheet"
+	      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/global.css' %}"/>
+
+	{% block title %}{% endblock title %}
+
+	{% block css_head %}{% endblock css_head %}
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+
+	{% block js_head %}{% endblock js_head %}
+
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+	<link rel="shortcut icon" href="{% static 'images/favicon/favicon.ico' %}"/>
+	<link rel="icon" type="image/vnd.microsoft.icon" href="{% static 'images/favicon/favicon.ico' %}">
+	<link rel="icon" type="image/x-icon" href="{% static 'images/favicon/favicon.ico' %}">
+	<link rel="icon" href="{% static 'images/favicon/favicon.ico' %}"/>
+
+	<script type="text/javascript">
+		(function (c, l, a, r, i, t, y) {
+			c[a] = c[a] || function () {
+				(c[a].q = c[a].q || []).push(arguments)
+			};
+			t = l.createElement(r);
+			t.async = 1;
+			t.src = "https://www.clarity.ms/tag/" + i;
+			y = l.getElementsByTagName(r)[0];
+			y.parentNode.insertBefore(t, y);
+		})(window, document, "clarity", "script", "h1gm1b81it");
+	</script>
+
+
+</head>
+<body>
+<div class="w-full h-full bg-white min-h-screen">
+	{% block navbar %}
+	{% endblock navbar %}
+	{% block content %}
+	{% endblock content %}
+	{% block footer %}
+		<footer-home></footer-home>
+	{% endblock footer %}
+
+</div>
+{#TODO: linguagens#}
+{#<div class="fixed bottom-0 left-10 bg-white rounded-md" role="radiogroup" aria-labelledby="language-switcher1">#}
+{#	<div class="grid grid-cols-3 place-center w-20">#}
+{#		<div>pt</div>#}
+{#		<div>en</div>#}
+{#		<div>fr</div>#}
+{#	</div>#}
+{#</div>#}
+
+{% block js_footer %}{% endblock js_footer %}
+<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

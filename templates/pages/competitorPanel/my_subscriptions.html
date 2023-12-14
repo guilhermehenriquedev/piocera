@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    <title>Área de Competidor | Início</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="w-full h-full bg-white">
+        {% comment %}
+			<banner-area-competidor></banner-area-competidor> {% endcomment %}
+        <div class="flex-wrap text-lg sm:text-xl lg:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+             style="
+                     background-image: url({% static 'images/inscricao/faixaInscricao.png' %});
+                     ">
+            Área do Competidor
+        </div>
+
+        <div class="flex flex-col md:flex-row w-full min-h-screen ">
+            {% include 'inc/_menu_competitor.html' %}
+
+            <div class="flex w-full gap-7 flex-col py-7 px-5">
+                <div class="w-full flex items-center gap-3 flex-row">
+                    <div class="w-full bg-gray-100 h-0.5 flex"></div>
+                    <div class="text-sm font-medium whitespace-nowrap text-center">
+                        Suas inscrições nos eventos
+                    </div>
+                    <div class="w-full bg-gray-100 h-0.5 flex"></div>
+                </div>
+                <div class="w-full flex flex-col gap-5">
+                    {% if competitor_registrations|length == 0 %}
+                        <div class="text-center text-gray-500">
+                            Você ainda não está inscrito em nenhum evento
+                        </div>
+                    {% endif %}
+                    {% for competitor_registration in competitor_registrations %}
+                        <a href="{% url 'area-competidor' competitor_registration.registration.id competitor_registration.id %}">
+                            <div class="border flex rounded-lg shadow-md flex-col-reverse md:flex-row justify-between p-4 sm:p-6 gap-6 md:gap-2">
+                                <div class="flex flex-col gap-5">
+                                    <div class="flex flex-row items-center gap-2">
+                                        {% if competitor_registration.registration.lot.category_modality.modality_edition.edition.type == 1 %}
+                                            <img
+                                                    src="{% static '/images/logos/cerapio.png' %}"
+                                                    class="w-20 shrink-0"
+                                            />
+                                        {% else %}
+                                            <img src="{% static '/images/logos/piocera.png' %}"
+                                                 class="w-20 shrink-0"/>
+                                        {% endif %}
+                                        <div class="text-xl font-semibold">
+                                            {{ competitor_registration.registration.lot.category_modality.modality_edition.edition.get_type_display }}
+                                            - {{ competitor_registration.registration.lot.category_modality.modality_edition.edition.ano }}
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col gap-3 text-sm font-semibold">
+                                        <div class="font-light text-gray-800">
+                                            Inscrito na
+                                            categoria {{ competitor_registration.registration.lot.category_modality }}
+                                        </div>
+                                        {% if competitor_registration.documents %}
+                                            {% if competitor_registration.documents_approved %}
+                                                {% if competitor_registration.documents|length == competitor_registration.documents_approved|length %}
+{#                                                    Aqui se todos os documentos estiverem aprovados#}
+                                                    <p class="text-green-600">Documentação Aprovada.</p>
+                                                {% else %}
+{#                                                     Se tiver algum documento pendente ou em análise #}
+                                                    <p class="text-red-600">Verifique a sua documentação </p>
+                                                {% endif %}
+                                            {% else %}
+{#                                                Alguns documentos pendentes ou em análise#}
+                                                <p class="text-red-600">Verifique a sua documentação </p>
+                                            {% endif %}
+                                        {% else %}
+{#                                            Nenhum documento encontrado#}
+                                            <p>Nenhum documento encontrado.</p>
+                                        {% endif %}
+
+
+                                    </div>
+                                </div>
+                                <div class="gap-3 justify-between md:justify-start flex flex-row-reverse md:flex-col items-center md:items-end">
+                                    <button type="button">
+                                        <svg
+                                                width="4"
+                                                height="16"
+                                                viewBox="0 0 4 16"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                    d="M1.99935 8.83301C2.45959 8.83301 2.83268 8.45991 2.83268 7.99967C2.83268 7.53944 2.45959 7.16634 1.99935 7.16634C1.53911 7.16634 1.16602 7.53944 1.16602 7.99967C1.16602 8.45991 1.53911 8.83301 1.99935 8.83301Z"
+                                                    stroke="#98A2B3"
+                                                    stroke-width="1.66667"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                            />
+                                            <path
+                                                    d="M1.99935 2.99967C2.45959 2.99967 2.83268 2.62658 2.83268 2.16634C2.83268 1.7061 2.45959 1.33301 1.99935 1.33301C1.53911 1.33301 1.16602 1.7061 1.16602 2.16634C1.16602 2.62658 1.53911 2.99967 1.99935 2.99967Z"
+                                                    stroke="#98A2B3"
+                                                    stroke-width="1.66667"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                            />
+                                            <path
+                                                    d="M1.99935 14.6663C2.45959 14.6663 2.83268 14.2932 2.83268 13.833C2.83268 13.3728 2.45959 12.9997 1.99935 12.9997C1.53911 12.9997 1.16602 13.3728 1.16602 13.833C1.16602 14.2932 1.53911 14.6663 1.99935 14.6663Z"
+                                                    stroke="#98A2B3"
+                                                    stroke-width="1.66667"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                            />
+                                        </svg>
+                                    </button>
+                                    <div class="text-gray-400"><span
+                                            class="font-semibold">Inscrição: </span>{{ competitor_registration.registration.registration_number }}
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        </div>
+{% endblock content %}

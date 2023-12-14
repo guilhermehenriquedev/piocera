@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load website_tags %}
+{% load thumbnail %}
+
+{% block title %}
+    <title>{{ edition.get_type_display.title }} {{ edition.ano }}</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' with header='home' %}
+{% endblock navbar %}
+
+{% block content %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/pages_and_news_content.css' %}"/>
+
+    <div class="w-full h-full bg-white">
+        {% if postage.status == 3 %}
+            <div
+                    class="text-xl sm:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+                    style="
+                            background-image: url({% static 'images/inscricao/faixaInscricao.png' %});
+                            "
+            >
+                <div class="flex flex-col gap-2 justify-start items-start">
+                    <div class="text-3xl sm:text-4xl font-semibold">
+                        {{ postage.title }}
+                    </div>
+                    <div class="italic font-light text-lg text-gray-200">
+                        Publicado dia {{ postage.publication_date|date:'d/m/Y' }}
+                        às {{ postage.publication_date|date:'H:i' }}
+                    </div>
+                    <div class="italic font-light text-lg text-gray-200">
+                        Autor: {{ postage.author }}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                    class="flex w-full px-10 py-12 sm:py-24 flex-col gap-12 sm:gap-20 justify-start items-center min-h-screen lg:container mx-auto"
+            >
+                {% if postage.cover %}
+                    <div
+                            class="shadow w-full h-full max-w-[100%] md:max-w-[70%] aspect-video flex bg-center bg-cover bg-no-repeat"
+                            style="
+                                    background-image: url({% thumbnail postage.cover 1024x1024 %});
+                                    "
+                    ></div>
+                {% endif %}
+                <div
+                        class="flex flex-col gap-12 sm:gap-20 w-full justify-start text-base/loose sm:text-xl/loose font-normal text-gray-600"
+                >
+                    <div class="flex flex-col gap-4">
+                        {{ postage.content|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                    class="text-xl sm:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+                    style="
+                            background-image: url({% static 'images/inscricao/faixaInscricao.png' %});
+                            "
+            ></div>
+        {% else %}
+            <div class="flex justify-center items-center h-full">
+                <div class="text-red-500 text-center">
+                    <h2 class="text-2xl font-bold mb-4">A notícia não está ativa</h2>
+                    <p>Infelizmente, a notícia que voce está buscando não está publicada.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block footer %}
+    {% include 'inc/_footer.html' with footer=1 %}
+{% endblock footer %}

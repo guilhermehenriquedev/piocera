@@ -1,0 +1,435 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load competitortags %}
+{% load thumbnail %}
+{% block title %}
+    <title>Área de Competidor | Início</title>
+{% endblock title %}
+
+{% block navbar %}
+    {% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block content %}
+
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{% static 'styles/componentes/modal.css' %}"
+    />
+
+    <div id="turismo" class="modal">
+        <div class="modal__content w-full p-10 max-h-vh">
+            <div class="text-xl font-bold">
+                Você já fez sua reserva?
+            </div>
+            <div class="text-md font-bold">
+                Temos ofertas imperdíveis para você
+            </div>
+            <div class="font-bold flex gap-3">
+                <a href="#" class="w-full text-green-500 border border-green-500 rounded">
+                    <button class="w-full h-full">Agora não</button>
+                </a>
+                <a href="https://www.piocera.com.br/edicao/2024/agencia-de-viagem.html" target="_blank"
+                   class="w-full text-white bg-green-500 border border-green-500 rounded">
+                    <button class="w-full h-full">Fazer minha reserva</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full h-full bg-white">
+    {% comment %}
+			<banner-area-competidor></banner-area-competidor> {% endcomment %}
+    <div class="flex-wrap text-lg sm:text-xl lg:text-2xl flex bg-cover bg-center w-full bg-no-repeat text-white p-8 sm:py-9 sm:px-12 font-semibold"
+         style="background-image: url({% static 'images/inscricao/faixaInscricao.png' %});">
+        Inscrição no Evento {% comment %} - Piocerá 2023 {% endcomment %}
+    </div>
+
+    <div class="flex flex-col md:flex-row w-full min-h-screen">
+        {% include 'inc/_menu_competitor.html' %}
+
+        <div class="flex w-full gap-7 flex-col py-7 px-5">
+            {% if payment_history %}
+                <div class="w-full flex items-center gap-3 flex-row">
+                    <div class="w-full bg-gray-100 h-0.5 flex"></div>
+                    <div class="text-sm font-medium whitespace-nowrap text-center uppercase">
+                        Pagamento
+                    </div>
+                    <div class="w-full bg-gray-100 h-0.5 flex"></div>
+                </div>
+                <div class="w-full flex flex-col gap-5">
+                <div class="border flex rounded-lg shadow-md flex-col p-4 sm:p-6 gap-6">
+
+                {% if payment_history.transaction_status != 'CONFIRMED' %}
+
+                    <div class="font-medium text-amber-500 text-lg">
+                        Prezado competidor, verificamos que você ainda
+                        não realizou o pagamento no valor de R$ {{ payment_history.amount }}
+                    </div>
+                    <a href="{% url 'payment_type' category_modality.modality_edition.edition.ano category_modality.modality_edition.modality.slug category_modality.category.slug lot.slug registration.id %}"
+                       class="w-full">
+                        <button type="button"
+                                class="bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base">
+                            Realizar Pagamento
+                        </button>
+                    </a>
+
+                {% else %}
+                    <div class="bg-green-50 rounded-lg py-3 px-4 flex font-medium text-sm">
+                        Muito Obrigado!! Seu pagamento no valor de R$
+                        {{ payment_history.amount }} foi realizado com sucesso!!
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <div class="font-medium text-amber-500 text-lg">
+                    Prezado competidor, verificamos que você ainda
+                    não realizou o pagamento no valor de R$ {{ lot.price }}
+                </div>
+                <a href="{% url 'payment_type' category_modality.modality_edition.edition.ano category_modality.modality_edition.modality.slug category_modality.category.slug lot.slug registration.id %}"
+                   class="w-full">
+                    <button type="button"
+                            class="bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base">
+                        Realizar Pagamento
+                    </button>
+                </a>
+            {% endif %}
+            {% if modality_edition.whatsapp_group %}
+                {% if registration.status == '3' or registration.status == '2' %}
+                    <a href="{{ modality_edition.whatsapp_group }}"
+                       class="w-full cursor-pointer bg-[#8FC74A] hover:bg-[#9FC84A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base gap-4">
+                        Entrar no Grupo
+                    </a>
+                {% else %}
+                    <a
+                            class="w-full cursor-pointer bg-[#EEBA1B] hover:bg-[#EEBA1B] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base gap-4">
+                        O link para o grupo estará disponível quando o pagamento for confirmado
+                    </a>
+                {% endif %}
+            {% else %}
+                <a class="w-full cursor-pointer bg-[#0096D6] hover:bg-[#0096D6] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base gap-4">
+                    Link de convite do grupo indisponível, aguarde o administrador do grupo
+                </a>
+            {% endif %}
+            </div>
+            </div>
+
+
+
+            {% if falta_candidato %}
+                <div class="w-full flex flex-col gap-5">
+                    <div class="border flex rounded-lg shadow-md flex-col p-4 sm:p-6 gap-6">
+                        <div class="font-medium text-amber-500 text-lg">
+                            Competidor pendente
+                        </div>
+                        <a href="{% url 'register_pilot' category_modality.modality_edition.edition.ano category_modality.modality_edition.modality.slug category_modality.category.slug lot.slug registration.id %}"
+                           class="w-full">
+                            <button
+                                    type="button"
+                                    class="bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base">
+                                Adicionar competidor
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="w-full flex items-center gap-3 flex-row">
+                <div class="w-full bg-gray-100 h-0.5 flex"></div>
+                <div class="text-sm font-medium whitespace-nowrap text-center uppercase">
+                    CHECK-IN ONLINE
+                </div>
+                <div class="w-full bg-gray-100 h-0.5 flex"></div>
+            </div>
+
+            {% if messages %}
+                <div class="flex flex-col gap-2">
+                    {% for message in messages %}
+                        <div class="alert px-4 py-1 text-lg font-bold rounded text-center
+                {% if message.tags == 'error' %}bg-red-400 text-white
+                {% elif message.tags == 'success' %}bg-green-400 text-white
+                {% elif message.tags == 'info' %}bg-blue-400 text-white
+                {% elif message.tags == 'warning' %}bg-yellow-400 text-black
+                {% endif %}">
+                <span>
+                    {{ message }}
+                </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+
+            <div class="text-sm text-center mb-4">
+                Certifique-se de que os documentos enviados estejam nos formatos PNG, JPEG/JPG ou PDF.
+            </div>
+            <div class="w-full gap-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+                {% for document in modality_edition.documents.all %}
+                    <form method="post" enctype="multipart/form-data"
+                          action="{% url 'registrar-documento-da-inscrição' competitor_registration.pk document.pk %}?next={{ request.build_absolute_uri }}">
+                        {% csrf_token %}
+                        <div class="flex w-full flex-col gap-5">
+                            <div class="border flex rounded-lg shadow-md flex-col p-4 sm:p-6 gap-5 text-sm text-center items-center justify-center">
+                                <div class="font-medium w-full">{{ document.title }}</div>
+                                {% display_input document.id competitor.id as input_file %}
+
+                                {% if input_file.status == 'Documento Aprovado' %}
+                                    <div class="bg-green-500 px-5 py-3 rounded-lg font-bold text-white">
+                                        Documento Validado
+                                    </div>
+                                {% elif input_file.status == 'Documento Em análise' %}
+                                    <div class="bg-blue-400 px-5 py-3 rounded-lg font-bold text-white">
+                                        Em processo de análise
+                                    </div>
+                                {% elif input_file.status == 'Documento Negado' %}
+                                    <div class="bg-yellow-400 px-5 py-3 rounded-lg font-bold">
+                                        Faça o reenvio do documento
+                                    </div>
+                                {% endif %}
+
+                                {% for doc in registration_documents %}
+                                    {% if doc.document_type == document %}
+                                        {% if doc.document_file.url|lower|slice:'-3:' == 'pdf' %}
+                                            <iframe title="{{ doc.document_type.title }}"
+                                                    src="{{ doc.document_file.url }}" width="100%" height="300"
+                                                    style="border:1px solid black;"></iframe>
+                                        {% else %}
+                                            <img src="{% thumbnail doc.document_file '300x200' crop %}"
+                                                 alt="{{ doc.titulo }}">
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if not input_file.show %}
+                                    <input type="file" name="document_file"
+                                           accept="image/png, image/jpeg, application/pdf"
+                                           class="text-[#475467] rounded-full p-3 bg-gray-100 flex justify-center items-center">
+                                {% endif %}
+
+                                <div class="flex flex-col gap-1 justify-center items-center w-full">
+                                    {% if not input_file.show %}
+                                        <button type="submit"
+                                                class="bg-green-500 hover:bg-green-600 rounded-lg text-white flex items-center content-center font-bold px-2 py-2">
+                                            Clique para salvar o documento
+                                            <svg
+                                                    width="20"
+                                                    height="18"
+                                                    viewBox="0 0 20 18"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                        d="M6.66602 12.3333L9.99935 9M9.99935 9L13.3327 12.3333M9.99935 9V16.5M16.666 12.9524C17.6839 12.1117 18.3327 10.8399 18.3327 9.41667C18.3327 6.88536 16.2807 4.83333 13.7493 4.83333C13.5673 4.83333 13.3969 4.73833 13.3044 4.58145C12.2177 2.73736 10.2114 1.5 7.91602 1.5C4.46424 1.5 1.66602 4.29822 1.66602 7.75C1.66602 9.47175 2.36222 11.0309 3.48847 12.1613"
+                                                        stroke="#475467"
+                                                        stroke-width="1.66667"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                />
+                                            </svg>
+                                        </button>
+                                    {% endif %}
+                                    <div class="text-sm text-center mb-4">
+                                        Formatos de arquivo aceitos: PNG, JPEG/JPG e PDF
+                                    </div>
+
+                                    {% document_file_download request document.id competitor.id as file %}
+
+                                    {% if file.there_is_registration_document %}
+                                        <a href="{{ file.file_link }}" target="_blank"
+                                           class="hover:underline cursor-pointer">
+                                            Ver arquivo enviado
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+            </div>
+
+
+            {% if registration.status == '3' %}
+                <!--Se o competidor ainda não completou a documentação-->
+                <div
+                        class="w-full flex flex-col gap-6 p-8 justify-center items-center text-[#709B74]"
+                >
+                <div class="uppercase font-semibold">
+                    Olá, {{ competitor.first_name }}!
+                </div>
+                <div
+                        class="flex items-center justify-center flex-col gap-4"
+                >
+                    <div class="text-sm">
+                        Toda sua documentação já foi aprovada por nossa
+                        Equipe!!
+                    </div>
+                    <svg
+                            width="40"
+                            height="28"
+                            viewBox="0 0 40 28"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <g clip-path="url(#clip0_275_53074)">
+                            <path
+                                    d="M8.76562 4.35724C8.76562 3.71094 8.9929 3.15696 9.44744 2.69531C9.90199 2.23366 10.456 2.00639 11.1094 2.01349C11.7486 2.00639 12.2955 2.23366 12.75 2.69531C13.2045 3.15696 13.4318 3.71094 13.4318 4.35724C13.4318 4.98224 13.2045 5.52557 12.75 5.98722C12.2955 6.45597 11.7486 6.69389 11.1094 6.70099C10.6761 6.69389 10.282 6.58026 9.92685 6.36009C9.57173 6.14702 9.28764 5.86293 9.07457 5.50781C8.86861 5.1598 8.76562 4.77628 8.76562 4.35724ZM20.4418 4.35724C20.4418 3.71094 20.669 3.15696 21.1236 2.69531C21.5852 2.23366 22.1392 2.00639 22.7855 2.01349C23.4247 2.00639 23.9716 2.23366 24.4261 2.69531C24.8878 3.15696 25.1186 3.71094 25.1186 4.35724C25.1186 4.98224 24.8878 5.52557 24.4261 5.98722C23.9716 6.45597 23.4247 6.69389 22.7855 6.70099C22.3594 6.69389 21.9688 6.58026 21.6136 6.36009C21.2585 6.14702 20.9744 5.86293 20.7614 5.50781C20.5483 5.1598 20.4418 4.77628 20.4418 4.35724ZM17.8956 25.0062C15.2393 25.0062 12.7926 24.6511 10.5554 23.9409C8.32528 23.2377 6.26207 22.1866 4.36577 20.7875V17.1547C5.06889 17.7015 5.92827 18.2058 6.94389 18.6674C7.95952 19.1362 9.07457 19.541 10.2891 19.8819C11.5036 20.2299 12.7607 20.4998 14.0604 20.6916C15.3601 20.8904 16.6385 20.9899 17.8956 20.9899C19.5788 20.9899 21.2834 20.8194 23.0092 20.4785C24.7351 20.1447 26.3366 19.6866 27.8139 19.1042C29.2912 18.5289 30.4986 17.8791 31.4361 17.1547V20.7875C29.5398 22.1866 27.473 23.2377 25.2358 23.9409C23.0057 24.6511 20.5589 25.0062 17.8956 25.0062Z"
+                                    fill="#709B74"
+                            />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_275_53074">
+                                <rect
+                                        width="28"
+                                        height="40"
+                                        fill="white"
+                                        transform="matrix(0 1 -1 0 40 0)"
+                                />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+
+                <a href="#" class="w-full">
+                    <button
+                            type="button"
+                            disabled
+                            class="w-full bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base"
+                    >
+                        Gerar Cartão de Competidor
+                    </button>
+                </a>
+                <button onclick="gerarQRCode()" id="checkin-button"
+                        class="w-full bg-[#8FC74A] hover:bg-[#9FC84A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base gap-4">
+                    Ver Check-in do Competidor
+                </button>
+                {#                            <button#}
+                {#                                    onclick="baixarQRCode()"#}
+                {#                                    class="w-full bg-[#8FC74A] items-center justify-center text-center rounded-lg py-3 px-4 flex text-white font-bold text-base gap-4"#}
+                {#                            >#}
+                {#                                Baixar Cartão#}
+                {#                            </button>#}
+                <div class="flex justify-center">
+                    <div id="qrcode"></div>
+                </div>
+            {% else %}
+                <div class="font-medium text-amber-500">
+                    **Aguarde a emissão do seu cartão de competidor pela equipe do Cerapió.
+                </div>
+            {% endif %}
+
+            <div class="w-full flex items-center gap-3 flex-row">
+                <div class="w-full bg-gray-100 h-0.5 flex"></div>
+                <div class="text-sm font-medium whitespace-nowrap text-center uppercase">
+                    CHECK LIST
+                </div>
+                <div class="w-full bg-gray-100 h-0.5 flex"></div>
+            </div>
+            <table class="min-w-full table-auto mt-5">
+                <thead>
+                <tr>
+                    <th class="px-4 py-2">Item</th>
+                    <th class="px-4 py-2">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in list_item %}
+                    <tr class="{% if forloop.counter0|divisibleby:2 %}bg-gray-100{% endif %}">
+                        <td class="border px-4 py-2">{{ item.text }}</td>
+                        <td class="border px-4 py-2">
+                            {% for check_item in competitor_check_list %}
+                                {% if item in check_item.check_list_item_concluded.all %}
+                                    <span class="text-green-500 font-bold">Concluído</span>
+                                {% else %}
+                                    <span class="text-red-500 font-bold">Pendente</span>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+            </div>
+
+        </div>
+    </div>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <script>
+        function gerarQRCode() {
+            var edition_id =
+            {{ category_modality.modality_edition.edition.id }}
+            var reg_id = {{ competitor_registration.id }}
+
+                window.jsPDF = window.jspdf.jsPDF;
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: [edition_id, reg_id].toString(),
+                width: 256,
+                height: 256
+            });
+            var element = document.getElementById("checkin-button");
+            element.style.display = "none";
+        }
+    </script>
+    <script>
+        function baixarQRCode() {
+            var canvas = document.querySelector("#qrcode");
+            var dataURL = canvas.toDataURL(); // Obter a imagem do QR Code em formato base64
+
+            var pdf = new jsPDF();
+            {#pdf.text({{ category_modality.modality_edition.edition }}, 10, 10); // Adicionar o texto ao PDF#}
+            pdf.addImage(dataURL, "PNG", 10, 20, 50, 50); // Adicionar o QR Code ao PDF
+            pdf.save("qrcode.pdf"); // Fazer o download do PDF
+        }
+    </script>
+
+    <script>
+        // Function to set a cookie
+        function setCookie(cookieName, cookieValue, expirationDays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+        }
+
+        // Function to check if the "news" cookie exists
+        function checkAndRedirect() {
+            var newsCookie = getCookie("turismo");
+            if (newsCookie === "") {
+                // If the "news" cookie doesn't exist, redirect to "#newsletter"
+                window.location.hash = "turismo";
+
+                // Create the "news" cookie with value "1" (you can change the value as needed)
+                setCookie("turismo", "1", 7); // Set a cookie that expires in 30 days
+            }
+        }
+
+        // Function to retrieve the value of a cookie
+        function getCookie(cookieName) {
+            var name = cookieName + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(";");
+
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) === " ") {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(name) === 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return "";
+        }
+
+        // Check and redirect on page load
+        $(document).ready(function () {
+            checkAndRedirect();
+        });
+    </script>
+{% endblock content %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load competitortags %}
+
+{% block title %}
+	<title>Área de Competidor | Início</title>
+{% endblock title %}
+
+{% block navbar %}
+	{% include 'inc/_headers.html' %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="w-full h-full bg-[#656667]">
+    <div class="flex flex-col-reverse md:flex-row w-full min-h-screen">
+    {% include 'inc/_menu_admin.html' %}
+        <div class="flex w-full gap-7 flex-col py-7 px-5 bg-white sm:rounded-tl-3xl">
+            <div class="w-full flex lg:flex-row items-center gap-2 flex-col justify-between">
+                <div class="w-full font-semibold text-2xl whitespace-nowrap">
+                    Gerenciamento de Competidores
+                </div>
+                <div class="flex whitespace-nowrap flex-col sm:flex-row gap-2 items-center text-center w-full lg:w-auto">
+                    <select
+                            id="edition"
+                            name="edition"
+                            class="font-semibold text-sm text-gray-700 justify-center lg:w-auto w-full py-2 px-3 bg-white rounded-md border flex flex-row gap-2 items-center shadow"
+                    >
+                        <option value="?q=all_modality">
+                            Selecione a Edição
+                        </option>
+                        {% for edition in editions %}
+                           <option value="?edition_ano={{ edition.ano }}&edition_type={{ edition.type }}">{{ edition.get_type_display }} {{ edition.ano }}</option>
+                        {% endfor %}
+                    </select>
+                    <a href="{% url 'exportar_csv' %}"
+                       class="font-semibold text-sm text-white justify-center lg:w-auto w-full py-2 px-3 bg-[#79B142] hover:bg-green-500 rounded-md border shadow">
+                        Exportar relatório ⇩
+                    </a>
+                </div>
+            </div>
+            <form class="flex flex-col w-full gap-8 items-center justify-center">
+                <div class="flex flex-row w-full items-center justify-center whitespace-nowrap gap-4">
+                    <div class="h-0.5 bg-gray-100 w-full"></div>
+                    <div class="text-sm font-semibold">Categorias</div>
+                    <div class="h-0.5 bg-gray-100 w-full"></div>
+                </div>
+                {% for modality in modalities %}
+                    <a href="{% url 'dashboard_admin_category' modality.id %}" class="w-full flex flex-col gap-6 items-center justify-center">
+                        <div class="items-center w-full border flex rounded-lg shadow flex-row justify-between p-4 sm:p-6 gap-2">
+                            <div class="flex gap-2 flex-col justify-start items-start text-2xl font-bold">
+                                <div>{{ modality.modality.name }} (
+                                    {% for category in modality.category_name %}
+                                        {{ category.category.name }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %})
+                                    - {{ modality.edition.ano }}</div>
+                                <div class="flex flex-row items-center gap-8 text-base font-semibold">
+                                    <div class="">{{ modality.competitors_count }} competidores inscritos</div>
+                                    <div class="">{{ modality.registrations_count }} inscrições confirmados</div>
+
+                                    <svg
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M10.2042 1.60751L11.3934 0.387451C11.8969 -0.12915 12.7111 -0.12915 13.2092 0.387451L23.6224 11.0657C24.1259 11.5823 24.1259 12.4177 23.6224 12.9288L13.2092 23.6125C12.7057 24.1292 11.8915 24.1292 11.3934 23.6125L10.2042 22.3925C9.69535 21.8704 9.70606 21.0185 10.2256 20.5074L16.6803 14.1983H1.28557C0.57315 14.1983 0 13.6103 0 12.8793V11.1207C0 10.3897 0.57315 9.8017 1.28557 9.8017H16.6803L10.2256 3.49256C9.7007 2.98145 9.68999 2.12961 10.2042 1.60751Z"
+                                                    fill="black"/>
+                                        </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("edition").addEventListener("change", function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const value = selectedOption.value;
+        window.location.href = window.location.pathname + value;
+    });
+
+    const urlParms = new URLSearchParams(window.location.search)
+    const optionItens = document.querySelectorAll("option")
+    optionItens.forEach(item => {
+        if(item.value === `?${urlParms}`){
+            item.setAttribute("selected", "selected")
+        }
+    })
+</script>
+
+{% endblock content %}
