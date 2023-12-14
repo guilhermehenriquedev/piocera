@@ -14,11 +14,3 @@ STATIC_ROOT=public/static/
 CORS_ORIGIN_WHITELIST=http://localhost:9007
 CSRF_TRUSTED_ORIGINS=http://localhost:9007
 ```
-
-
-## Conta de teste asaas
-```
-fabricadegeniosthe@gmail.com
-t8QmnL#@uxz*BTkQ
-http://sandbox.asaas.com
-```
